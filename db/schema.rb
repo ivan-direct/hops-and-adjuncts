@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_17_222436) do
+ActiveRecord::Schema.define(version: 2021_11_18_171035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,20 @@ ActiveRecord::Schema.define(version: 2021_11_17_222436) do
     t.float "rating"
     t.integer "checkins"
     t.string "style"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "beers_hops", id: false, force: :cascade do |t|
+    t.bigint "hop_id", null: false
+    t.bigint "beer_id", null: false
+    t.index ["beer_id", "hop_id"], name: "index_beers_hops_on_beer_id_and_hop_id"
+    t.index ["hop_id", "beer_id"], name: "index_beers_hops_on_hop_id_and_beer_id"
+  end
+
+  create_table "hops", force: :cascade do |t|
+    t.string "name"
+    t.string "form"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
