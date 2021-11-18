@@ -208,6 +208,10 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    sorbet (0.5.9351)
+      sorbet-static (= 0.5.9351)
+    sorbet-runtime (0.5.9351)
+    sorbet-static (0.5.9351-universal-darwin-21)
     spring (3.0.0)
     sprockets (4.0.2)
       concurrent-ruby (~> 1.0)
@@ -264,6 +268,8 @@ DEPENDENCIES
   rubocop-rails
   sass-rails (>= 6)
   selenium-webdriver
+  sorbet
+  sorbet-runtime
   spring
   turbolinks (~> 5)
   tzinfo-data
