@@ -5,12 +5,12 @@ require 'rails_helper'
 RSpec.describe Beer, type: :model do
   describe 'create' do
     it 'creates a new beer' do
-      expect(create(:beer, name: 'Duff')).to be_truthy
+      expect(create(:beer)).to be_truthy
     end
   end
 
   context 'validations' do
-    let(:beer) { build(:beer, name: 'Duff') }
+    let(:beer) { build(:beer) }
     describe 'checkins' do
       it 'must be an integer' do
         beer.checkins = 55.5
@@ -62,7 +62,7 @@ RSpec.describe Beer, type: :model do
   end
 
   describe 'hops' do
-    let(:beer) { create(:beer, name: 'Duff') }
+    let(:beer) { create(:beer) }
     let(:citra) { create(:hop, name: 'Citra') }
     let(:mosaic) { create(:hop, name: 'Mosaic') }
 
