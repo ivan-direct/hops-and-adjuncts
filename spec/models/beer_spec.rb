@@ -51,6 +51,12 @@ RSpec.describe Beer, type: :model do
         beer.name = nil
         expect(beer.valid?).to be_falsey
       end
+
+      it 'must be unique' do
+        beer.save!
+        beer2 = beer.dup 
+        expect(beer2.valid?).to be_falsey
+      end
     end
 
     describe 'style' do

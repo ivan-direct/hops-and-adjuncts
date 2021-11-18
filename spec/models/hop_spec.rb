@@ -19,6 +19,11 @@ RSpec.describe Hop, type: :model do
         hop.name = nil
         expect(hop.valid?).to be_falsey
       end
+
+      it 'must be unique' do
+        hop2 = hop.dup 
+        expect(hop2.valid?).to be_falsey
+      end
     end
   end
 

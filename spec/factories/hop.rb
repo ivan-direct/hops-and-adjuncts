@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :hop do
-    name { 'Saaz' }
+    sequence(:name) { |n| "Saaz#{n}" }
   end
 end

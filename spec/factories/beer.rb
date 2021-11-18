@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :beer do
-    name { 'Duff' }
+    sequence(:name) { |n| "Duff#{n}" }
     checkins { 0 }
     rating { 0.0 }
     style { 'other' }

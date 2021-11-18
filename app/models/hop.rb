@@ -4,6 +4,7 @@ class Hop < ApplicationRecord
   has_and_belongs_to_many :beers
 
   validates :name, presence: true
+  validates :name, uniqueness: true
   # Warning: this will return everything until the system matures.
   scope :new_varieties, -> { where('created_at >= ?', Date.today - 6.months).order('created_at desc').limit(10) }
 
