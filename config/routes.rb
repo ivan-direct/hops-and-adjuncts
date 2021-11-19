@@ -1,7 +1,16 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :hops
+  namespace :api do
+    namespace :v1 do
+      get 'hops/index'
+      post 'hops/create'
+      delete 'hops/:id', to: 'hops#destroy'
+    end
+  end
+
+  resources :hops, only: :index
   resources :beers
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  root 'hops#index'
 end
