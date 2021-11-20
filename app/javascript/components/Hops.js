@@ -3,8 +3,9 @@ import { Layout, Menu, Breadcrumb } from "antd";
 const { Header, Content, Footer } = Layout;
 
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import "./Hops.css";
-import { green} from '@ant-design/colors';
+import { green } from "@ant-design/colors";
 
 class Hops extends Component {
   constructor(props) {
@@ -46,21 +47,18 @@ class Hops extends Component {
   render() {
     return (
       <Layout className="layout" style={{ height: "100%" }}>
-        <Header style={{background: green[2]}}>
+        <Header style={{ background: green[2] }}>
           <div className="logo" />
-          <Menu theme="light" mode="horizontal" defaultSelectedKeys={["2"]}>
-            {new Array(15).fill(null).map((_, index) => {
-              const key = index + 1;
-              return <Menu.Item key={key}>{`nav ${key}`}</Menu.Item>;
-            })}
+          <Menu theme="light" mode="horizontal">
+            <Menu.Item key="0">
+              <Link style={{ fontSize: "21px", fontWeight: "bolder" }} to="/">
+                🍺 Home 🍺
+              </Link>
+            </Menu.Item>
           </Menu>
         </Header>
         <Content style={{ padding: "0 50px", background: green[0] }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
+          <Breadcrumb style={{ margin: "40px 0" }} />
           <div className="site-layout-content">
             <h1>Hop Catalog</h1>
             <div>
