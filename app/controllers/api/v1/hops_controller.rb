@@ -59,6 +59,6 @@ class Api::V1::HopsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def hop_params
-    params.fetch(:hop, {:name})
+    params.fetch(:id, :name).permit
   end
 end
