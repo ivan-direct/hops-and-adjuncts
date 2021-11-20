@@ -4,6 +4,7 @@ const { Header, Content, Footer } = Layout;
 
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./Hops.css";
 import { green } from "@ant-design/colors";
 
@@ -17,27 +18,24 @@ class Hops extends Component {
 
   loadHops = () => {
     const url = "api/v1/hops";
-    fetch(url)
-      .then((data) => {
-        if (data.ok) {
-          return data.json();
-        }
-        throw new Error("Network error.");
-      })
-      .then((data) => {
-        data.forEach((hop) => {
+    axios
+      .get(url)
+      .then((response) => {
+        const { data } = response;
+        data.map((hop) => {
           const newEl = {
             key: hop.id,
             id: hop.id,
             name: hop.name,
           };
-
           this.setState((prevState) => ({
             hops: [...prevState.hops, newEl],
           }));
         });
       })
-      .catch((err) => message.error("Error: " + err));
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   componentDidMount() {
