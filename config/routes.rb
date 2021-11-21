@@ -8,7 +8,6 @@ Rails.application.routes.draw do
   end
 
   resources :hops, only: :index
-  resources :beers
 
   root 'hops#index'
 end
