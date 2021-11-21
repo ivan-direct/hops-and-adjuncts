@@ -17,6 +17,7 @@ module.exports = function(api) {
 
   return {
     presets: [
+      '@babel/preset-react',
       isTestEnv && [
         '@babel/preset-env',
         {
@@ -37,6 +38,7 @@ module.exports = function(api) {
       ]
     ].filter(Boolean),
     plugins: [
+      '@babel/plugin-syntax-jsx',
       'babel-plugin-macros',
       '@babel/plugin-syntax-dynamic-import',
       isTestEnv && 'babel-plugin-dynamic-import-node',

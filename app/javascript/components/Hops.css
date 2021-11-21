@@ -1,0 +1,32 @@
+.site-layout-content {
+  min-height: 280px;
+  padding: 24px;
+  background: #fff;
+}
+#components-layout-demo-top .logo {
+  float: left;
+  width: 120px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  background: rgba(255, 255, 255, 0.3);
+}
+.ant-row-rtl #components-layout-demo-top .logo {
+  float: right;
+  margin: 16px 0 16px 24px;
+}
+
+/* ================== ant style overrides ================== */
+.ant-menu-item-selected a,
+.ant-menu-item a:hover {
+  color: #73d13d !important;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after,
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after {
+  border-bottom: 2px solid #73d13d !important;
+}
+/* ========================================================= */
+
+div#root {
+  height: 100%;
+}
