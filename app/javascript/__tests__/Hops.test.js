@@ -7,6 +7,16 @@ import Hops from "../components/Hops";
 import "./Hops.css";
 import TestRouter from "./TestRouter";
 
+window.matchMedia =
+  window.matchMedia ||
+  function () {
+    return {
+      matches: false,
+      addListener: function () {},
+      removeListener: function () {},
+    };
+  };
+
 const server = setupServer(
   rest.get("http://localhost/api/v1/hops", (req, res, ctx) => {
     return res(
@@ -23,9 +33,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 test("loads and displays greeting", async () => {
-  render(
-    <TestRouter inner_component={<Hops />}/>
-  );
+  render(<TestRouter inner_component={<Hops />} />);
 
   await waitFor(() => screen.getByText("Mosaic"));
   expect(screen.getByText("Citra")).toBeInTheDocument();
