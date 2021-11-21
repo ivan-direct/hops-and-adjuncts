@@ -3,7 +3,7 @@ class Api::V1::HopsController < ApplicationController
 
   # GET /hops or /hops.json
   def index
-    @hops = Hop.all
+    @hops = Hop.order(rating: :desc)
     render json: @hops
   end
 
