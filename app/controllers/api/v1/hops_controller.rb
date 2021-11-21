@@ -4,7 +4,7 @@ class Api::V1::HopsController < ApplicationController
   # GET /hops or /hops.json
   def index
     @hops = Hop.order(rating: :desc)
-    render json: @hops
+    render 'api/v1/hops/index.json.jbuilder'
   end
 
   # GET /hops/1 or /hops/1.json
@@ -38,7 +38,7 @@ class Api::V1::HopsController < ApplicationController
   # PATCH/PUT /hops/1 or /hops/1.json
   def update
     if @hop.update(hop_params)
-      render json: { notice: 'Hop was updated successfully'}
+      render json: { notice: 'Hop was updated successfully' }
     else
       format.json { render json: @hop.errors, status: :unprocessable_entity }
     end
@@ -47,7 +47,7 @@ class Api::V1::HopsController < ApplicationController
   # DELETE /hops/1 or /hops/1.json
   def destroy
     @hop.destroy
-    render json: {notice: 'Hop was successfully destroyed.'}
+    render json: { notice: 'Hop was successfully destroyed.' }
   end
 
   private

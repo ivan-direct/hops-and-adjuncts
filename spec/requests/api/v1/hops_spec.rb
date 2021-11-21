@@ -11,8 +11,8 @@ RSpec.describe 'Api::V1::Hops', type: :request do
       get '/api/v1/hops', params: {}
 
       body = JSON.parse(response.body)
-      citra_hop = body.first
-      simcoe_hop = body.last
+      citra_hop = body.first.fetch('hop')
+      simcoe_hop = body.last.fetch('hop')
 
       expect(citra_hop.fetch('name')).to eq('Citra')
       expect(simcoe_hop.fetch('name')).to eq('Simcoe')

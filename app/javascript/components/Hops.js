@@ -24,11 +24,14 @@ class Hops extends Component {
       .get(url)
       .then((response) => {
         const { data } = response;
-        data.map((hop) => {
+        data.map((el) => {
           const newEl = {
-            key: hop.id,
-            id: hop.id,
-            name: hop.name,
+            key: el.hop.id,
+            id: el.hop.id,
+            name: el.hop.name,
+            rating: el.hop.rating,
+            ranking: el.hop.ranking,
+            beers: el.hop.beers,
           };
           this.setState((prevState) => ({
             hops: [...prevState.hops, newEl],
@@ -86,7 +89,16 @@ class Hops extends Component {
                         bordered={true}
                         style={{ width: "65%" }}
                       >
-                        Sed blandit urna vel ante volutpat
+                        <p>Rating: {hop.rating}</p>
+                        <p>Ranking: {hop.ranking}</p>
+                        <p>
+                          {"Beers: " +
+                            hop.beers
+                              .map(function (beer) {
+                                return beer.name;
+                              })
+                              .join(", ")}
+                        </p>
                       </Card>
                     );
                   })}

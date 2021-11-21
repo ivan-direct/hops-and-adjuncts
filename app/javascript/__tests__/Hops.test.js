@@ -21,8 +21,16 @@ const server = setupServer(
   rest.get("http://localhost/api/v1/hops", (req, res, ctx) => {
     return res(
       ctx.json([
-        { name: "Citra", id: 5 },
-        { name: "Mosaic", id: 6 },
+        {
+          hop: {
+            name: "Citra",
+            id: 6,
+            rating: 4,
+            ranking: 1,
+            beers: [{ name: "Juicy Bits", id: 22 }],
+          },
+        },
+        { hop: { name: "Mosaic", id: 5, rating: 4, ranking: 2, beers: [] } },
       ])
     );
   })
@@ -37,4 +45,5 @@ test("loads and displays greeting", async () => {
 
   await waitFor(() => screen.getByText("Mosaic"));
   expect(screen.getByText("Citra")).toBeInTheDocument();
+  expect(screen.getByText("Beers: Juicy Bits")).toBeInTheDocument();
 });
