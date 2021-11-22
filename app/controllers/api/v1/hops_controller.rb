@@ -7,7 +7,11 @@ module Api
 
       # GET /hops or /hops.json
       def index
-        @hops = Hop.order(rating: :desc)
+        @hops = if params[:query].present?
+                  Hop.where(name: params[:query]).order(rating: :desc)
+                else
+                  Hop.order(rating: :desc)
+                end
         render 'api/v1/hops/index', formats: :json
       end
 
@@ -63,7 +67,7 @@ module Api
 
       # Only allow a list of trusted parameters through.
       def hop_params
-        params.fetch(:id, :name).permit
+        params.fetch(:id, :name, :query).permit
       end
     end
   end

@@ -13,14 +13,27 @@ import Hop from "./Hop";
 class Hops extends Component {
   constructor(props) {
     super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.state = {
       hops: [],
+      hopName: "",
     };
-    this.searchType = props.searchType ? props.searchType : "Top Rated";
+    this.searchType = props.searchType ? props.searchType : "Top Rated Hops";
   }
 
-  loadHops = () => {
-    const url = "api/v1/hops";
+  handleChange(e) {
+    this.setState({ hopName: e.target.value });
+  }
+
+  handleSearch() {
+    this.setState({ hops: [] });
+    this.loadHops(this.state.hopName);
+    this.searchType = "Search Result - " + this.state.hopName;
+  }
+
+  loadHops = (q) => {
+    const url = "api/v1/hops?query=" + q;
     axios
       .get(url)
       .then((response) => {
@@ -45,7 +58,7 @@ class Hops extends Component {
   };
 
   componentDidMount() {
-    this.loadHops();
+    this.loadHops("");
   }
 
   render() {
@@ -59,10 +72,10 @@ class Hops extends Component {
                 🍺 Home 🍺
               </Link>
             </Menu.Item>
-            {/* TODO: implement search using state. Use Hot hops for default list */}
             <Search
-              placeholder="input search text"
-              onSearch=""
+              value={this.state.hopName}
+              onChange={this.handleChange}
+              onSearch={this.handleSearch}
               style={{ width: 200, marginTop: "16px" }}
             />
           </Menu>
@@ -80,12 +93,10 @@ class Hops extends Component {
           <div className="site-layout-content">
             <Row align="top">
               <Col flex={3}>
-                <h1>{this.searchType} Hops</h1>
+                <h1>{this.searchType}</h1>
                 <div>
                   {this.state.hops.map((hop) => {
-                    return (
-                      <Hop hop={hop}/>
-                    );
+                    return <Hop hop={hop} />;
                   })}
                 </div>
               </Col>
