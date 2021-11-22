@@ -6,6 +6,6 @@ class Beer < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
   validates :checkins, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :rating, inclusion: { in: Array.new(21) { |i| i * 0.25 } } # must be between 0-5 step size 0.25
+  validates :rating, numericality: { greater_than_or_equal_to: 0, less_than: 5.01 }
   validates :style, inclusion: { in: %w[ipa stout other] }
 end

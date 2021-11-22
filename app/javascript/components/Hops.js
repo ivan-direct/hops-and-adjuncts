@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb, Row, Col, Card } from "antd";
+import { Layout, Menu, Breadcrumb, Row, Col } from "antd";
 
 const { Header, Content, Footer } = Layout;
 
@@ -8,6 +8,7 @@ import axios from "axios";
 import "./Hops.css";
 import { green } from "@ant-design/colors";
 import Search from "antd/lib/input/Search";
+import Hop from "./Hop";
 
 class Hops extends Component {
   constructor(props) {
@@ -83,23 +84,7 @@ class Hops extends Component {
                 <div>
                   {this.state.hops.map((hop) => {
                     return (
-                      <Card
-                        key={hop.id}
-                        title={hop.name}
-                        bordered={true}
-                        style={{ width: "65%" }}
-                      >
-                        <p>Rating: {hop.rating}</p>
-                        <p>Ranking: {hop.ranking}</p>
-                        <p>
-                          {"Beers: " +
-                            hop.beers
-                              .map(function (beer) {
-                                return beer.name;
-                              })
-                              .join(", ")}
-                        </p>
-                      </Card>
+                      <Hop hop={hop}/>
                     );
                   })}
                 </div>

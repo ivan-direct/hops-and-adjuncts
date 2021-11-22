@@ -33,7 +33,7 @@ RSpec.describe Beer, type: :model do
         beer.rating = -0.25
         expect(beer.valid?).to be_falsey
         beer.rating = 0.1
-        expect(beer.valid?).to be_falsey
+        expect(beer.valid?).to be_truthy
         beer.rating = 5.25
         expect(beer.valid?).to be_falsey
         beer.rating = 0.25
@@ -54,7 +54,7 @@ RSpec.describe Beer, type: :model do
 
       it 'must be unique' do
         beer.save!
-        beer2 = beer.dup 
+        beer2 = beer.dup
         expect(beer2.valid?).to be_falsey
       end
     end

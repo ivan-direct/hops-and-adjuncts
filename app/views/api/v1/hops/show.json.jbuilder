@@ -1,1 +1,3 @@
-json.partial! "hops/hop", hop: @hop
+# frozen_string_literal: true
+
+json.partial! 'hops/hop', hop: @hop
