@@ -48,4 +48,22 @@ RSpec.describe 'Api::V1::Hops', type: :request do
       expect(citra_hop.fetch('name')).to eq('Citra')
     end
   end
+
+  describe 'GET /hops/popular' do
+    before do
+      create(:hop, name: 'Riwaka', ranking: 1, previous_ranking: 6)
+      create(:hop, ranking: 2, previous_ranking: 3)
+      create(:hop, ranking: 4, previous_ranking: 4)
+      create(:hop, ranking: 3, previous_ranking: 1)
+    end
+
+    it 'returns hot hops' do
+      get '/api/v1/hops/popular', params: {}
+
+      body = JSON.parse(response.body)
+      expect(body.size).to eq(3)
+      riwaka_hop = body.first.fetch('hop')
+      expect(riwaka_hop.fetch('name')).to eq('Riwaka')
+    end
+  end
 end
