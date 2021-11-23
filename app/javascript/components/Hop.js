@@ -18,7 +18,7 @@ class Hop extends Component {
         <p>Rating: {this.hop.rating}</p>
         <p>Ranking: {this.hop.ranking}</p>
         <p>
-          {"Beers: " +
+          {this.hop.beers && "Beers: " +
             this.hop.beers
               .map(function (beer) {
                 return beer.name;

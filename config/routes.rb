@@ -3,7 +3,12 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :hops
+      resources :hops do
+        collection do
+          get :featured
+          get :popular
+        end
+      end
     end
   end
 

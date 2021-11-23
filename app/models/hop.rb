@@ -40,6 +40,11 @@ class Hop < ApplicationRecord
     # end
   end
 
+  #TODO implement me #################
+  def self.popular
+    limit(3) # STUB
+  end
+
   # Utility singleton method use to populate rating and ranking #
   def self.refresh_stats
     rankings = []

@@ -9,6 +9,8 @@ import "./Hops.css";
 import { green } from "@ant-design/colors";
 import Search from "antd/lib/input/Search";
 import Hop from "./Hop";
+import FeaturedHop from "./FeaturedHop";
+import HotHops from "./HotHops";
 
 class Hops extends Component {
   constructor(props) {
@@ -19,7 +21,7 @@ class Hops extends Component {
       hops: [],
       hopName: "",
     };
-    this.searchType = props.searchType ? props.searchType : "Top Rated Hops";
+    this.searchType = props.searchType ? props.searchType : "🥇 Top Rated Hops";
   }
 
   handleChange(e) {
@@ -103,20 +105,14 @@ class Hops extends Component {
               <Col flex={2}>
                 <Row>
                   <Col span={24}>
-                    <h1>Featured</h1>
-                    <div>
-                      <p>Nam eget vulputate mauris.</p>
-                      <p>raesent dictum est quis neque</p>
-                    </div>
+                    <h1>⭐ Featured</h1>
+                    <FeaturedHop/>
                   </Col>
                 </Row>
                 <Row style={{ paddingTop: "16px" }}>
                   <Col span={24}>
-                    <h1>Hot Hops</h1>
-                    <div id="lipsum">
-                      <p>Lorem ipsum dolor sit amet</p>
-                      <p>Ut rhoncus, libero id facilisis</p>
-                    </div>
+                    <h1>🔥 Hot Hops</h1>
+                    <HotHops/>
                   </Col>
                 </Row>
               </Col>

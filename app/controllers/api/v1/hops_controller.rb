@@ -24,6 +24,18 @@ module Api
         end
       end
 
+      # GET /hops/featured or /hops/featured.json
+      def featured
+        @hop = Hop.where(featured: true).sample
+        render 'api/v1/hops/show', formats: :json
+      end
+
+      # GET /hops/popular or /hops/popular.json
+      def popular
+        @hops = Hop.popular
+        render 'api/v1/hops/index', formats: :json
+      end
+
       # GET /hops/new
       def new
         @hop = Hop.new
