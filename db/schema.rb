@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_22_224252) do
+ActiveRecord::Schema.define(version: 2021_11_23_203508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,7 @@ ActiveRecord::Schema.define(version: 2021_11_22_224252) do
     t.float "rating"
     t.integer "ranking"
     t.boolean "featured", default: false
+    t.integer "previous_ranking"
   end
 
 end

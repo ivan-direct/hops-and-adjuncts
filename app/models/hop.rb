@@ -42,9 +42,12 @@ class Hop < ApplicationRecord
     # end
   end
 
-  # TODO: implement me #################
+  # calulate the deltas and return the three highest ranking risers
   def self.popular
-    limit(3) # STUB
+    hops = where('ranking is not null and previous_ranking is not null').sort_by do |hop|
+      hop.previous_ranking - hop.ranking
+    end.reverse #sorting low-high for some reason
+    hops.size >= 3 ? hops[0..2] : hops
   end
 
   # Utility singleton method use to populate rating and ranking #

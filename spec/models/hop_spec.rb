@@ -69,6 +69,29 @@ RSpec.describe Hop, type: :model do
     end
   end
 
+  describe 'self#popular' do
+    it 'handles null attributes' do
+      expect(Hop.popular).to eq([])
+    end
+
+    it 'returns only two hops' do
+      h1 = create(:hop, ranking: 1, previous_ranking: 2)
+      h2 = create(:hop, ranking: 2, previous_ranking: 1)
+
+      expect(Hop.popular).to eq([h1,h2])
+    
+    end
+
+    it 'returns the limit (3) of hops' do
+      h1 = create(:hop, ranking: 1, previous_ranking: 6) #  5
+      h2 = create(:hop, ranking: 2, previous_ranking: 3) #  1
+      h3 = create(:hop, ranking: 4, previous_ranking: 4) #  0
+      h4 = create(:hop, ranking: 3, previous_ranking: 1) # -2
+
+      expect(Hop.popular).to eq([h1,h2,h3])
+    end
+  end
+
   describe 'self#refresh_stats' do
     before do
       @vic_secret = create(:vic_secret)
