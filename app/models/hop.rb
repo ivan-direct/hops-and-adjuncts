@@ -6,7 +6,7 @@ class Hop < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
   # Warning: this will return everything until the system matures.
-  scope :new_varieties, -> { where('created_at >= ?', Date.today - 6.months).order('created_at desc').limit(10) }
+  scope :new_varieties, -> { where('created_at >= ?', Time.zone.today - 6.months).order('created_at desc').limit(10) }
 
   def total_checkins
     return 0 if beers.blank?
@@ -15,6 +15,8 @@ class Hop < ApplicationRecord
   end
 
   def formatted_rating
+    return nil if rating.blank?
+
     rating.round(2)
   end
 
@@ -57,6 +59,7 @@ class Hop < ApplicationRecord
       hop.update(rating: rating)
     end
     rankings.sort_by!(&:rating).reverse!
+
     rankings.each_index do |i|
       ranking = rankings[i]
       hop = Hop.find(ranking.hop_id)

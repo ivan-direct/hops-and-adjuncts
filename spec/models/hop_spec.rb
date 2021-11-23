@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Hop, type: :model do
-  let(:hop) { create(:hop, name: 'Citra') }
-  let(:juicy_bits) { create(:beer, name: 'Juicy Bits', checkins: 53_700) }
+  let(:hop) { create(:citra) }
+  let(:juicy_bits) { create(:juicy_bits, checkins: 53_700) }
   let(:citra_xx_juicy_bits) { create(:beer, name: 'Citra Extra Extra Juicy Bits', checkins: 2_100) }
 
   describe '#create' do
@@ -29,11 +29,11 @@ RSpec.describe Hop, type: :model do
 
   context 'scopes' do
     describe 'new_varieties' do
-      let(:chinook) { create(:hop, name: 'Chinook', created_at: Date.today - 7.months) }
+      let(:chinook) { create(:hop, name: 'Chinook', created_at: Time.zone.today - 7.months) }
 
       before do
         11.times do |i|
-          create(:hop, name: "X-9N0#{i}", created_at: Date.today - i.days)
+          create(:hop, name: "X-9N0#{i}", created_at: Time.zone.today - i.days)
         end
       end
       it 'returns the 10 most recent' do
@@ -59,6 +59,42 @@ RSpec.describe Hop, type: :model do
       expect(hop.total_checkins).to eq(0)
       hop.beers << [juicy_bits, citra_xx_juicy_bits]
       expect(hop.total_checkins).to eq(expected_checkins)
+    end
+  end
+
+  describe '#formatted_rating' do
+    it 'rounds rating to two significant digits' do
+      hop.rating = 4.3333333333
+      expect(hop.formatted_rating).to eq(4.33)
+    end
+  end
+
+  describe 'self#refresh_stats' do
+    before do
+      @vic_secret = create(:vic_secret)
+      @nelson_sauvin = create(:nelson_sauvin)
+      @mosaic = create(:mosaic)
+
+      @steezy = create(:steezy)
+      @perpetual_embrace = create(:perpetual_embrace)
+    end
+
+    it 'populates hop#rating and hop#ranking' do
+      @steezy.hops = [@mosaic, @nelson_sauvin]
+      @perpetual_embrace.hops = [@nelson_sauvin, @vic_secret]
+
+      Hop.refresh_stats
+      @vic_secret.reload
+      expect(@vic_secret.rating).to eq(4.38)
+      expect(@vic_secret.ranking).to eq(1)
+
+      @nelson_sauvin.reload
+      expect(@nelson_sauvin.rating).to eq(4.32)
+      expect(@nelson_sauvin.ranking).to eq(2)
+
+      @mosaic.reload
+      expect(@mosaic.rating).to eq(4.26)
+      expect(@mosaic.ranking).to eq(3)
     end
   end
 end

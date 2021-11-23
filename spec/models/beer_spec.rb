@@ -69,8 +69,8 @@ RSpec.describe Beer, type: :model do
 
   describe 'hops' do
     let(:beer) { create(:beer) }
-    let(:citra) { create(:hop, name: 'Citra') }
-    let(:mosaic) { create(:hop, name: 'Mosaic') }
+    let(:citra) { create(:citra) }
+    let(:mosaic) { create(:mosaic) }
 
     it 'adds hop associations to a beer' do
       beer.hops << [citra, mosaic]

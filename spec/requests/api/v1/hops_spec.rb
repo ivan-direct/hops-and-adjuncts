@@ -33,4 +33,19 @@ RSpec.describe 'Api::V1::Hops', type: :request do
       expect(citra_hop.fetch('name')).to eq('Citra')
     end
   end
+
+  describe 'GET /hops/featured' do
+    before do
+      create(:citra, featured: true)
+    end
+
+    it 'returns hop' do
+      get '/api/v1/hops/featured', params: {}
+
+      body = JSON.parse(response.body)
+
+      citra_hop = body.fetch('hop')
+      expect(citra_hop.fetch('name')).to eq('Citra')
+    end
+  end
 end
