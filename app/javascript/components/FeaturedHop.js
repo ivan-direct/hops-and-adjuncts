@@ -6,7 +6,7 @@ class FeaturedHop extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hop: {id: null, name: null, rating: null, ranking: null, beers: []},
+      hop: { id: null, name: null, rating: null, ranking: null, beers: [] },
     };
   }
 
@@ -37,7 +37,7 @@ class FeaturedHop extends Component {
   }
 
   render() {
-    return(
+    return (
       <Card
         key={this.state.hop.id}
         title={this.state.hop.name}
@@ -47,12 +47,13 @@ class FeaturedHop extends Component {
         <p>Rating: {this.state.hop.rating}</p>
         <p>Ranking: {this.state.hop.ranking}</p>
         <p>
-          {this.state.hop.beers && "Beers: " +
-            this.state.hop.beers
-              .map(function (beer) {
-                return beer.name;
-              })
-              .join(", ")}
+          {this.state.hop.beers &&
+            "Beers: " +
+              this.state.hop.beers
+                .map(function (beer) {
+                  return beer.name;
+                })
+                .join(", ")}
         </p>
       </Card>
     );

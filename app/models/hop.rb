@@ -40,7 +40,7 @@ class Hop < ApplicationRecord
     # end
   end
 
-  #TODO implement me #################
+  # TODO: implement me #################
   def self.popular
     limit(3) # STUB
   end

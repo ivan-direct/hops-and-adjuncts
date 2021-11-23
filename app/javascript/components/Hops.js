@@ -31,7 +31,7 @@ class Hops extends Component {
   handleSearch() {
     this.setState({ hops: [] });
     this.loadHops(this.state.hopName);
-    this.searchType = "Search Result - " + this.state.hopName;
+    this.searchType = "🔎 Search Result - " + this.state.hopName;
   }
 
   loadHops = (q) => {
@@ -106,13 +106,13 @@ class Hops extends Component {
                 <Row>
                   <Col span={24}>
                     <h1>⭐ Featured</h1>
-                    <FeaturedHop/>
+                    <FeaturedHop />
                   </Col>
                 </Row>
                 <Row style={{ paddingTop: "16px" }}>
                   <Col span={24}>
                     <h1>🔥 Hot Hops</h1>
-                    <HotHops/>
+                    <HotHops />
                   </Col>
                 </Row>
               </Col>
