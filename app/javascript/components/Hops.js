@@ -21,7 +21,10 @@ class Hops extends Component {
       hops: [],
       hopName: "",
     };
-    this.searchType = props.searchType ? props.searchType : "🥇 Top Rated Hops";
+    this.defaultHopListTitle = "🥇 Top Rated Hops";
+    this.hopListTitle = props.hopListTitle
+      ? props.hopListTitle
+      : this.defaultHopListTitle;
   }
 
   handleChange(e) {
@@ -31,7 +34,11 @@ class Hops extends Component {
   handleSearch() {
     this.setState({ hops: [] });
     this.loadHops(this.state.hopName);
-    this.searchType = "🔎 Search Result - " + this.state.hopName;
+    if (!this.state.hopName) {
+      this.hopListTitle = this.defaultHopListTitle;
+    } else {
+      this.hopListTitle = "🔎 Search Result - " + this.state.hopName;
+    }
   }
 
   loadHops = (q) => {
@@ -95,7 +102,7 @@ class Hops extends Component {
           <div className="site-layout-content">
             <Row align="top">
               <Col flex={3}>
-                <h1>{this.searchType}</h1>
+                <h1>{this.hopListTitle}</h1>
                 <div>
                   {this.state.hops.map((hop) => {
                     return <Hop hop={hop} />;
