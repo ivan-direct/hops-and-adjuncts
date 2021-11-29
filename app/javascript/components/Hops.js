@@ -8,7 +8,7 @@ import axios from "axios";
 import "./Hops.css";
 import { green } from "@ant-design/colors";
 import Search from "antd/lib/input/Search";
-import Hop from "./Hop";
+import HopCard from "./HopCard";
 import FeaturedHop from "./FeaturedHop";
 import HotHops from "./HotHops";
 
@@ -105,7 +105,7 @@ class Hops extends Component {
                 <h1>{this.hopListTitle}</h1>
                 <div>
                   {this.state.hops.map((hop) => {
-                    return <Hop hop={hop} />;
+                    return <HopCard hop={hop} />;
                   })}
                 </div>
               </Col>

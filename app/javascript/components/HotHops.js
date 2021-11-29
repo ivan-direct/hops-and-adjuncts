@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Hop from "./Hop";
+import HopCard from "./HopCard";
 
 class HotHops extends Component {
   constructor(props) {
@@ -43,7 +43,7 @@ class HotHops extends Component {
     return (
       <div>
         {this.state.hops.map((hop) => {
-          return <Hop hop={hop} />;
+          return <HopCard hop={hop} />;
         })}
       </div>
     );

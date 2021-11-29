@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Card } from "antd";
 
-class Hop extends Component {
+class HopCard extends Component {
   constructor(props) {
     super(props);
     this.hop = props.hop;
@@ -30,4 +30,4 @@ class Hop extends Component {
   }
 }
 
-export default Hop;
+export default HopCard;
