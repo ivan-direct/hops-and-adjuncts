@@ -127,7 +127,7 @@ class Hops extends Component {
           </div>
         </Content>
         <Footer style={{ textAlign: "center", background: green[2] }}>
-          Hops & Adjuncts ©2021 By ivan_direct
+          Hops & Adjuncts ©{new Date().getUTCFullYear()} By ivan_direct
         </Footer>
       </Layout>
     );
