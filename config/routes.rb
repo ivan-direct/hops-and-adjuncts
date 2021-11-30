@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   resources :hops, only: :index
 
   root 'hops#index'
+  match '*', to: 'hops#index', via: :all, constraints: {subdomain: /.+\.hops/}
 end
