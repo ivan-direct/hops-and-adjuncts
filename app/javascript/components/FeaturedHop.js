@@ -1,12 +1,19 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Card } from "antd";
+import { Link } from "react-router-dom";
 
 class FeaturedHop extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hop: { id: null, name: null, rating: null, ranking: null, beers: [] },
+      hop: {
+        id: null,
+        name: null,
+        rating: null,
+        ranking: null,
+        beers: [],
+      },
     };
   }
 
@@ -40,7 +47,9 @@ class FeaturedHop extends Component {
     return (
       <Card
         key={this.state.hop.id}
-        title={this.state.hop.name}
+        title={
+          <Link to={"/hops/" + this.state.hop.id}>{this.state.hop.name}</Link>
+        }
         bordered={true}
         style={{ width: "65%", marginBottom: "16px" }}
       >

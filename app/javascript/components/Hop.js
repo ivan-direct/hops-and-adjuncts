@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Hops.css";
 import { green } from "@ant-design/colors";
-// import HopCard from "./HopCard";
+import BeerCard from "./BeerCard";
 
 class Hop extends Component {
   constructor(props) {
@@ -100,10 +100,12 @@ class Hop extends Component {
                 </Row>
                 <Row style={{ paddingTop: "16px" }}>
                   <Col span={24}>
-                    <h1>Beer List</h1>
-                    <div>Beer A</div>
-                    <div> Paginate?...</div>
-                    <div>Beer Z</div>
+                    <h1>Beers Containing {this.state.hop.name} Hops</h1>
+                    <div>
+                      {this.state.hop.beers.map((beer) => {
+                        return <BeerCard beer={beer} key={beer.id} />;
+                      })}
+                    </div>
                   </Col>
                 </Row>
               </Col>
