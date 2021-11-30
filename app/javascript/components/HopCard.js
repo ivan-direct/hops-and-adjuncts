@@ -1,17 +1,19 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { Card } from "antd";
 
 class HopCard extends Component {
   constructor(props) {
     super(props);
     this.hop = props.hop;
+    this.hop_path = "/hops/" + this.hop.id;
   }
 
   render() {
     return (
       <Card
         key={this.hop.id}
-        title={this.hop.name}
+        title={<Link to={this.hop_path}>{this.hop.name}</Link>}
         bordered={true}
         style={{ width: "65%", marginBottom: "16px" }}
       >

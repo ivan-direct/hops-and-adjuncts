@@ -1,9 +1,11 @@
-namespace :factory_setup do
-  task :build => :environment do
-    raise "Run rake db:reset before running this task!" if !Hop.count.zero? || !Beer.count.zero?
+# frozen_string_literal: true
 
-    Dir[Rails.root.join("spec/factories/**/*.rb")].each {|f| require f}
-    puts "Building hops..."
+namespace :factory_setup do
+  task build: :environment do
+    raise 'Run rake db:reset before running this task!' if !Hop.count.zero? || !Beer.count.zero?
+
+    Dir[Rails.root.join('spec/factories/**/*.rb')].each { |f| require f }
+    puts 'Building hops...'
     citra = FactoryBot.create(:citra)
     mosaic = FactoryBot.create(:mosaic)
     eldorado = FactoryBot.create(:eldorado)
@@ -15,7 +17,7 @@ namespace :factory_setup do
     vic_secret = FactoryBot.create(:vic_secret)
     strata = FactoryBot.create(:strata)
 
-    puts "Building beers..."
+    puts 'Building beers...'
     juicy_bits = FactoryBot.create(:juicy_bits)
     juicy_bits.hops = [citra, mosaic, eldorado]
     cosmic_torero = FactoryBot.create(:cosmic_torero)
@@ -32,7 +34,7 @@ namespace :factory_setup do
     a_little_bit_obscure.hops = [nectaron]
 
     Hop.refresh_stats
-    puts "Complete"
+    puts 'Complete'
     puts
   end
 end

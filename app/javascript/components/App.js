@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import Hops from "../components/Hops";
-// import Hop from "../components/Hop";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Hop from "../components/Hop";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useParams,
+} from "react-router-dom";
 import "antd/dist/antd.css";
 
 class App extends Component {
@@ -11,11 +16,16 @@ class App extends Component {
         <Routes>
           <Route path="/" element={<Hops />} />
           <Route path="/hops" element={<Hops />} />
-          {/* <Route path="/hops/:id" element={<HopPage />} /> */}
+          <Route path="/hops/:id" element={<HopRouteWrapper />} />
         </Routes>
       </Router>
     );
   }
+}
+
+function HopRouteWrapper() {
+  let params = useParams();
+  return <Hop params={params} />;
 }
 
 export default App;

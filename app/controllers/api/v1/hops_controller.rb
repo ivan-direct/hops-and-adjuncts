@@ -2,6 +2,7 @@
 
 module Api
   module V1
+    # The primary backend for the Hops React page
     class HopsController < ApplicationController
       before_action :set_hop, only: %i[show edit update destroy]
 
@@ -18,7 +19,7 @@ module Api
       # GET /hops/1 or /hops/1.json
       def show
         if @hop
-          render json: @hop
+          render 'api/v1/hops/show', formats: :json
         else
           render json: @hop.errors
         end
