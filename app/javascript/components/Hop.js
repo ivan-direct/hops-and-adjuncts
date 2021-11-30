@@ -3,8 +3,8 @@ import { Layout, Menu, Breadcrumb, Row, Col } from "antd";
 const { Header, Content, Footer } = Layout;
 
 import React, { Component } from "react";
-import { Link, useParams } from "react-router-dom";
-// import axios from "axios";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import "./Hops.css";
 import { green } from "@ant-design/colors";
 // import HopCard from "./HopCard";
@@ -12,35 +12,37 @@ import { green } from "@ant-design/colors";
 class Hop extends Component {
   constructor(props) {
     super(props);
-    const params = useParams();
-    // this.url = "api/v1/hops/" + params.id;
-    console.log(params);
+    this.state = {
+      hop: { id: null, name: null, rating: null, ranking: null, beers: [] },
+    };
+    this.params = props.params
+    this.url = "/api/v1/hops/" + this.params.id;
   }
 
-  // loadHop = () => {
-  //   axios
-  //     .get(this.url)
-  //     .then((response) => {
-  //       const { data } = response;
-  //       const { hop } = data;
-  //       const newEl = {
-  //         key: hop.id,
-  //         id: hop.id,
-  //         name: hop.name,
-  //         rating: hop.rating,
-  //         ranking: hop.ranking,
-  //         beers: hop.beers,
-  //       };
-  //       this.setState({ hop: newEl });
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
+  loadHop = () => {
+    axios
+      .get(this.url)
+      .then((response) => {
+        const { data } = response;
+        const { hop } = data;
+        const newEl = {
+          key: hop.id,
+          id: hop.id,
+          name: hop.name,
+          rating: hop.rating,
+          ranking: hop.ranking,
+          beers: hop.beers,
+        };
+        this.setState({ hop: newEl });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
-  // componentDidMount() {
-  //   this.loadHop();
-  // }
+  componentDidMount() {
+    this.loadHop();
+  }
 
   render() {
     return (
@@ -68,7 +70,7 @@ class Hop extends Component {
           <div className="site-layout-content">
             <Row align="top">
               <Col flex={3}>
-                <h1>Hop Name</h1>
+                <h1>{this.state.hop.name}</h1>
                 <div>Hop Content</div>
               </Col>
               <Col flex={2}>
