@@ -43,7 +43,7 @@ class HotHops extends Component {
     return (
       <div>
         {this.state.hops.map((hop) => {
-          return <HopCard hop={hop} />;
+          return <HopCard hop={hop} key={"hot-" + hop.id} />;
         })}
       </div>
     );

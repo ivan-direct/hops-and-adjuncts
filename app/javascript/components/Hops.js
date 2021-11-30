@@ -105,7 +105,7 @@ class Hops extends Component {
                 <h1>{this.hopListTitle}</h1>
                 <div>
                   {this.state.hops.map((hop) => {
-                    return <HopCard hop={hop} />;
+                    return <HopCard hop={hop} key={hop.id} />;
                   })}
                 </div>
               </Col>

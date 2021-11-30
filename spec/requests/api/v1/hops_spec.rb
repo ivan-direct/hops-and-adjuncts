@@ -29,7 +29,7 @@ RSpec.describe 'Api::V1::Hops', type: :request do
     it 'returns hop' do
       get '/api/v1/hops/2', params: {}
 
-      citra_hop = JSON.parse(response.body)
+      citra_hop = JSON.parse(response.body).fetch('hop')
       expect(citra_hop.fetch('name')).to eq('Citra')
     end
   end
