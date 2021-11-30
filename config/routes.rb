@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  root 'hops#index'
+
   namespace :api do
     namespace :v1 do
       resources :hops do
@@ -12,8 +14,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :hops, only: :index
-
-  root 'hops#index'
-  match '*', to: 'hops#index', via: :all, constraints: {subdomain: /.+\.hops/}
+  # this will prevent browser redirects from breaking the React Router flow
+  get '*path', to: 'hops#index'
 end

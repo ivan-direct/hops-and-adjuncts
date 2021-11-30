@@ -15,7 +15,7 @@ class Hop extends Component {
     this.state = {
       hop: { id: null, name: null, rating: null, ranking: null, beers: [] },
     };
-    this.params = props.params
+    this.params = props.params;
     this.url = "/api/v1/hops/" + this.params.id;
   }
 
@@ -70,13 +70,42 @@ class Hop extends Component {
           <div className="site-layout-content">
             <Row align="top">
               <Col flex={3}>
-                <h1>{this.state.hop.name}</h1>
-                <div>Hop Content</div>
+                <Row>
+                  <Col span={24}>
+                    <h1>{this.state.hop.name}</h1>
+                    <p>Rating: {this.state.hop.rating}</p>
+                    <p>Ranking: {this.state.hop.ranking}</p>
+                  </Col>
+                </Row>
+                <Row style={{ paddingTop: "24px" }}>
+                  <Col span={24}>
+                    <h1>Bells & Whistles Widget</h1>
+                    <div>Graph</div>
+                    <div>Map</div>
+                    <div>External Links to buy</div>
+                    <div>
+                      External Links to Wikipedia other sources of information
+                    </div>
+                  </Col>
+                </Row>
               </Col>
               <Col flex={2}>
-                <h1>Brewery Name</h1>
-                <div>Brewery Address</div>
-                <div>Brewery Content</div>
+                <Row>
+                  <Col span={24}>
+                    <h1>Common Hop Pairings</h1>
+                    <div>Hop A</div>
+                    <div>...</div>
+                    <div>Hop Z</div>
+                  </Col>
+                </Row>
+                <Row style={{ paddingTop: "16px" }}>
+                  <Col span={24}>
+                    <h1>Beer List</h1>
+                    <div>Beer A</div>
+                    <div> Paginate?...</div>
+                    <div>Beer Z</div>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </div>
