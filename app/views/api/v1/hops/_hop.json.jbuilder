@@ -7,4 +7,5 @@ json.hop do
   json.ranking hop.ranking
   json.beers hop.beers, :id, :name, :rating, :checkins, :style
   json.common_pairings hop.common_pairings
+  json.delta hop.delta
 end

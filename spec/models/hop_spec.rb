@@ -112,6 +112,19 @@ RSpec.describe Hop, type: :model do
     end
   end
 
+  describe '#delta' do
+    it 'returns 0 if ranking nil' do
+      hop.ranking = nil
+      expect(hop.delta).to eq(0)
+    end
+
+    it 'returns ranking delta' do
+      hop.ranking = 1
+      hop.previous_ranking = 11
+      expect(hop.delta).to eq(10)
+    end
+  end
+
   describe 'self#popular' do
     it 'handles null attributes' do
       expect(Hop.popular).to eq([])

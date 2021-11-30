@@ -1,4 +1,5 @@
 import { Layout, Menu, Breadcrumb, Row, Col, List } from "antd";
+import { UpCircleFilled, DownCircleFilled } from "@ant-design/icons";
 
 const { Header, Content, Footer } = Layout;
 
@@ -6,7 +7,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Hops.css";
-import { green } from "@ant-design/colors";
+import { green, red } from "@ant-design/colors";
 import BeerCard from "./BeerCard";
 
 class Hop extends Component {
@@ -21,6 +22,7 @@ class Hop extends Component {
         ranking: null,
         beers: [],
         common_pairings: [],
+        delta: null,
       },
     };
     this.params = props.params;
@@ -44,6 +46,7 @@ class Hop extends Component {
           ranking: hop.ranking,
           beers: hop.beers,
           common_pairings: hop.common_pairings,
+          delta: hop.delta,
         };
         this.setState({ hop: newEl });
         document.title = newEl.name;
@@ -52,6 +55,24 @@ class Hop extends Component {
         console.log(error);
       });
   };
+
+  ratingChange(delta) {
+    if (delta > 0) {
+      return (
+        <div>
+          Ranking Change: <UpCircleFilled style={{ color: green[4] }} /> {delta}
+        </div>
+      );
+    } else if (delta < 0) {
+      return (
+        <div>
+          Ranking Change: <DownCircleFilled style={{ color: red[4] }} /> {delta}
+        </div>
+      );
+    } else {
+      return <div>No Change</div>;
+    }
+  }
 
   componentDidMount() {
     this.loadHop();
@@ -94,6 +115,7 @@ class Hop extends Component {
                         "Description: " + this.description,
                         "Rating: " + this.state.hop.rating,
                         "Ranking: " + this.state.hop.ranking,
+                        this.ratingChange(this.state.hop.delta),
                       ]}
                       renderItem={(item) => <List.Item>{item}</List.Item>}
                     />

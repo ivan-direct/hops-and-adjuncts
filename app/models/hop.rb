@@ -30,6 +30,13 @@ class Hop < ApplicationRecord
     beers.order(checkins: :desc).limit(10)
   end
 
+  # change in ranking (1 is highest rank) #
+  def delta
+    return 0 if previous_ranking.nil? || ranking.nil?
+
+    previous_ranking - ranking
+  end
+
   def find_beers
     # #this will be the calculation for a hops rating #
     rankings = []

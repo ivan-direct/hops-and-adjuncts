@@ -6,7 +6,7 @@ RSpec.describe 'Api::V1::Hops', type: :request do
   describe 'GET /hops' do
     before do
       create(:hop, id: 2, name: 'Citra', rating: '4.25', ranking: '1')
-      create(:hop, id: 1, name: 'Simcoe', rating: '4.0', ranking: '2')
+      create(:hop, id: 1, name: 'Simcoe', rating: '4.000001', ranking: '2')
     end
 
     it 'returns an array hop hashes ordered by rank' do
@@ -17,7 +17,9 @@ RSpec.describe 'Api::V1::Hops', type: :request do
       simcoe_hop = body.last.fetch('hop')
 
       expect(citra_hop.fetch('name')).to eq('Citra')
+      expect(citra_hop.fetch('common_pairings')).to eq([])
       expect(simcoe_hop.fetch('name')).to eq('Simcoe')
+      expect(simcoe_hop.fetch('rating')).to eq(4.0)
     end
   end
 
@@ -31,6 +33,7 @@ RSpec.describe 'Api::V1::Hops', type: :request do
 
       citra_hop = JSON.parse(response.body).fetch('hop')
       expect(citra_hop.fetch('name')).to eq('Citra')
+      expect(citra_hop.fetch('delta')).to eq(0)
     end
   end
 
