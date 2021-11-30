@@ -78,8 +78,7 @@ RSpec.describe Hop, type: :model do
       h1 = create(:hop, ranking: 1, previous_ranking: 2)
       h2 = create(:hop, ranking: 2, previous_ranking: 1)
 
-      expect(Hop.popular).to eq([h1,h2])
-    
+      expect(Hop.popular).to eq([h1, h2])
     end
 
     it 'returns the limit (3) of hops' do
@@ -88,7 +87,7 @@ RSpec.describe Hop, type: :model do
       h3 = create(:hop, ranking: 4, previous_ranking: 4) #  0
       h4 = create(:hop, ranking: 3, previous_ranking: 1) # -2
 
-      expect(Hop.popular).to eq([h1,h2,h3])
+      expect(Hop.popular).to eq([h1, h2, h3])
     end
   end
 

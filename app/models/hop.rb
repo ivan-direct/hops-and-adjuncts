@@ -46,7 +46,7 @@ class Hop < ApplicationRecord
   def self.popular
     hops = where('ranking is not null and previous_ranking is not null').sort_by do |hop|
       hop.previous_ranking - hop.ranking
-    end.reverse #sorting low-high for some reason
+    end.reverse # sorting low-high for some reason
     hops.size >= 3 ? hops[0..2] : hops
   end
 
