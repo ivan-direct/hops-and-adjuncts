@@ -13,7 +13,8 @@ class BeerCard extends Component {
         key={this.beer.id}
         title={this.beer.name}
         bordered={true}
-        style={{ width: "65%", marginBottom: "16px" }}
+        type="inner"
+        style={{ width: "100%", margin: "8px" }}
       >
         <p>Rating: {this.beer.rating}</p>
         <p>Checkins: {this.beer.checkins}</p>

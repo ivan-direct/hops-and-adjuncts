@@ -1,4 +1,4 @@
-import { Layout, Menu, Breadcrumb, Row, Col } from "antd";
+import { Layout, Menu, Breadcrumb, Row, Col, List } from "antd";
 
 const { Header, Content, Footer } = Layout;
 
@@ -13,10 +13,21 @@ class Hop extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hop: { id: null, name: null, rating: null, ranking: null, beers: [] },
+      hop: {
+        key: null,
+        id: null,
+        name: null,
+        rating: null,
+        ranking: null,
+        beers: [],
+        common_pairings: [],
+      },
     };
     this.params = props.params;
     this.url = "/api/v1/hops/" + this.params.id;
+    // TODO replace me!
+    this.description =
+      "American floral hop released in 1998. A cross between Saaz and Mount Hood in character but easier to grow.";
   }
 
   loadHop = () => {
@@ -32,8 +43,10 @@ class Hop extends Component {
           rating: hop.rating,
           ranking: hop.ranking,
           beers: hop.beers,
+          common_pairings: hop.common_pairings,
         };
         this.setState({ hop: newEl });
+        document.title = newEl.name;
       })
       .catch(function (error) {
         console.log(error);
@@ -69,15 +82,38 @@ class Hop extends Component {
           <Breadcrumb style={{ margin: "40px 0" }} />
           <div className="site-layout-content">
             <Row align="top">
-              <Col flex={3}>
+              <Col flex={3} style={{ width: "50%", marginRight: "16px" }}>
                 <Row>
                   <Col span={24}>
-                    <h1>{this.state.hop.name}</h1>
-                    <p>Rating: {this.state.hop.rating}</p>
-                    <p>Ranking: {this.state.hop.ranking}</p>
+                    <List
+                      size="small"
+                      style={{ width: "85%" }}
+                      header={<h1>About</h1>}
+                      bordered
+                      dataSource={[
+                        "Description: " + this.description,
+                        "Rating: " + this.state.hop.rating,
+                        "Ranking: " + this.state.hop.ranking,
+                      ]}
+                      renderItem={(item) => <List.Item>{item}</List.Item>}
+                    />
                   </Col>
                 </Row>
-                <Row style={{ paddingTop: "24px" }}>
+                <Row style={{ padding: "24px 0px" }}>
+                  <Col span={24}>
+                    <List
+                      size="small"
+                      style={{ width: "85%" }}
+                      header={<h1>Common Hop Pairings</h1>}
+                      bordered
+                      dataSource={this.state.hop.common_pairings}
+                      renderItem={(item) => <List.Item>{item}</List.Item>}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+              <Col flex={2}>
+                {/* <Row>
                   <Col span={24}>
                     <h1>Bells & Whistles Widget</h1>
                     <div>Graph</div>
@@ -87,25 +123,20 @@ class Hop extends Component {
                       External Links to Wikipedia other sources of information
                     </div>
                   </Col>
-                </Row>
-              </Col>
-              <Col flex={2}>
+                </Row> */}
                 <Row>
                   <Col span={24}>
-                    <h1>Common Hop Pairings</h1>
-                    <div>Hop A</div>
-                    <div>...</div>
-                    <div>Hop Z</div>
-                  </Col>
-                </Row>
-                <Row style={{ paddingTop: "16px" }}>
-                  <Col span={24}>
-                    <h1>Beers Containing {this.state.hop.name} Hops</h1>
-                    <div>
-                      {this.state.hop.beers.map((beer) => {
-                        return <BeerCard beer={beer} key={beer.id} />;
-                      })}
-                    </div>
+                    <List
+                      size="medium"
+                      header={<h1>{this.state.hop.name} Beers</h1>}
+                      bordered
+                      dataSource={this.state.hop.beers}
+                      renderItem={(item) => (
+                        <List.Item>
+                          <BeerCard beer={item} key={item.id} />
+                        </List.Item>
+                      )}
+                    />
                   </Col>
                 </Row>
               </Col>

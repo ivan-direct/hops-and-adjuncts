@@ -20,6 +20,16 @@ class Hop < ApplicationRecord
     rating.round(2)
   end
 
+  def common_pairings
+    sibling_hops = popular_beers.map { |beer| beer.hops }.flatten.uniq - [self]
+    sibling_hops.map(&:name).sort
+  end
+
+  # top 10 based on number of checkins
+  def popular_beers
+    beers.order(checkins: :desc).limit(10)
+  end
+
   def find_beers
     # #this will be the calculation for a hops rating #
     rankings = []

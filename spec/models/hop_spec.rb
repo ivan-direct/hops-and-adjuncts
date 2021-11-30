@@ -69,6 +69,49 @@ RSpec.describe Hop, type: :model do
     end
   end
 
+  describe '#common_pairings' do
+    context '2 common pairings' do
+      before do
+        beers = [juicy_bits, citra_xx_juicy_bits]
+        hop.beers << beers
+        mosaic = create(:mosaic)
+        mosaic.beers << beers
+        eldorado = create(:eldorado)
+        eldorado.beers << beers
+      end
+
+      it 'returns names of hops paired in other beers' do
+        expect(hop.common_pairings).to eq(%w[Eldorado Mosaic])
+      end
+    end
+
+    context 'no pairings' do
+      it 'returns a blank array' do
+        expect(hop.common_pairings).to eq([])
+      end
+    end
+  end
+
+  describe '#popular_beers' do
+    context 'more than 10 beers' do
+      before do
+        # create one over the limit of 10
+        11.times do |i|
+          b = create(:beer, checkins: i * 10)
+          hop.beers << b
+        end
+        # this beer should be first if sorted properly
+        b = Beer.first
+        b.update(checkins: 50_000, name: 'First')
+      end
+
+      it 'returns 10 beers with the highest checkins' do
+        expect(hop.popular_beers.size).to eq(10)
+        expect(hop.popular_beers.first).to eq(Beer.find_by_name('First'))
+      end
+    end
+  end
+
   describe 'self#popular' do
     it 'handles null attributes' do
       expect(Hop.popular).to eq([])

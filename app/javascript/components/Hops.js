@@ -68,6 +68,7 @@ class Hops extends Component {
 
   componentDidMount() {
     this.loadHops("");
+    document.title = "Hops";
   }
 
   render() {
