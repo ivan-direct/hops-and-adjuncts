@@ -14,6 +14,8 @@ module Api
                   Hop.order(rating: :desc)
                 end
         render 'api/v1/hops/index', formats: :json
+      rescue StandardError => e
+        render_system_error e.message
       end
 
       # GET /hops/1 or /hops/1.json
@@ -24,13 +26,19 @@ module Api
       # GET /hops/featured or /hops/featured.json
       def featured
         @hop = Hop.where(featured: true).sample
-        render 'api/v1/hops/show', formats: :json
+        if @hop.present?
+          render 'api/v1/hops/show', formats: :json
+        else
+          render_not_found_error "Couldn't find Featured Hop"
+        end
       end
 
       # GET /hops/popular or /hops/popular.json
       def popular
         @hops = Hop.popular
         render 'api/v1/hops/index', formats: :json
+      rescue StandardError => e
+        render_system_error e.message
       end
 
       private
@@ -38,6 +46,8 @@ module Api
       # Use callbacks to share common setup or constraints between actions.
       def set_hop
         @hop = Hop.find(hop_params[:id])
+      rescue StandardError => e
+        render_system_error e.message
       end
 
       # Only allow a list of trusted parameters through.
