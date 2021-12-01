@@ -42,26 +42,22 @@ class Hops extends Component {
 
   loadHops = (q) => {
     const url = "api/v1/hops?query=" + q;
-    getRequest(url)
-      .then((response) => {
-        const { data } = response;
-        data.map((el) => {
-          const newEl = {
-            key: el.hop.id,
-            id: el.hop.id,
-            name: el.hop.name,
-            rating: el.hop.rating,
-            ranking: el.hop.ranking,
-            beers: el.hop.beers,
-          };
-          this.setState((prevState) => ({
-            hops: [...prevState.hops, newEl],
-          }));
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
+    getRequest(url).then((response) => {
+      const { data } = response;
+      data.map((el) => {
+        const newEl = {
+          key: el.hop.id,
+          id: el.hop.id,
+          name: el.hop.name,
+          rating: el.hop.rating,
+          ranking: el.hop.ranking,
+          beers: el.hop.beers,
+        };
+        this.setState((prevState) => ({
+          hops: [...prevState.hops, newEl],
+        }));
       });
+    });
   };
 
   componentDidMount() {

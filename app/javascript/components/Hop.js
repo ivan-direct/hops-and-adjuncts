@@ -40,40 +40,40 @@ class Hop extends Component {
   }
 
   loadHop = () => {
-    getRequest(this.url)
-      .then((response) => {
-        const { data } = response;
-        // TODO how to handle error response for full page???
-        const { hop } = data;
-        const newEl = {
-          key: hop.id,
-          id: hop.id,
-          name: hop.name,
-          rating: hop.rating,
-          ranking: hop.ranking,
-          beers: hop.beers,
-          common_pairings: hop.common_pairings,
-          delta: hop.delta,
-        };
-        this.setState({ hop: newEl });
-        document.title = newEl.name;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    getRequest(this.url).then((response) => {
+      const { data } = response;
+      // TODO how to handle error response for full page???
+      const { hop } = data;
+      const newEl = {
+        key: hop.id,
+        id: hop.id,
+        name: hop.name,
+        rating: hop.rating,
+        ranking: hop.ranking,
+        beers: hop.beers,
+        common_pairings: hop.common_pairings,
+        delta: hop.delta,
+      };
+      this.setState({ hop: newEl });
+      document.title = newEl.name;
+    });
   };
 
   ratingChange(delta) {
     if (delta > 0) {
       return (
         <div>
-          Ranking Change: <UpCircleFilled style={{ color: green[4] }} /> {delta}
+          Ranking Change:{" "}
+          <UpCircleFilled data-testid="up-icon" style={{ color: green[4] }} />{" "}
+          {delta}
         </div>
       );
     } else if (delta < 0) {
       return (
         <div>
-          Ranking Change: <DownCircleFilled style={{ color: red[4] }} /> {delta}
+          Ranking Change:{" "}
+          <DownCircleFilled data-testid="down-icon" style={{ color: red[4] }} />{" "}
+          {delta}
         </div>
       );
     } else {
