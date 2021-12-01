@@ -39,28 +39,6 @@ class Hop < ApplicationRecord
     previous_ranking - ranking
   end
 
-  def find_beers
-    # #this will be the calculation for a hops rating #
-    rankings = []
-    # Hop.all.each do |hop|
-    # TODO: hit Untappd API using custom query
-    # response = API::GetBeers(hop.name)
-    # beers = response.beers.map do |res_beer|
-    # TODO: find/create beer record
-    # Beer.find_or_create_by(name: res_beer.name)
-    # end
-    # rating = beers.map(&:rating).sum / beers.size
-    # rankings << OpenStruct.new(hop_id: hop.id, rating: rating)
-    # end
-    ## reverse low high sorting
-    # rankings.sort_by!(&:rating).reverse!
-    # rankings.each_index do |i|
-    #   ranking = rankings[i]
-    #   hop = Hop.find(ranking.hop_id)
-    #   hop.update(ranking: i + 1) # top rank is one
-    # end
-  end
-
   # calulate the deltas and return the three highest ranking risers
   def self.popular
     hops = where('ranking is not null and previous_ranking is not null').sort_by do |hop|

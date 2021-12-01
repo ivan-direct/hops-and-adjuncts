@@ -4,22 +4,42 @@ require 'rails_helper'
 
 RSpec.describe 'Api::V1::Hops', type: :request do
   describe 'GET /hops' do
-    before do
-      create(:hop, id: 2, name: 'Citra', rating: '4.25', ranking: '1')
-      create(:hop, id: 1, name: 'Simcoe', rating: '4.000001', ranking: '2')
+    context 'default' do
+      before do
+        create(:hop, id: 2, name: 'Citra', rating: '4.25', ranking: '1')
+        create(:hop, id: 1, name: 'Simcoe', rating: '4.000001', ranking: '2')
+      end
+
+      it 'returns an array hop hashes ordered by rank' do
+        get '/api/v1/hops', params: {}
+
+        body = JSON.parse(response.body)
+        citra_hop = body.first.fetch('hop')
+        simcoe_hop = body.last.fetch('hop')
+
+        expect(citra_hop.fetch('name')).to eq('Citra')
+        expect(citra_hop.fetch('common_pairings')).to eq([])
+        expect(simcoe_hop.fetch('name')).to eq('Simcoe')
+        expect(simcoe_hop.fetch('rating')).to eq(4.0)
+      end
     end
 
-    it 'returns an array hop hashes ordered by rank' do
-      get '/api/v1/hops', params: {}
+    context 'query' do
+      before do
+        create(:hop, id: 2, name: 'Citra', rating: '4.25', ranking: '1')
+        create(:hop, id: 1, name: 'Simcoe', rating: '4.000001', ranking: '2')
+        create(:hop, id: 5, name: 'Citra Incognito', rating: '3.4', ranking: '66')
+      end
 
-      body = JSON.parse(response.body)
-      citra_hop = body.first.fetch('hop')
-      simcoe_hop = body.last.fetch('hop')
+      it 'returns an array hop hashes ordered by rank' do
+        get '/api/v1/hops', params: {query: 'Citra'}
 
-      expect(citra_hop.fetch('name')).to eq('Citra')
-      expect(citra_hop.fetch('common_pairings')).to eq([])
-      expect(simcoe_hop.fetch('name')).to eq('Simcoe')
-      expect(simcoe_hop.fetch('rating')).to eq(4.0)
+        body = JSON.parse(response.body)
+        expect(body.size).to eq(1)
+        citra_hop = body.first.fetch('hop')
+
+        expect(citra_hop.fetch('name')).to eq('Citra')
+      end
     end
   end
 
