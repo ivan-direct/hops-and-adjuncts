@@ -1,8 +1,8 @@
-import React from "react";
+import "@testing-library/jest-dom";
+import { render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { render, waitFor, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import React from "react";
 import Hops from "../components/Hops";
 import "./Hops.css";
 import TestRouter from "./TestRouter";

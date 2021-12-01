@@ -1,13 +1,13 @@
+import "antd/dist/antd.css";
 import React, { Component } from "react";
-import Hops from "../components/Hops";
-import Hop from "../components/Hop";
 import {
   BrowserRouter as Router,
-  Routes,
   Route,
+  Routes,
   useParams,
 } from "react-router-dom";
-import "antd/dist/antd.css";
+import Hop from "../components/Hop";
+import Hops from "../components/Hops";
 
 class App extends Component {
   render() {

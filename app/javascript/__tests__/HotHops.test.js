@@ -1,10 +1,9 @@
-import React from "react";
+import "@testing-library/jest-dom";
+import { render, screen, waitFor } from "@testing-library/react";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
-import { render, waitFor, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import React from "react";
 import HotHops from "../components/HotHops";
-// import "./Hops.css";
 import TestRouter from "./TestRouter";
 
 window.matchMedia =
@@ -46,4 +45,19 @@ test("loads and displays greeting", async () => {
   await waitFor(() => screen.getByText("Mosaic"));
   expect(screen.getByText("Citra")).toBeInTheDocument();
   expect(screen.getByText("Beers: Juicy Bits")).toBeInTheDocument();
+});
+
+test("handles server error", async () => {
+  server.use(
+    rest.get("http://localhost/api/v1/hops/popular", (req, res, ctx) => {
+      return res(
+        ctx.json({ code: 500, error_message: "Something Went Wrong!" })
+      );
+    })
+  );
+
+  render(<TestRouter inner_component={<HotHops />} />);
+
+  await waitFor(() => screen.getByText("Error"));
+  expect(screen.getByText("Error")).toBeInTheDocument();
 });

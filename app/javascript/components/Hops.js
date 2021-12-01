@@ -1,16 +1,15 @@
-import { Layout, Menu, Breadcrumb, Row, Col } from "antd";
-
-const { Header, Content, Footer } = Layout;
-
+import { green } from "@ant-design/colors";
+import { Breadcrumb, Col, Layout, Menu, Row } from "antd";
+import Search from "antd/lib/input/Search";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import "./Hops.css";
-import { green } from "@ant-design/colors";
-import Search from "antd/lib/input/Search";
-import HopCard from "./HopCard";
 import FeaturedHop from "./FeaturedHop";
+import HopCard from "./HopCard";
+import "./Hops.css";
 import HotHops from "./HotHops";
+import { getRequest } from "./NetworkHelper";
+
+const { Header, Content, Footer } = Layout;
 
 class Hops extends Component {
   constructor(props) {
@@ -43,8 +42,7 @@ class Hops extends Component {
 
   loadHops = (q) => {
     const url = "api/v1/hops?query=" + q;
-    axios
-      .get(url)
+    getRequest(url)
       .then((response) => {
         const { data } = response;
         data.map((el) => {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
+import ErrorCard from "./ErrorCard";
 import HopCard from "./HopCard";
+import { getRequest } from "./NetworkHelper";
 
 class HotHops extends Component {
   constructor(props) {
@@ -12,10 +13,9 @@ class HotHops extends Component {
 
   loadHops = () => {
     const url = "api/v1/hops/popular";
-    axios
-      .get(url)
-      .then((response) => {
-        const { data } = response;
+    getRequest(url).then((response) => {
+      const { data } = response;
+      if (data.error_message === undefined) {
         data.map((el) => {
           const newEl = {
             key: el.hop.id,
@@ -29,10 +29,8 @@ class HotHops extends Component {
             hops: [...prevState.hops, newEl],
           }));
         });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      }
+    });
   };
 
   componentDidMount() {
@@ -40,11 +38,14 @@ class HotHops extends Component {
   }
 
   render() {
+    const hopsPresent = this.state.hops.length > 0;
     return (
       <div>
-        {this.state.hops.map((hop) => {
-          return <HopCard hop={hop} key={"hot-" + hop.id} />;
-        })}
+        {hopsPresent &&
+          this.state.hops.map((hop) => {
+            return <HopCard hop={hop} key={"hot-" + hop.id} />;
+          })}
+        {!hopsPresent && <ErrorCard />}
       </div>
     );
   }

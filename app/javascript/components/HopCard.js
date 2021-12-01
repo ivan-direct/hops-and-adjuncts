@@ -1,6 +1,6 @@
+import { Card } from "antd";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Card } from "antd";
 
 class HopCard extends Component {
   constructor(props) {
@@ -20,12 +20,13 @@ class HopCard extends Component {
         <p>Rating: {this.hop.rating}</p>
         <p>Ranking: {this.hop.ranking}</p>
         <p>
-          {this.hop.beers && "Beers: " +
-            this.hop.beers
-              .map(function (beer) {
-                return beer.name;
-              })
-              .join(", ")}
+          {this.hop.beers &&
+            "Beers: " +
+              this.hop.beers
+                .map(function (beer) {
+                  return beer.name;
+                })
+                .join(", ")}
         </p>
       </Card>
     );

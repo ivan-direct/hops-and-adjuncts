@@ -1,8 +1,8 @@
-import React from "react";
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
+import React from "react";
 import BeerCard from "../components/BeerCard";
-import TestRouter from "./TestRouter";
+// import TestRouter from "./TestRouter";
 
 const beer = {
   name: "Juicy Bits",

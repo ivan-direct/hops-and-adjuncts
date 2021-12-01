@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import axios from "axios";
 import { Card } from "antd";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import ErrorCard from "./ErrorCard";
+import { getRequest } from "./NetworkHelper";
 
 class FeaturedHop extends Component {
   constructor(props) {
@@ -19,10 +20,9 @@ class FeaturedHop extends Component {
 
   loadHops = () => {
     const url = "api/v1/hops/featured";
-    axios
-      .get(url)
-      .then((response) => {
-        const { data } = response;
+    getRequest(url).then((response) => {
+      const { data } = response;
+      if (data.error_message === undefined) {
         const { hop } = data;
         const newEl = {
           key: hop.id,
@@ -33,10 +33,8 @@ class FeaturedHop extends Component {
           beers: hop.beers,
         };
         this.setState({ hop: newEl });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      }
+    });
   };
 
   componentDidMount() {
@@ -44,27 +42,35 @@ class FeaturedHop extends Component {
   }
 
   render() {
+    const hopPresent = this.state.hop.id != null;
     return (
-      <Card
-        key={this.state.hop.id}
-        title={
-          <Link to={"/hops/" + this.state.hop.id}>{this.state.hop.name}</Link>
-        }
-        bordered={true}
-        style={{ width: "65%", marginBottom: "16px" }}
-      >
-        <p>Rating: {this.state.hop.rating}</p>
-        <p>Ranking: {this.state.hop.ranking}</p>
-        <p>
-          {this.state.hop.beers &&
-            "Beers: " +
-              this.state.hop.beers
-                .map(function (beer) {
-                  return beer.name;
-                })
-                .join(", ")}
-        </p>
-      </Card>
+      <>
+        {hopPresent && (
+          <Card
+            key={this.state.hop.id}
+            title={
+              <Link to={"/hops/" + this.state.hop.id}>
+                {this.state.hop.name}
+              </Link>
+            }
+            bordered={true}
+            style={{ width: "65%", marginBottom: "16px" }}
+          >
+            <p>Rating: {this.state.hop.rating}</p>
+            <p>Ranking: {this.state.hop.ranking}</p>
+            <p>
+              {this.state.hop.beers &&
+                "Beers: " +
+                  this.state.hop.beers
+                    .map(function (beer) {
+                      return beer.name;
+                    })
+                    .join(", ")}
+            </p>
+          </Card>
+        )}
+        {!hopPresent && <ErrorCard />}
+      </>
     );
   }
 }

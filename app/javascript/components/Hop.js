@@ -1,14 +1,13 @@
-import { Layout, Menu, Breadcrumb, Row, Col, List } from "antd";
-import { UpCircleFilled, DownCircleFilled } from "@ant-design/icons";
-
-const { Header, Content, Footer } = Layout;
-
+import { green, red } from "@ant-design/colors";
+import { DownCircleFilled, UpCircleFilled } from "@ant-design/icons";
+import { Breadcrumb, Col, Layout, List, Menu, Row } from "antd";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-import "./Hops.css";
-import { green, red } from "@ant-design/colors";
 import BeerCard from "./BeerCard";
+import "./Hops.css";
+import { getRequest } from "./NetworkHelper";
+
+const { Header, Content, Footer } = Layout;
 
 class Hop extends Component {
   constructor(props) {
@@ -41,10 +40,10 @@ class Hop extends Component {
   }
 
   loadHop = () => {
-    axios
-      .get(this.url)
+    getRequest(this.url)
       .then((response) => {
         const { data } = response;
+        // TODO how to handle error response for full page???
         const { hop } = data;
         const newEl = {
           key: hop.id,
