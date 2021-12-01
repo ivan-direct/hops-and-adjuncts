@@ -5,7 +5,9 @@ json.hop do
   json.name hop.name
   json.rating hop.formatted_rating
   json.ranking hop.ranking
-  json.beers hop.beers, :id, :name, :rating, :checkins, :style
+  json.beers do
+    json.array! hop.beers, partial: 'api/v1/hops/beer', as: :beer
+  end
   json.common_pairings hop.common_pairings
   json.delta hop.delta
 end

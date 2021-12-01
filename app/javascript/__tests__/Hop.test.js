@@ -25,7 +25,14 @@ const server = setupServer(
           id: 6,
           rating: 4,
           ranking: 1,
-          beers: [{ name: "Juicy Bits", id: 22, checkins: 999 }],
+          beers: [
+            {
+              name: "Juicy Bits",
+              id: 22,
+              checkins: 999,
+              brewery: { name: "WeldWerks", city: "Greeley", state: "CO" },
+            },
+          ],
           common_pairings: ["Mosaic", "Eldorado"],
           delta: -2,
         },
@@ -39,7 +46,7 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 test("loads and displays greeting", async () => {
-  render(<TestRouter inner_component={<Hop params={{id: 6}}/>} />);
+  render(<TestRouter inner_component={<Hop params={{ id: 6 }} />} />);
 
   await waitFor(() => screen.getByText("Citra Beers"));
   expect(screen.getByText("Eldorado")).toBeInTheDocument();
