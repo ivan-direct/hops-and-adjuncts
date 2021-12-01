@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Store Hop data derived manually and through APIs and/or webscraping #
+# Used by: /api/v1/hops endpoints # # # # # # # # # # # # # # # # # # #
 class Hop < ApplicationRecord
   has_and_belongs_to_many :beers
 
@@ -21,7 +23,7 @@ class Hop < ApplicationRecord
   end
 
   def common_pairings
-    sibling_hops = popular_beers.map { |beer| beer.hops }.flatten.uniq - [self]
+    sibling_hops = popular_beers.map(&:hops).flatten.uniq - [self]
     sibling_hops.map(&:name).sort
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_30_223043) do
+ActiveRecord::Schema.define(version: 2021_12_01_010051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2021_11_30_223043) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "brewery_id"
     t.index ["brewery_id"], name: "index_beers_on_brewery_id"
+    t.index ["name"], name: "index_beers_on_name", unique: true
   end
 
   create_table "beers_hops", id: false, force: :cascade do |t|
@@ -39,6 +40,7 @@ ActiveRecord::Schema.define(version: 2021_11_30_223043) do
     t.string "state"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_breweries_on_name", unique: true
   end
 
   create_table "hops", force: :cascade do |t|
@@ -49,6 +51,7 @@ ActiveRecord::Schema.define(version: 2021_11_30_223043) do
     t.integer "ranking"
     t.boolean "featured", default: false
     t.integer "previous_ranking"
+    t.index ["name"], name: "index_hops_on_name", unique: true
   end
 
 end
