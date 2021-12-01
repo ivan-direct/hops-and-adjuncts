@@ -33,6 +33,37 @@ const server = setupServer(
         { hop: { name: "Mosaic", id: 5, rating: 4, ranking: 2, beers: [] } },
       ])
     );
+  }),
+  rest.get("http://localhost/api/v1/hops/featured", (req, res, ctx) => {
+    return res(
+      ctx.json({
+        hop: {
+          name: "Azacca",
+          id: 16,
+          rating: 4.04,
+          ranking: 22,
+          beers: [{ name: "Haze & Juice", id: 1 }],
+        },
+      })
+    );
+  }),
+  rest.get("http://localhost/api/v1/hops/popular", (req, res, ctx) => {
+    return res(
+      ctx.json([
+        {
+          hop: {
+            name: "Eclipse",
+            id: 7,
+            rating: 4,
+            ranking: 18,
+            beers: [{ name: "SMASH Eclipse", id: 20 }],
+          },
+        },
+        {
+          hop: { name: "Motueka", id: 15, rating: 4.5, ranking: 20, beers: [] },
+        },
+      ])
+    );
   })
 );
 
@@ -44,6 +75,11 @@ test("loads and displays greeting", async () => {
   render(<TestRouter inner_component={<Hops />} />);
 
   await waitFor(() => screen.getByText("Mosaic"));
+  await waitFor(() => screen.getByText("Azacca"));
+  await waitFor(() => screen.getByText("Eclipse"));
+
   expect(screen.getByText("Citra")).toBeInTheDocument();
+  expect(screen.getByText("Motueka")).toBeInTheDocument();
   expect(screen.getByText("Beers: Juicy Bits")).toBeInTheDocument();
+  expect(screen.getByText("Beers: SMASH Eclipse")).toBeInTheDocument();
 });
