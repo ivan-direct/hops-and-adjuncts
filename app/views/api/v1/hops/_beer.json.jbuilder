@@ -4,4 +4,13 @@ json.id beer.id
 json.name beer.name
 json.checkins beer.checkins
 json.style beer.style
-json.brewery beer.brewery, :id, :name, :city, :state if beer.brewery
+if beer.brewery
+  json.brewery beer.brewery, :id, :name, :city, :state
+else
+  json.brewery do
+    json.id nil
+    json.name nil
+    json.city nil
+    json.state nil
+  end
+end

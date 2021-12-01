@@ -3,10 +3,11 @@
 FactoryBot.define do
   factory :brewery do
     sequence(:name) { |n| "Brewery #{n}" }
+    city { 'Denver' }
     state { 'CO' }
 
     factory :weld_werks do
-      name { 'Weld Werks' }
+      name { 'WeldWerks' }
       city { 'Greeley' }
     end
 

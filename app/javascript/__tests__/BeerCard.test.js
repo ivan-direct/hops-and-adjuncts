@@ -10,6 +10,7 @@ const beer = {
   rating: 4.2,
   checkins: 53_700,
   style: "ipa",
+  brewery: { name: "WeldWerks", city: "Greeley", state: "CO" },
 };
 
 test("loads and displays Beer Card Component", () => {
