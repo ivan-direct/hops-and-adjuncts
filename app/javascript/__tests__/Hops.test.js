@@ -1,5 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { rest } from "msw";
 import { setupServer } from "msw/node";
 import React from "react";
@@ -82,4 +83,19 @@ test("loads and displays greeting", async () => {
   expect(screen.getByText("Motueka")).toBeInTheDocument();
   expect(screen.getByText("Beers: Juicy Bits")).toBeInTheDocument();
   expect(screen.getByText("Beers: SMASH Eclipse")).toBeInTheDocument();
+});
+
+test("search submit", async () => {
+  render(<TestRouter inner_component={<Hops />} />);
+
+  await waitFor(() => screen.getByText("Citra"));
+
+  const search = screen.getByRole("button", { name: "search" });
+  userEvent.type(search, "Citra{enter}");
+
+  // TODO the state is not being saved so it is not submitting "Citra".
+  // await waitFor(() => screen.getByText("🔎 Search Result - Citra"));
+  
+  await waitFor(() => screen.getByText("Citra"));
+  expect(screen.getByText("Beers: Juicy Bits")).toBeInTheDocument();
 });
