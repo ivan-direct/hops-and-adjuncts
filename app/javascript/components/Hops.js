@@ -27,7 +27,6 @@ class Hops extends Component {
       : this.defaultHopListTitle;
   }
 
-  // TODO Begin Test coverage needed //
   handleChange(e) {
     this.setState({ hopName: e.target.value });
   }
@@ -41,7 +40,6 @@ class Hops extends Component {
       this.hopListTitle = "🔎 Search Result - " + this.state.hopName;
     }
   }
-  // TODO End Test coverage needed //
 
   loadHops = (q) => {
     const url = "api/v1/hops?query=" + q;
@@ -64,7 +62,6 @@ class Hops extends Component {
         });
       })
       .catch(function (error) {
-        // TODO Test coverage needed //
         console.log(error);
       });
   };
