@@ -60,12 +60,14 @@ class Hop extends Component {
         document.title = newEl.name;
       })
       .catch(function (error) {
+        // TODO Test coverage needed //
         console.log(error);
       });
   };
 
   ratingChange(delta) {
     if (delta > 0) {
+      // TODO Test coverage needed //
       return (
         <div>
           Ranking Change: <UpCircleFilled style={{ color: green[4] }} /> {delta}

@@ -31,6 +31,7 @@ class HotHops extends Component {
         });
       })
       .catch(function (error) {
+        // TODO Test coverage needed //
         console.log(error);
       });
   };

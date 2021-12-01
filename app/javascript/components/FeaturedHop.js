@@ -35,6 +35,7 @@ class FeaturedHop extends Component {
         this.setState({ hop: newEl });
       })
       .catch(function (error) {
+        // TODO Test coverage needed //
         console.log(error);
       });
   };
