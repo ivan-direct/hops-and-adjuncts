@@ -20,7 +20,15 @@ class Hop extends Component {
         name: null,
         rating: null,
         ranking: null,
-        beers: [],
+        beers: [
+          {
+            id: null,
+            name: null,
+            style: null,
+            checkins: null,
+            brewery: { name: null, city: null, state: null },
+          },
+        ],
         common_pairings: [],
         delta: null,
       },

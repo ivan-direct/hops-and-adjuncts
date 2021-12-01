@@ -29,7 +29,7 @@ FactoryBot.define do
     end
 
     factory :cosmic_torero do
-      name { 'Comic Torero' }
+      name { 'Cosmic Torero' }
       checkins { 1_900 }
       rating { 4.18 }
       style { 'ipa' }
