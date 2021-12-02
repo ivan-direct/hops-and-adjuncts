@@ -1,12 +1,13 @@
 import { green, red } from "@ant-design/colors";
 import { DownCircleFilled, UpCircleFilled } from "@ant-design/icons";
 import { Breadcrumb, Col, Layout, List, Menu, Row } from "antd";
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import hopsImage from "../images/hops.png";
 import BeerCard from "./BeerCard";
 import "./Hops.css";
 import { getRequest } from "./NetworkHelper";
-import hopsImage from "../images/hops.png";
 
 const { Header, Content, Footer } = Layout;
 
@@ -36,7 +37,8 @@ class Hop extends Component {
     this.params = props.params;
     this.url = `/api/v1/hops/${this.params.id}`;
     // TODO replace me!
-    this.description = "American floral hop released in 1998. A cross between Saaz and Mount Hood in character but easier to grow.";
+    this.description =
+      "American floral hop released in 1998. A cross between Saaz and Mount Hood in character but easier to grow.";
   }
 
   componentDidMount() {
@@ -195,5 +197,13 @@ class Hop extends Component {
     );
   }
 }
+
+Hop.displayName = "Hop";
+
+Hop.propTypes = {
+  params: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 export default Hop;
