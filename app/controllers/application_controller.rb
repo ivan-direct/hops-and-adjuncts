@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# global controller methods are issued here
 class ApplicationController < ActionController::Base
 
   def render_not_found_error error_message

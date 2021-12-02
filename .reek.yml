@@ -1,0 +1,14 @@
+detectors:
+  # You can disable smells completely
+  UncommunicativeVariableName:
+    enabled: false
+
+  UncommunicativeModuleName:
+    accept:
+      - "V1"
+  
+  InstanceVariableAssumption:
+    enabled: false
+
+exclude_paths:
+  - db/migrate

@@ -64,4 +64,12 @@ class Hop < ApplicationRecord
     end
     sort_by_ranking(rankings)
   end
+
+  def self.search(query)
+    if query.present?
+      where(name: query).order(rating: :desc)
+    else
+      order(rating: :desc)
+    end
+  end
 end
