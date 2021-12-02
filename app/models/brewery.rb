@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Beer supplemental class: Brewery Name, City, and State
 class Brewery < ApplicationRecord
   has_many :beers, dependent: :nullify
 
