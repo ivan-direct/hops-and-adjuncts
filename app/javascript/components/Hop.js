@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import BeerCard from "./BeerCard";
 import "./Hops.css";
 import { getRequest } from "./NetworkHelper";
+import hopsImage from "../images/hops.png";
 
 const { Header, Content, Footer } = Layout;
 
@@ -89,11 +90,18 @@ class Hop extends Component {
     return (
       <Layout className="layout" style={{ height: "100%" }}>
         <Header style={{ background: green[2] }}>
-          <div className="logo" />
           <Menu theme="light" mode="horizontal">
             <Menu.Item key="0">
               <Link style={{ fontSize: "21px", fontWeight: "bolder" }} to="/">
-                🍺 Home 🍺
+                <img
+                  src={hopsImage}
+                  alt="H/A Logo"
+                  style={{
+                    paddingBottom: "4px",
+                    width: "31px",
+                    height: "31px",
+                  }}
+                />
               </Link>
             </Menu.Item>
           </Menu>
