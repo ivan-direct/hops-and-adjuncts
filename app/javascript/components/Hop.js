@@ -34,10 +34,13 @@ class Hop extends Component {
       },
     };
     this.params = props.params;
-    this.url = "/api/v1/hops/" + this.params.id;
+    this.url = `/api/v1/hops/${this.params.id}`;
     // TODO replace me!
-    this.description =
-      "American floral hop released in 1998. A cross between Saaz and Mount Hood in character but easier to grow.";
+    this.description = "American floral hop released in 1998. A cross between Saaz and Mount Hood in character but easier to grow.";
+  }
+
+  componentDidMount() {
+    this.loadHop();
   }
 
   loadHop = () => {
@@ -61,32 +64,30 @@ class Hop extends Component {
   };
 
   ratingChange(delta) {
-    if (delta > 0) {
+    this.delta = delta;
+    if (this.delta > 0) {
       return (
         <div>
-          Ranking Change:{" "}
-          <UpCircleFilled data-testid="up-icon" style={{ color: green[4] }} />{" "}
-          {delta}
+          {"Ranking Change: "}
+          <UpCircleFilled data-testid="up-icon" style={{ color: green[4] }} />
+          {` ${this.delta}`}
         </div>
       );
-    } else if (delta < 0) {
-      return (
-        <div>
-          Ranking Change:{" "}
-          <DownCircleFilled data-testid="down-icon" style={{ color: red[4] }} />{" "}
-          {delta}
-        </div>
-      );
-    } else {
-      return <div>No Change</div>;
     }
-  }
-
-  componentDidMount() {
-    this.loadHop();
+    if (this.delta < 0) {
+      return (
+        <div>
+          {"Ranking Change: "}
+          <DownCircleFilled data-testid="down-icon" style={{ color: red[4] }} />
+          {` ${this.delta}`}
+        </div>
+      );
+    }
+    return <div>No Change</div>;
   }
 
   render() {
+    const { hop } = this.state;
     return (
       <Layout className="layout" style={{ height: "100%" }}>
         <Header style={{ background: green[2] }}>
@@ -127,10 +128,10 @@ class Hop extends Component {
                       header={<h1>About</h1>}
                       bordered
                       dataSource={[
-                        "Description: " + this.description,
-                        "Rating: " + this.state.hop.rating,
-                        "Ranking: " + this.state.hop.ranking,
-                        this.ratingChange(this.state.hop.delta),
+                        `Description: ${this.description}`,
+                        `Rating: ${hop.rating}`,
+                        `Ranking: ${hop.ranking}`,
+                        this.ratingChange(hop.delta),
                       ]}
                       renderItem={(item) => <List.Item>{item}</List.Item>}
                     />
@@ -143,7 +144,7 @@ class Hop extends Component {
                       style={{ width: "85%" }}
                       header={<h1>Common Hop Pairings</h1>}
                       bordered
-                      dataSource={this.state.hop.common_pairings}
+                      dataSource={hop.common_pairings}
                       renderItem={(item) => <List.Item>{item}</List.Item>}
                     />
                   </Col>
@@ -165,9 +166,14 @@ class Hop extends Component {
                   <Col span={24}>
                     <List
                       size="medium"
-                      header={<h1>{this.state.hop.name} Beers</h1>}
+                      header={
+                        <h1>
+                          {hop.name}
+                          {" Beers"}
+                        </h1>
+                      }
                       bordered
-                      dataSource={this.state.hop.beers}
+                      dataSource={hop.beers}
                       renderItem={(item) => (
                         <List.Item>
                           <BeerCard beer={item} key={item.id} />
@@ -181,7 +187,9 @@ class Hop extends Component {
           </div>
         </Content>
         <Footer style={{ textAlign: "center", background: green[2] }}>
-          Hops & Adjuncts ©{new Date().getUTCFullYear()} By ivan_direct
+          {"Hops & Adjuncts © "}
+          {new Date().getUTCFullYear()}
+          {" By ivan_direct"}
         </Footer>
       </Layout>
     );
