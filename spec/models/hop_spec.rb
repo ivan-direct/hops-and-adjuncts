@@ -107,7 +107,7 @@ RSpec.describe Hop, type: :model do
 
       it 'returns 10 beers with the highest checkins' do
         expect(hop.popular_beers.size).to eq(10)
-        expect(hop.popular_beers.first).to eq(Beer.find_by_name('First'))
+        expect(hop.popular_beers.first).to eq(Beer.find_by(name: 'First'))
       end
     end
   end

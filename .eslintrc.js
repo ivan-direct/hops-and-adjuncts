@@ -18,12 +18,6 @@ module.exports = {
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
     "operator-linebreak": ["error", "after"],
     quotes: ["error", "double"],
-    "object-curly-newline": [
-      "error",
-      {
-        ImportDeclaration: "never",
-        ExportDeclaration: "never",
-      },
-    ],
+    "object-curly-newline": 0,
   },
 };

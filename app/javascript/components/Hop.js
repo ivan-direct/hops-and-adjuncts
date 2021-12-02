@@ -198,8 +198,6 @@ class Hop extends Component {
   }
 }
 
-Hop.displayName = "Hop";
-
 Hop.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string.isRequired,
