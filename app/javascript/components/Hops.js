@@ -3,6 +3,7 @@ import { Breadcrumb, Col, Layout, Menu, Row } from "antd";
 import Search from "antd/lib/input/Search";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import FeaturedHop from "./FeaturedHop";
 import HopCard from "./HopCard";
 import "./Hops.css";
@@ -27,25 +28,33 @@ class Hops extends Component {
       : this.defaultHopListTitle;
   }
 
+  componentDidMount() {
+    this.loadHops("");
+    document.title = "Hops";
+  }
+
   handleChange(e) {
     this.setState({ hopName: e.target.value });
   }
 
   handleSearch() {
     this.setState({ hops: [] });
+    // eslint-disable-next-line react/destructuring-assignment
     this.loadHops(this.state.hopName);
+    // eslint-disable-next-line react/destructuring-assignment
     if (!this.state.hopName) {
       this.hopListTitle = this.defaultHopListTitle;
     } else {
-      this.hopListTitle = "🔎 Search Result - " + this.state.hopName;
+      // eslint-disable-next-line react/destructuring-assignment
+      this.hopListTitle = `🔎 Search Result - ${this.state.hopName}`;
     }
   }
 
   loadHops = (q) => {
-    const url = "api/v1/hops?query=" + q;
+    const url = `api/v1/hops?query=${q}`;
     getRequest(url).then((response) => {
       const { data } = response;
-      data.map((el) => {
+      data.forEach((el) => {
         const newEl = {
           key: el.hop.id,
           id: el.hop.id,
@@ -61,12 +70,10 @@ class Hops extends Component {
     });
   };
 
-  componentDidMount() {
-    this.loadHops("");
-    document.title = "Hops";
-  }
-
   render() {
+    const { hopName } = this.state;
+    const { hops } = this.state;
+
     return (
       <Layout className="layout" style={{ height: "100%" }}>
         <Header style={{ background: green[2] }}>
@@ -85,7 +92,7 @@ class Hops extends Component {
               </Link>
             </Menu.Item>
             <Search
-              value={this.state.hopName}
+              value={hopName}
               onChange={this.handleChange}
               onSearch={this.handleSearch}
               style={{ width: 200, marginTop: "16px" }}
@@ -107,9 +114,9 @@ class Hops extends Component {
               <Col flex={3}>
                 <h1>{this.hopListTitle}</h1>
                 <div>
-                  {this.state.hops.map((hop) => {
-                    return <HopCard hop={hop} key={hop.id} />;
-                  })}
+                  {hops.map((hop) => (
+                    <HopCard hop={hop} key={hop.id} />
+                  ))}
                 </div>
               </Col>
               <Col flex={2}>
@@ -130,11 +137,21 @@ class Hops extends Component {
           </div>
         </Content>
         <Footer style={{ textAlign: "center", background: green[2] }}>
-          Hops & Adjuncts ©{new Date().getUTCFullYear()} By ivan_direct
+          {"Hops & Adjuncts © "}
+          {new Date().getUTCFullYear()}
+          {" By ivan_direct"}
         </Footer>
       </Layout>
     );
   }
 }
+
+Hops.propTypes = {
+  hopListTitle: PropTypes.string,
+};
+
+Hops.defaultProps = {
+  hopListTitle: "🥇 Top Rated Hops",
+};
 
 export default Hops;

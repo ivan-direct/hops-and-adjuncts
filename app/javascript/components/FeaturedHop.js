@@ -18,6 +18,10 @@ class FeaturedHop extends Component {
     };
   }
 
+  componentDidMount() {
+    this.loadHops();
+  }
+
   loadHops = () => {
     const url = "api/v1/hops/featured";
     getRequest(url).then((response) => {
@@ -37,36 +41,22 @@ class FeaturedHop extends Component {
     });
   };
 
-  componentDidMount() {
-    this.loadHops();
-  }
-
   render() {
-    const hopPresent = this.state.hop.id != null;
+    const { hop } = this.state;
+    const beerNames = hop.beers.map((beer) => beer.name).join(", ");
+    const hopPresent = hop.id != null;
     return (
       <>
         {hopPresent && (
           <Card
-            key={this.state.hop.id}
-            title={
-              <Link to={"/hops/" + this.state.hop.id}>
-                {this.state.hop.name}
-              </Link>
-            }
-            bordered={true}
+            key={hop.id}
+            title={<Link to={`/hops/${hop.id}`}>{hop.name}</Link>}
+            bordered
             style={{ width: "65%", marginBottom: "16px" }}
           >
-            <p>Rating: {this.state.hop.rating}</p>
-            <p>Ranking: {this.state.hop.ranking}</p>
-            <p>
-              {this.state.hop.beers &&
-                "Beers: " +
-                  this.state.hop.beers
-                    .map(function (beer) {
-                      return beer.name;
-                    })
-                    .join(", ")}
-            </p>
+            <p>{`Rating: ${hop.rating}`}</p>
+            <p>{`Ranking: ${hop.ranking}`}</p>
+            <p>{hop.beers && `Beers: ${beerNames}`}</p>
           </Card>
         )}
         {!hopPresent && <ErrorCard />}

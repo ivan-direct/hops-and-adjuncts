@@ -16,7 +16,7 @@ module.exports = {
   rules: {
     "react/jsx-wrap-multilines": 0,
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
-    "operator-linebreak": ["error", "after"],
+    "operator-linebreak": ["error", "after", { overrides: { "?": "before", ":": "before" } }],
     quotes: ["error", "double"],
     "object-curly-newline": 0,
   },
