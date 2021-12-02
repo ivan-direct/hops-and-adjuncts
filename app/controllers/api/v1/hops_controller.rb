@@ -4,15 +4,12 @@ module Api
   module V1
     # The primary backend for the Hops React page
     class HopsController < ApplicationController
-      before_action :set_hop, only: %i[show edit update destroy]
+      before_action :set_hop, only: %i[show]
 
       # GET /hops or /hops.json
       def index
-        @hops = if hop_params[:query].present?
-                  Hop.where(name: hop_params[:query]).order(rating: :desc)
-                else
-                  Hop.order(rating: :desc)
-                end
+        query = hop_params[:query]
+        @hops = Hop.search(query)
         render 'api/v1/hops/index', formats: :json
       rescue StandardError => e
         render_system_error e.message

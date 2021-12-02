@@ -11,12 +11,16 @@ class HotHops extends Component {
     };
   }
 
+  componentDidMount() {
+    this.loadHops();
+  }
+
   loadHops = () => {
     const url = "api/v1/hops/popular";
     getRequest(url).then((response) => {
       const { data } = response;
       if (data.error_message === undefined) {
-        data.map((el) => {
+        data.forEach((el) => {
           const newEl = {
             key: el.hop.id,
             id: el.hop.id,
@@ -33,18 +37,13 @@ class HotHops extends Component {
     });
   };
 
-  componentDidMount() {
-    this.loadHops();
-  }
-
   render() {
-    const hopsPresent = this.state.hops.length > 0;
+    const { hops } = this.state;
+    const hopsPresent = hops.length > 0;
     return (
       <div>
         {hopsPresent &&
-          this.state.hops.map((hop) => {
-            return <HopCard hop={hop} key={"hot-" + hop.id} />;
-          })}
+          hops.map((hop) => <HopCard hop={hop} key={`hot-${hop.id}`} />)}
         {!hopsPresent && <ErrorCard />}
       </div>
     );

@@ -1,15 +1,20 @@
 import "antd/dist/antd.css";
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   useParams,
 } from "react-router-dom";
-import Hop from "../components/Hop";
-import Hops from "../components/Hops";
+import Hop from "./Hop";
+import Hops from "./Hops";
 
-class App extends Component {
+const HopRouteWrapper = function hopWrapper() {
+  const params = useParams();
+  return <Hop params={params} />;
+};
+
+class App extends PureComponent {
   render() {
     return (
       <Router>
@@ -21,11 +26,6 @@ class App extends Component {
       </Router>
     );
   }
-}
-
-function HopRouteWrapper() {
-  let params = useParams();
-  return <Hop params={params} />;
 }
 
 export default App;

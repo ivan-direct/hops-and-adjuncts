@@ -34,9 +34,19 @@ class Hop < ApplicationRecord
 
   # change in ranking (1 is highest rank) #
   def delta
-    return 0 if previous_ranking.nil? || ranking.nil?
-
     previous_ranking - ranking
+  rescue StandardError
+    0
+  end
+
+  def self.sort_by_ranking(rankings)
+    rankings.sort_by!(&:rating).reverse!
+
+    rankings.each_index do |index|
+      ranking = rankings[index]
+      hop = Hop.find(ranking.hop_id)
+      hop.update(ranking: index + 1)
+    end
   end
 
   # calulate the deltas and return the three highest ranking risers
@@ -49,21 +59,17 @@ class Hop < ApplicationRecord
 
   # Utility singleton method use to populate rating and ranking #
   def self.refresh_stats
-    rankings = []
-    where(rating: nil).find_each do |hop|
-      beers = hop.beers
-      next if beers.blank?
-
-      rating = beers.map(&:rating).sum / beers.size
-      rankings << OpenStruct.new(hop_id: hop.id, rating: rating)
-      hop.update(rating: rating)
+    rankings = where(rating: nil).map do |hop|
+      Beer.calculate_rating(hop)
     end
-    rankings.sort_by!(&:rating).reverse!
+    sort_by_ranking(rankings)
+  end
 
-    rankings.each_index do |i|
-      ranking = rankings[i]
-      hop = Hop.find(ranking.hop_id)
-      hop.update(ranking: i + 1)
+  def self.search(query)
+    if query.present?
+      where(name: query).order(rating: :desc)
+    else
+      order(rating: :desc)
     end
   end
 end
