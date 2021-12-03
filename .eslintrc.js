@@ -13,6 +13,7 @@ module.exports = {
     sourceType: "module",
   },
   plugins: ["react"],
+  ignorePatterns: ["app/javascript/__tests__/"],
   rules: {
     "react/jsx-wrap-multilines": 0,
     "react/jsx-filename-extension": [1, { extensions: [".js", ".jsx"] }],
