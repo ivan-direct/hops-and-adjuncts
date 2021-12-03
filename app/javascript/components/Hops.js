@@ -73,6 +73,7 @@ class Hops extends Component {
   render() {
     const { hopName } = this.state;
     const { hops } = this.state;
+    const hopsPresent = hops.length > 0;
 
     return (
       <Layout className="layout" style={{ height: "100%" }}>
@@ -99,43 +100,45 @@ class Hops extends Component {
             />
           </Menu>
         </Header>
-        <Content
-          style={{
-            padding: "0 50px",
-            background: green[0],
-            maxHeight: "800px",
-            overflow: "scroll",
-            overflowX: "scroll",
-          }}
-        >
-          <Breadcrumb style={{ margin: "40px 0" }} />
-          <div className="site-layout-content">
-            <Row align="top">
-              <Col flex={3}>
-                <h1>{this.hopListTitle}</h1>
-                <div>
-                  {hops.map((hop) => (
-                    <HopCard hop={hop} key={hop.id} />
-                  ))}
-                </div>
-              </Col>
-              <Col flex={2}>
-                <Row>
-                  <Col span={24}>
-                    <h1>⭐ Featured</h1>
-                    <FeaturedHop />
-                  </Col>
-                </Row>
-                <Row style={{ paddingTop: "16px" }}>
-                  <Col span={24}>
-                    <h1>🔥 Hot Hops</h1>
-                    <HotHops />
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </div>
-        </Content>
+        {hopsPresent && (
+          <Content
+            style={{
+              padding: "0 50px",
+              background: green[0],
+              maxHeight: "800px",
+              overflow: "scroll",
+              overflowX: "scroll",
+            }}
+          >
+            <Breadcrumb style={{ margin: "40px 0" }} />
+            <div className="site-layout-content">
+              <Row align="top">
+                <Col flex={3}>
+                  <h1>{this.hopListTitle}</h1>
+                  <div>
+                    {hops.map((hop) => (
+                      <HopCard hop={hop} key={hop.id} />
+                    ))}
+                  </div>
+                </Col>
+                <Col flex={2}>
+                  <Row>
+                    <Col span={24}>
+                      <h1>⭐ Featured</h1>
+                      <FeaturedHop />
+                    </Col>
+                  </Row>
+                  <Row style={{ paddingTop: "16px" }}>
+                    <Col span={24}>
+                      <h1>🔥 Hot Hops</h1>
+                      <HotHops />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </div>
+          </Content>
+        )}
         <Footer style={{ textAlign: "center", background: green[2] }}>
           {"Hops & Adjuncts © "}
           {new Date().getUTCFullYear()}

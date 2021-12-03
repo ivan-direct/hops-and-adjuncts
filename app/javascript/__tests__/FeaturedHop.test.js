@@ -25,7 +25,7 @@ const server = setupServer(
           id: 16,
           rating: 4.04,
           ranking: 22,
-          beers: [{ name: "Haze & Juice", id: 1 }],
+          beers: [{ name: "Haze & Juice", id: 1, rating: 4, ranking: 2, style: 'ipa' }],
         },
       })
     );

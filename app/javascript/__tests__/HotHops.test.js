@@ -26,7 +26,7 @@ const server = setupServer(
             id: 6,
             rating: 4,
             ranking: 1,
-            beers: [{ name: "Juicy Bits", id: 22 }],
+            beers: [{ name: "Juicy Bits", id: 22, rating: 4, ranking: 2, style: 'ipa' }],
           },
         },
         { hop: { name: "Mosaic", id: 5, rating: 4, ranking: 2, beers: [] } },

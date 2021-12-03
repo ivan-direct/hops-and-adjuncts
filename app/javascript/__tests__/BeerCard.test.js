@@ -16,7 +16,7 @@ const beer = {
 test("loads and displays Beer Card Component", () => {
   // TODO needed when you implement the beer link //
   // render(<TestRouter inner_component={<BeerCard beer={beer} key="1" />} />);
-  render(<BeerCard beer={beer} key="1" />);
+  render(<BeerCard beer={beer} key="99" />);
 
   expect(screen.getByText("Juicy Bits")).toBeInTheDocument();
   expect(screen.getByText("Checkins: 53700")).toBeInTheDocument();
