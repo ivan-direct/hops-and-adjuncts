@@ -90,6 +90,8 @@ class Hop extends Component {
 
   render() {
     const { hop } = this.state;
+    const hopPresent = hop.id !== null;
+
     return (
       <Layout className="layout" style={{ height: "100%" }}>
         <Header style={{ background: green[2] }}>
@@ -109,51 +111,52 @@ class Hop extends Component {
             </Menu.Item>
           </Menu>
         </Header>
-        <Content
-          style={{
-            padding: "0 50px",
-            background: green[0],
-            maxHeight: "800px",
-            overflow: "scroll",
-            overflowX: "scroll",
-          }}
-        >
-          <Breadcrumb style={{ margin: "40px 0" }} />
-          <div className="site-layout-content">
-            <Row align="top">
-              <Col flex={3} style={{ width: "50%", marginRight: "16px" }}>
-                <Row>
-                  <Col span={24}>
-                    <List
-                      size="small"
-                      style={{ width: "85%" }}
-                      header={<h1>About</h1>}
-                      bordered
-                      dataSource={[
-                        `Description: ${this.description}`,
-                        `Rating: ${hop.rating}`,
-                        `Ranking: ${hop.ranking}`,
-                        this.ratingChange(hop.delta),
-                      ]}
-                      renderItem={(item) => <List.Item>{item}</List.Item>}
-                    />
-                  </Col>
-                </Row>
-                <Row style={{ padding: "24px 0px" }}>
-                  <Col span={24}>
-                    <List
-                      size="small"
-                      style={{ width: "85%" }}
-                      header={<h1>Common Hop Pairings</h1>}
-                      bordered
-                      dataSource={hop.common_pairings}
-                      renderItem={(item) => <List.Item>{item}</List.Item>}
-                    />
-                  </Col>
-                </Row>
-              </Col>
-              <Col flex={2}>
-                {/* <Row>
+        {hopPresent && (
+          <Content
+            style={{
+              padding: "0 50px",
+              background: green[0],
+              maxHeight: "800px",
+              overflow: "scroll",
+              overflowX: "scroll",
+            }}
+          >
+            <Breadcrumb style={{ margin: "40px 0" }} />
+            <div className="site-layout-content">
+              <Row align="top">
+                <Col flex={3} style={{ width: "50%", marginRight: "16px" }}>
+                  <Row>
+                    <Col span={24}>
+                      <List
+                        size="small"
+                        style={{ width: "85%" }}
+                        header={<h1>About</h1>}
+                        bordered
+                        dataSource={[
+                          `Description: ${this.description}`,
+                          `Rating: ${hop.rating}`,
+                          `Ranking: ${hop.ranking}`,
+                          this.ratingChange(hop.delta),
+                        ]}
+                        renderItem={(item) => <List.Item>{item}</List.Item>}
+                      />
+                    </Col>
+                  </Row>
+                  <Row style={{ padding: "24px 0px" }}>
+                    <Col span={24}>
+                      <List
+                        size="small"
+                        style={{ width: "85%" }}
+                        header={<h1>Common Hop Pairings</h1>}
+                        bordered
+                        dataSource={hop.common_pairings}
+                        renderItem={(item) => <List.Item>{item}</List.Item>}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col flex={2}>
+                  {/* <Row>
                   <Col span={24}>
                     <h1>Bells & Whistles Widget</h1>
                     <div>Graph</div>
@@ -164,30 +167,31 @@ class Hop extends Component {
                     </div>
                   </Col>
                 </Row> */}
-                <Row>
-                  <Col span={24}>
-                    <List
-                      size="medium"
-                      header={
-                        <h1>
-                          {hop.name}
-                          {" Beers"}
-                        </h1>
-                      }
-                      bordered
-                      dataSource={hop.beers}
-                      renderItem={(item) => (
-                        <List.Item>
-                          <BeerCard beer={item} key={item.id} />
-                        </List.Item>
-                      )}
-                    />
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </div>
-        </Content>
+                  <Row>
+                    <Col span={24}>
+                      <List
+                        size="medium"
+                        header={
+                          <h1>
+                            {hop.name}
+                            {" Beers"}
+                          </h1>
+                        }
+                        bordered
+                        dataSource={hop.beers}
+                        renderItem={(item) => (
+                          <List.Item>
+                            <BeerCard beer={item} key={item.id} />
+                          </List.Item>
+                        )}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </div>
+          </Content>
+        )}
         <Footer style={{ textAlign: "center", background: green[2] }}>
           {"Hops & Adjuncts © "}
           {new Date().getUTCFullYear()}

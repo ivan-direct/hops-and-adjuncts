@@ -5,6 +5,7 @@ import { setupServer } from "msw/node";
 import React from "react";
 import Hop from "../components/Hop";
 import TestRouter from "./TestRouter";
+import hopsImage from "../images/hops.png";
 
 window.matchMedia =
   window.matchMedia ||
@@ -31,6 +32,9 @@ describe("Negative Delta", () => {
                 name: "Juicy Bits",
                 id: 22,
                 checkins: 999,
+                rating: 4,
+                ranking: 2,
+                style: 'ipa',
                 brewery: { name: "WeldWerks", city: "Greeley", state: "CO" },
               },
             ],
@@ -47,7 +51,7 @@ describe("Negative Delta", () => {
   afterAll(() => server.close());
 
   test("loads and displays greeting", async () => {
-    render(<TestRouter inner_component={<Hop params={{ id: 6 }} />} />);
+    render(<TestRouter inner_component={<Hop params={{ id: "6" }} />} />);
 
     await waitFor(() => screen.getByText("Citra Beers"));
     expect(screen.getByText("Eldorado")).toBeInTheDocument();
@@ -73,6 +77,9 @@ describe("Positive Delta", () => {
                 name: "Juicy Bits",
                 id: 22,
                 checkins: 999,
+                rating: 4,
+                ranking: 2,
+                style: 'ipa',
                 brewery: { name: "WeldWerks", city: "Greeley", state: "CO" },
               },
             ],
@@ -89,7 +96,7 @@ describe("Positive Delta", () => {
   afterAll(() => server.close());
 
   test("loads and displays greeting", async () => {
-    render(<TestRouter inner_component={<Hop params={{ id: 6 }} />} />);
+    render(<TestRouter inner_component={<Hop params={{ id: "6" }} />} />);
 
     await waitFor(() => screen.getByText("Citra Beers"));
     expect(screen.getByTestId("up-icon")).toBeInTheDocument();
