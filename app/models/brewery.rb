@@ -11,6 +11,9 @@ class Brewery < ApplicationRecord
   validates :city, presence: true
   validates :state, presence: true
 
+  # using Brewery#name query Untappd for exact match # # # # #
+  # if found it updates the record # # # # # # # # # # # # # #
+  # @returns: array of brewery names that could not be matched
   def self.populate_external_codes
     brewery_names = where(external_code: nil).pluck(:name)
     no_match = []
