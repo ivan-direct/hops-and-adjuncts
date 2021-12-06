@@ -13,6 +13,7 @@ class Beer < ApplicationRecord
 
   def self.calculate_rating(hop)
     beers = select {|beer| beer.hops.include? hop}
+    return if beers.blank?
     rating = beers.map(&:rating).sum / beers.size
     hop.update(rating: rating)
     OpenStruct.new(hop_id: hop.id, rating: hop.rating)
