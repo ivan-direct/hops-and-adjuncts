@@ -67,9 +67,9 @@ class Hop < ApplicationRecord
 
   def self.search(query)
     if query.present?
-      where("rating > ? and name = ?", 0, query).order(rating: :desc)
+      where('rating > ? and name = ?', 0, query).order(rating: :desc)
     else
-      where("rating > ?", 0).order(rating: :desc)
+      where('rating > ?', 0).order(rating: :desc)
     end
   end
 

@@ -10,7 +10,7 @@ class Brewery < ApplicationRecord
   validates :state, presence: true
 
   def self.populate_external_codes
-    where(external_code: nil).each do |brewery|
+    where(external_code: nil).find_each do |brewery|
       brewery.populate_external_code
       sleep 5 # to avoid hammering their server
     end
@@ -18,7 +18,7 @@ class Brewery < ApplicationRecord
 
   # calls #find_beers for all records containing an external_code
   def self.build_beer_list
-    where.not(external_code: nil).each do |brewery|
+    where.not(external_code: nil).find_each do |brewery|
       brewery.find_beers
       sleep 5 # to avoid hammering their server
     end

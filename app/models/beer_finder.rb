@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 require 'open-uri'
 
+# find and create beers for a given url & brewery if they mention a hop name.
 module BeerFinder
   # TODO: after we determine free Heroku has enough space... # # # # # # # # #
   # expand to all IPA types. could use a light weigh relational-model for it#
-  TYPE_IDS = [284]
+  TYPE_IDS = [284].freeze
 
   class << self
-    # find and create beers for a given url & brewery if they mention a hop name.
     def build(url, brewery_id)
-      response = URI.open(url)
+      response = URI.parse(url).open
       doc = Nokogiri::HTML(response)
 
       doc.css('div.beer-item').each do |beer_el|
@@ -24,15 +26,19 @@ module BeerFinder
       rating = beer_el.css('div.caps')[0].attributes['data-rating'].text.to_f
       # might need this to dig down to get checkins
       beer_id = beer_el.attributes['data-bid'].text.to_i
-      # num checkins with a rating. might want to replace with checkins _see above_
-      num_ratings = beer_el.css('div.raters')[0].text.gsub("\n", '').gsub(' Ratings ', '').to_i
+      num_ratings = parse_ratings beer_el
       { name: name, rating: rating, beer_id: beer_id, num_ratings: num_ratings }
     end
 
-    def create_beer(beer_el, _brewery_id, _hops)
+    # num checkins with a rating. might want to replace with checkins _see above_
+    def parse_ratings(beer_el)
+      beer_el.css('div.raters')[0].text.gsub("\n", '').gsub(' Ratings ', '').to_i
+    end
+
+    def create_beer(beer_el, brewery_id, hops)
       beer_attrs = extract_attributes(beer_el)
       # TODO: add logic driven by TYPE_ID and create_stout, create_other methods
-      Beer.create_ipa(beer_attrs, _brewery_id, _hops)
+      Beer.create_ipa(beer_attrs, brewery_id, hops)
     end
   end
 end
