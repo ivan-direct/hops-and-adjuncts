@@ -93,10 +93,10 @@ RSpec.describe Hop, type: :model do
   end
 
   describe '#popular_beers' do
-    context 'more than 10 beers' do
+    context 'more than 5 beers' do
       before do
-        # create one over the limit of 10
-        11.times do |i|
+        # create one over the limit of 5
+        6.times do |i|
           b = create(:beer, checkins: i * 10)
           hop.beers << b
         end
@@ -105,8 +105,8 @@ RSpec.describe Hop, type: :model do
         b.update(checkins: 50_000, name: 'First')
       end
 
-      it 'returns 10 beers with the highest checkins' do
-        expect(hop.popular_beers.size).to eq(10)
+      it 'returns 5 beers with the highest checkins' do
+        expect(hop.popular_beers.size).to eq(5)
         expect(hop.popular_beers.first).to eq(Beer.find_by(name: 'First'))
       end
     end
