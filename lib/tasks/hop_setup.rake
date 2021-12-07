@@ -134,6 +134,6 @@ namespace :hop_setup do
       count += 1 if Hop.create(name: hop_name)
     end
     puts "Created #{count} hops!"
-    puts 
+    puts
   end
 end

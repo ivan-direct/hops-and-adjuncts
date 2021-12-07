@@ -151,7 +151,7 @@ RSpec.describe Hop, type: :model do
     before do
       @vic_secret = create(:vic_secret)
       @nelson_sauvin = create(:nelson_sauvin)
-      failed_hop = create(:hop, name: "Failed Hop", rating: nil)
+      failed_hop = create(:hop, name: 'Failed Hop', rating: nil)
       @mosaic = create(:mosaic)
 
       @steezy = create(:steezy)
@@ -186,14 +186,14 @@ RSpec.describe Hop, type: :model do
       end
 
       it 'should return hops' do
-        description = "Agressively dry hopped with El Dorado, Citra, and Mosaic hops. 7.5%ABV"
+        description = 'Agressively dry hopped with El Dorado, Citra, and Mosaic hops. 7.5%ABV'
         expect(Hop.find_match(description)).to eq([@eldo, @mosaic])
       end
     end
 
     context 'blank description' do
       it 'should return an empty array' do
-        description = "  "
+        description = '  '
         expect(Hop.find_match(description)).to eq([])
       end
     end
@@ -212,13 +212,13 @@ RSpec.describe Hop, type: :model do
       end
 
       it 'should return all hops with a rating' do
-        expect(Hop.search("")).to eq([@eldo, @mosaic])
+        expect(Hop.search('')).to eq([@eldo, @mosaic])
       end
     end
 
     context 'no hops' do
       it 'should return an empty array' do
-        expect(Hop.search("Citra")).to eq([])
+        expect(Hop.search('Citra')).to eq([])
       end
     end
   end
