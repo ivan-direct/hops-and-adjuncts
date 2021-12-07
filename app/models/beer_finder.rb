@@ -14,10 +14,14 @@ module BeerFinder
       doc = Nokogiri::HTML(response)
 
       doc.css('div.beer-item').each do |beer_el|
-        description = beer_el.css('p.desc')[0].text
-        hops = Hop.find_match(description)
+        hops = match_hops(beer_el)
         create_beer(beer_el, brewery_id, hops) if hops.present?
       end
+    end
+
+    def match_hops(beer_el)
+      description = beer_el.css('p.desc')[0].text
+      hops = Hop.find_match(description)
     end
 
     # use nokogiri selectors to extract relevant beer attributes from document

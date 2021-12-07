@@ -38,7 +38,7 @@ RSpec.describe Brewery, type: :model do
       breweries = instance_double(ActiveRecord::Batches)
 
       expect(Brewery).to receive(:where).with(external_code: nil).and_return(breweries)
-      breweries.stub(:find_each).and_yield(brewery_one).and_yield(brewery_two)
+      expect(breweries).to receive(:find_each).and_yield(brewery_one).and_yield(brewery_two)
       expect(brewery_one).to receive(:populate_external_code)
       expect(brewery_two).to receive(:populate_external_code)
     end
@@ -60,7 +60,7 @@ RSpec.describe Brewery, type: :model do
 
       expect(Brewery).to receive(:where).with(no_args).and_return(where_mock)
       expect(where_mock).to receive(:not).with(external_code: nil).and_return(breweries)
-      breweries.stub(:find_each).and_yield(brewery_one).and_yield(brewery_two)
+      expect(breweries).to receive(:find_each).and_yield(brewery_one).and_yield(brewery_two)
       expect(brewery_one).to receive(:find_beers)
       expect(brewery_two).to receive(:find_beers)
     end

@@ -11,13 +11,13 @@ class Beer < ApplicationRecord
   validates :rating, numericality: { greater_than_or_equal_to: 0, less_than: 5.01 }
   validates :style, inclusion: { in: %w[ipa stout other] }
 
+  # @return struct(hop_id: id, rating: rating) or nil
   def self.calculate_rating(hop)
     beers = select { |beer| beer.hops.include? hop }
     return if beers.blank?
 
     rating = beers.map(&:rating).sum / beers.size
-    hop.update(rating: rating)
-    OpenStruct.new(hop_id: hop.id, rating: hop.rating)
+    hop.update_rating(rating)
   end
 
   def self.create_ipa(beer_attrs, brewery_id, hops)

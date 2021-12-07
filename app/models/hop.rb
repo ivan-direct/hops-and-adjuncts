@@ -39,6 +39,11 @@ class Hop < ApplicationRecord
     0
   end
 
+  def update_rating(rating)
+    update(rating: rating)
+    OpenStruct.new(hop_id: id, rating: rating)
+  end
+
   def self.sort_by_ranking(rankings)
     rankings.sort_by!(&:rating).reverse!
 

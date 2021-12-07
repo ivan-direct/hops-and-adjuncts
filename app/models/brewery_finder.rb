@@ -12,9 +12,12 @@ module BreweryFinder
       element = doc.css('p.total > strong')
       return unless exact_match?(element)
 
+      brewery.update(external_code: extract_code(doc))
+    end
+
+    def extract_code(doc)
       link_element = doc.css('p.name a')
       brewery_code = extract_attributes(link_element)
-      brewery.update(external_code: brewery_code)
     end
 
     # use nokogiri selectors to extract relevant beer attributes from document
@@ -32,7 +35,15 @@ module BreweryFinder
     end
 
     def link_present?(link_element)
-      link_element.any? && link_element[0].attributes.any? && link_element[0].attributes.key?('href')
+      link_element.any? && element_attrs?(link_element) && attrs_href?(link_element)
+    end
+
+    def element_attrs?(link_element)
+      link_element[0].attributes.any?
+    end
+
+    def attrs_href?(link_element)
+      link_element[0].attributes.key?('href')
     end
   end
 end
