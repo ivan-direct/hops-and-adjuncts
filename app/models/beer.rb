@@ -12,11 +12,17 @@ class Beer < ApplicationRecord
   validates :style, inclusion: { in: %w[ipa stout other] }
 
   def self.calculate_rating(hop)
-    beers = select {|beer| beer.hops.include? hop}
+    beers = select { |beer| beer.hops.include? hop }
     return if beers.blank?
+
     rating = beers.map(&:rating).sum / beers.size
     hop.update(rating: rating)
     OpenStruct.new(hop_id: hop.id, rating: hop.rating)
   end
 
+  def self.create_ipa(beer_attrs, brewery_id, hops)
+    beer = create!(name: beer_attrs[:name], checkins: beer_attrs[:num_ratings], external_id: beer_attrs[:beer_id],
+                   brewery_id: brewery_id, style: 'ipa', rating: beer_attrs[:rating])
+    beer.hops |= hops
+  end
 end
