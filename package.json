@@ -31,11 +31,6 @@
   "scripts": {
     "test": "jest"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-env"
-    ]
-  },
   "browserslist": [
     "defaults"
   ]
