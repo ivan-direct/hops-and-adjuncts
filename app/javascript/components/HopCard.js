@@ -4,6 +4,16 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 class HopCard extends Component {
+  static truncatedString(beers) {
+    const size = beers.length > 10 ? 10 : beers.length;
+    const newArray = [];
+    for (let index = 0; index < size; index += 1) {
+      const element = beers[index];
+      newArray.push(element);
+    }
+    return newArray;
+  }
+
   constructor(props) {
     super(props);
     this.hop = props.hop;
@@ -11,7 +21,8 @@ class HopCard extends Component {
   }
 
   render() {
-    const beerNames = this.hop.beers.map((beer) => beer.name).join(", ");
+    const beerNames = HopCard.truncatedString(this.hop.beers).map((beer) => beer.name).join(", ");
+    const ellipsis = this.hop.beers.length > 10 ? "..." : "";
     return (
       <Card
         key={this.hop.id}
@@ -21,7 +32,7 @@ class HopCard extends Component {
       >
         <p>{`Rating: ${this.hop.rating}`}</p>
         <p>{`Ranking: ${this.hop.ranking}`}</p>
-        <p>{this.hop.beers && `Beers: ${beerNames}`}</p>
+        <p style={{maxWidth: "450px" }}>{this.hop.beers && `Beers: ${beerNames}${ellipsis}`}</p>
       </Card>
     );
   }

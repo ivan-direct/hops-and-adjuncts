@@ -29,7 +29,7 @@ class Hop < ApplicationRecord
 
   # top 10 based on number of checkins
   def popular_beers
-    beers.order(checkins: :desc).limit(10)
+    beers.order(checkins: :desc).limit(5)
   end
 
   # change in ranking (1 is highest rank) #

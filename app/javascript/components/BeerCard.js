@@ -36,7 +36,7 @@ class BeerCard extends Component {
         </p>
         <p>
           Brewery Location:
-          {`${this.brewery.city}, ${this.brewery.state}`}
+          {` ${this.brewery.city}, ${this.brewery.state}`}
         </p>
       </Card>
     );
