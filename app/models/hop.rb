@@ -39,6 +39,11 @@ class Hop < ApplicationRecord
     0
   end
 
+  def update_rating(rating)
+    update(rating: rating)
+    OpenStruct.new(hop_id: id, rating: rating)
+  end
+
   def self.sort_by_ranking(rankings)
     rankings.sort_by!(&:rating).reverse!
 
@@ -59,17 +64,27 @@ class Hop < ApplicationRecord
 
   # Utility singleton method use to populate rating and ranking #
   def self.refresh_stats
-    rankings = where(rating: nil).map do |hop|
+    rankings = all.map do |hop|
       Beer.calculate_rating(hop)
-    end
+    end.compact
     sort_by_ranking(rankings)
   end
 
   def self.search(query)
     if query.present?
-      where(name: query).order(rating: :desc)
+      where('rating > ? and name = ?', 0, query).order(rating: :desc)
     else
-      order(rating: :desc)
+      where('rating > ?', 0).order(rating: :desc)
     end
+  end
+
+  # TODO: implement downcase to increase matches
+  # TODO: expand to check Beer name too. example: DDH Citra Juicy Bits.
+  def self.find_match(description)
+    return [] if description.blank?
+
+    hop_names = all.pluck(:name)
+    matched_names = hop_names.select { |name| description.include?(name) }
+    where(name: matched_names)
   end
 end

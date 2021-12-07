@@ -81,7 +81,7 @@ RSpec.describe Hop, type: :model do
       end
 
       it 'returns names of hops paired in other beers' do
-        expect(hop.common_pairings).to eq(%w[Eldorado Mosaic])
+        expect(hop.common_pairings).to eq(['El Dorado', 'Mosaic'])
       end
     end
 
@@ -151,6 +151,7 @@ RSpec.describe Hop, type: :model do
     before do
       @vic_secret = create(:vic_secret)
       @nelson_sauvin = create(:nelson_sauvin)
+      failed_hop = create(:hop, name: 'Failed Hop', rating: nil)
       @mosaic = create(:mosaic)
 
       @steezy = create(:steezy)
@@ -173,6 +174,52 @@ RSpec.describe Hop, type: :model do
       @mosaic.reload
       expect(@mosaic.rating).to eq(4.26)
       expect(@mosaic.ranking).to eq(3)
+    end
+  end
+
+  describe 'self#find_match' do
+    context 'description mentions three hops' do
+      before do
+        @eldo = create(:eldorado)
+        @mosaic = create(:mosaic)
+        create(:simcoe) # not mentioned
+      end
+
+      it 'should return hops' do
+        description = 'Agressively dry hopped with El Dorado, Citra, and Mosaic hops. 7.5%ABV'
+        expect(Hop.find_match(description)).to eq([@eldo, @mosaic])
+      end
+    end
+
+    context 'blank description' do
+      it 'should return an empty array' do
+        description = '  '
+        expect(Hop.find_match(description)).to eq([])
+      end
+    end
+  end
+
+  describe 'self#search' do
+    context 'query for El Dorado' do
+      before do
+        @eldo = create(:eldorado, rating: 5.0)
+        @mosaic = create(:mosaic, rating: 4.0)
+        create(:simcoe, rating: 0) # not mentioned
+      end
+
+      it 'should return array with 1 hop' do
+        expect(Hop.search('El Dorado')).to eq([@eldo])
+      end
+
+      it 'should return all hops with a rating' do
+        expect(Hop.search('')).to eq([@eldo, @mosaic])
+      end
+    end
+
+    context 'no hops' do
+      it 'should return an empty array' do
+        expect(Hop.search('Citra')).to eq([])
+      end
     end
   end
 end

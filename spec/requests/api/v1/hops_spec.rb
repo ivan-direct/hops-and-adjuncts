@@ -46,7 +46,7 @@ RSpec.describe 'Api::V1::Hops', type: :request do
 
     context 'error' do
       before do
-        expect(Hop).to receive(:order).and_raise(StandardError.new('Some Unknown Error Occurred'))
+        expect(Hop).to receive(:where).and_raise(StandardError.new('Some Unknown Error Occurred'))
       end
 
       it 'returns error message' do

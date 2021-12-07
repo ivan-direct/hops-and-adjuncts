@@ -5,7 +5,6 @@ import { setupServer } from "msw/node";
 import React from "react";
 import Hop from "../components/Hop";
 import TestRouter from "./TestRouter";
-import hopsImage from "../images/hops.png";
 
 window.matchMedia =
   window.matchMedia ||
@@ -38,7 +37,7 @@ describe("Negative Delta", () => {
                 brewery: { name: "WeldWerks", city: "Greeley", state: "CO" },
               },
             ],
-            common_pairings: ["Mosaic", "Eldorado"],
+            common_pairings: ["Mosaic", "El Dorado"],
             delta: -2,
           },
         })
@@ -54,7 +53,7 @@ describe("Negative Delta", () => {
     render(<TestRouter inner_component={<Hop params={{ id: "6" }} />} />);
 
     await waitFor(() => screen.getByText("Citra Beers"));
-    expect(screen.getByText("Eldorado")).toBeInTheDocument();
+    expect(screen.getByText("El Dorado")).toBeInTheDocument();
     expect(screen.getByText("Mosaic")).toBeInTheDocument();
     expect(screen.getByText("Ranking: 1")).toBeInTheDocument();
     expect(screen.getByText("Checkins: 999")).toBeInTheDocument();
@@ -83,7 +82,7 @@ describe("Positive Delta", () => {
                 brewery: { name: "WeldWerks", city: "Greeley", state: "CO" },
               },
             ],
-            common_pairings: ["Mosaic", "Eldorado"],
+            common_pairings: ["Mosaic", "El Dorado"],
             delta: 4,
           },
         })

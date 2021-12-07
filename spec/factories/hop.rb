@@ -13,7 +13,7 @@ FactoryBot.define do
     end
 
     factory :eldorado do
-      name { 'Eldorado' }
+      name { 'El Dorado' }
     end
 
     factory :nelson_sauvin do
