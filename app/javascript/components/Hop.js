@@ -6,10 +6,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import hopsImage from "../images/hops.png";
 import BeerCard from "./BeerCard";
-import "./Hops.css";
+import MainFooter from "./MainFooter";
 import { getRequest } from "./NetworkHelper";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 class Hop extends Component {
   constructor(props) {
@@ -93,7 +93,7 @@ class Hop extends Component {
     const hopPresent = hop.id !== null;
 
     return (
-      <Layout className="layout" style={{ height: "100%" }}>
+      <Layout className="layout">
         <Header style={{ background: green[2] }}>
           <Menu theme="light" mode="horizontal">
             <Menu.Item key="0">
@@ -192,11 +192,7 @@ class Hop extends Component {
             </div>
           </Content>
         )}
-        <Footer style={{ textAlign: "center", background: green[2] }}>
-          {"Hops & Adjuncts © "}
-          {new Date().getUTCFullYear()}
-          {" By ivan_direct"}
-        </Footer>
+        <MainFooter />
       </Layout>
     );
   }

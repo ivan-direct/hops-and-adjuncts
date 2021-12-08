@@ -1,4 +1,5 @@
 import "antd/dist/antd.css";
+import "./Hops.css";
 import React, { PureComponent } from "react";
 import {
   BrowserRouter as Router,
