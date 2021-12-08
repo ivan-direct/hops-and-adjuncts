@@ -1,17 +1,18 @@
 import { green } from "@ant-design/colors";
 import { Breadcrumb, Col, Layout, Menu, Row } from "antd";
 import Search from "antd/lib/input/Search";
+import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import hopsImage from "../images/hops.png";
 import FeaturedHop from "./FeaturedHop";
 import HopCard from "./HopCard";
-import "./Hops.css";
 import HotHops from "./HotHops";
+import MainFooter from "./MainFooter";
 import { getRequest } from "./NetworkHelper";
-import hopsImage from "../images/hops.png";
+import Spinner from "./Spinner";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Content } = Layout;
 
 class Hops extends Component {
   constructor(props) {
@@ -76,7 +77,7 @@ class Hops extends Component {
     const hopsPresent = hops.length > 0;
 
     return (
-      <Layout className="layout" style={{ height: "100%" }}>
+      <Layout className="layout">
         <Header style={{ background: green[2] }}>
           <Menu theme="light" mode="horizontal">
             <Menu.Item key="0">
@@ -100,6 +101,7 @@ class Hops extends Component {
             />
           </Menu>
         </Header>
+        {!hopsPresent && <Spinner />}
         {hopsPresent && (
           <Content
             style={{
@@ -139,11 +141,7 @@ class Hops extends Component {
             </div>
           </Content>
         )}
-        <Footer style={{ textAlign: "center", background: green[2] }}>
-          {"Hops & Adjuncts © "}
-          {new Date().getUTCFullYear()}
-          {" By ivan_direct"}
-        </Footer>
+        <MainFooter />
       </Layout>
     );
   }
