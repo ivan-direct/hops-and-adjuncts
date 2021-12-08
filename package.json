@@ -48,6 +48,6 @@
     "test": "jest"
   },
   "engines": {
-    "yarn": "1.22.17"
+    "yarn": "1.22.X"
   }
 }
