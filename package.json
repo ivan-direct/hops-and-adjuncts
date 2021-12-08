@@ -28,11 +28,12 @@
   },
   "version": "0.1.0",
   "devDependencies": {
+    "@babel/core": "7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@testing-library/dom": "^8.11.1",
     "@testing-library/user-event": "^13.5.0",
     "babel-jest": "^27.3.1",
-    "eslint": "^8.3.0",
+    "eslint": "^8.4.1",
     "eslint-config-airbnb": "^19.0.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
@@ -41,13 +42,12 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.3.1",
     "react-test-renderer": "^17.0.2",
-    "webpack-dev-server": "^4.6.0",
-    "@babel/core": "7.16.0"
+    "webpack-dev-server": "^4.6.0"
   },
   "scripts": {
     "test": "jest"
   },
-  "engines" : { 
-    "node" : ">=8.0.0" 
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
