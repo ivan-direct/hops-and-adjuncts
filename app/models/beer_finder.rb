@@ -17,6 +17,8 @@ module BeerFinder
         hops = match_hops(beer_el)
         create_beer(beer_el, brewery_id, hops) if hops.present?
       end
+    rescue StandardError => e
+      handle_error(e, brewery_id)
     end
 
     def match_hops(beer_el)
@@ -43,6 +45,11 @@ module BeerFinder
       beer_attrs = extract_attributes(beer_el)
       # TODO: add logic driven by TYPE_ID and create_stout, create_other methods
       Beer.create_ipa(beer_attrs, brewery_id, hops)
+    end
+
+    def handle_error(e, brewery_id)
+      Rails.logger.error "#{brewery_id} failed. \n#{e}"
+      Brewery.mark_as_invalid(brewery_id)
     end
   end
 end

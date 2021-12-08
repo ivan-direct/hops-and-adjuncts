@@ -32,7 +32,7 @@ class HopCard extends Component {
       >
         <p>{`Rating: ${this.hop.rating}`}</p>
         <p>{`Ranking: ${this.hop.ranking}`}</p>
-        <p style={{maxWidth: "450px" }}>{this.hop.beers && `Beers: ${beerNames}${ellipsis}`}</p>
+        <p style={{ maxWidth: "450px" }}>{this.hop.beers && `Beers: ${beerNames}${ellipsis}`}</p>
       </Card>
     );
   }

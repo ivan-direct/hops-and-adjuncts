@@ -5,6 +5,16 @@ import ErrorCard from "./ErrorCard";
 import { getRequest } from "./NetworkHelper";
 
 class FeaturedHop extends Component {
+  static truncatedString(beers) {
+    const size = beers.length > 10 ? 10 : beers.length;
+    const newArray = [];
+    for (let index = 0; index < size; index += 1) {
+      const element = beers[index];
+      newArray.push(element);
+    }
+    return newArray;
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -43,7 +53,10 @@ class FeaturedHop extends Component {
 
   render() {
     const { hop } = this.state;
-    const beerNames = hop.beers.map((beer) => beer.name).join(", ");
+    const beerNames = FeaturedHop.truncatedString(hop.beers)
+      .map((beer) => beer.name)
+      .join(", ");
+    const ellipsis = hop.beers.length > 10 ? "..." : "";
     const hopPresent = hop.id != null;
     return (
       <>
@@ -56,7 +69,9 @@ class FeaturedHop extends Component {
           >
             <p>{`Rating: ${hop.rating}`}</p>
             <p>{`Ranking: ${hop.ranking}`}</p>
-            <p>{hop.beers && `Beers: ${beerNames}`}</p>
+            <p style={{ maxWidth: "450px" }}>
+              {hop.beers && `Beers: ${beerNames}${ellipsis}`}
+            </p>
           </Card>
         )}
         {!hopPresent && <ErrorCard />}

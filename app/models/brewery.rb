@@ -24,6 +24,11 @@ class Brewery < ApplicationRecord
     end
   end
 
+  def self.mark_as_invalid id
+    brewery = where(id: id)
+    brewery.update(code_invalid: true) if brewery.present?
+  end
+
   # using Brewery#name query Untappd for exact match # # # # #
   # if found it updates the record # # # # # # # # # # # # # #
   def populate_external_code
