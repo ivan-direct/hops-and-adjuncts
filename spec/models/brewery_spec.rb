@@ -124,18 +124,21 @@ RSpec.describe Brewery, type: :model do
   end
 
   describe '#find_beers' do
-    context 'success' do
-      let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
-      let(:type_id) { 284 }
-      let(:url) { "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc" }
+    let(:type_ids) { [128, 61, 115, 296, 315, 227, 112, 284, 305, 280, 334, 252, 311, 248, 308, 99, 9, 294] }
+    let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
 
+    context 'success' do
       context 'one IPA with Citra mentioned' do
         let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beers.html") }
 
         before do
           create(:citra)
           uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
-          allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+
+          type_ids.each do |type_id|
+            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+          end
         end
 
         it 'creates beer' do
@@ -157,7 +160,11 @@ RSpec.describe Brewery, type: :model do
         before do
           create(:citra)
           uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
-          allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+
+          type_ids.each do |type_id|
+            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+          end
         end
 
         it 'does not create a beer record' do
@@ -169,11 +176,12 @@ RSpec.describe Brewery, type: :model do
 
     context 'error' do
       let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
-      let(:type_id) { 284 }
-      let(:url) { "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc" }
 
       before do
-        allow(URI).to receive(:parse).with(url).and_raise(StandardError.new('404 Not Found'))
+        type_ids.each do |type_id|
+          url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+          allow(URI).to receive(:parse).and_raise(StandardError.new('404 Not Found'))
+        end
       end
 
       it 'does not create a beer record' do

@@ -4,9 +4,9 @@ require 'open-uri'
 
 # find and create beers for a given url & brewery if they mention a hop name.
 module BeerFinder
-  # TODO: after we determine free Heroku has enough space... # # # # # # # # #
-  # expand to all IPA types. could use a light weigh relational-model for it#
-  TYPE_IDS = [284].freeze
+  IPA_TYPE_IDS = [128, 61, 115, 296, 315, 227, 112, 284, 305, 280, 334, 252, 311, 248, 308, 99, 9, 294].freeze
+  STOUT_TYPE_IDS = [163, 292, 250, 327, 34, 47, 310, 41].freeze
+  # TODO: add other types. Might be a bit of a beast.
 
   class << self
     def build(url, brewery_id)
