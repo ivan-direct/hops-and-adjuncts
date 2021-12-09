@@ -26,7 +26,7 @@ class HopCard extends Component {
     return (
       <Card
         key={this.hop.id}
-        title={<Link to={this.hop_path}>{this.hop.name}</Link>}
+        title={<Link to={this.hop_path} className="hop-link">{this.hop.name}</Link>}
         bordered
         style={{ width: "65%", marginBottom: "16px" }}
       >

@@ -22,6 +22,7 @@ class Hops extends Component {
     this.state = {
       hops: [],
       hopName: "",
+      loadComplete: false,
     };
     this.defaultHopListTitle = "🥇 Top Rated Hops";
     this.hopListTitle = props.hopListTitle
@@ -48,6 +49,7 @@ class Hops extends Component {
     } else {
       // eslint-disable-next-line react/destructuring-assignment
       this.hopListTitle = `🔎 Search Result - ${this.state.hopName}`;
+      this.setState({ loadComplete: true });
     }
   }
 
@@ -68,13 +70,14 @@ class Hops extends Component {
           hops: [...prevState.hops, newEl],
         }));
       });
+      this.setState({ loadComplete: true });
     });
   };
 
   render() {
     const { hopName } = this.state;
     const { hops } = this.state;
-    const hopsPresent = hops.length > 0;
+    const { loadComplete } = this.state;
 
     return (
       <Layout className="layout">
@@ -93,16 +96,17 @@ class Hops extends Component {
                 />
               </Link>
             </Menu.Item>
-            <Search
-              value={hopName}
-              onChange={this.handleChange}
-              onSearch={this.handleSearch}
-              style={{ width: 200, marginTop: "16px" }}
-            />
+            <Menu.Item key="1" id="search-item">
+              <Search
+                value={hopName}
+                onChange={this.handleChange}
+                onSearch={this.handleSearch}
+                style={{ width: 200, marginTop: "16px" }}
+              />
+            </Menu.Item>
           </Menu>
         </Header>
-        {!hopsPresent && <Spinner />}
-        {hopsPresent && (
+        {(!loadComplete && <Spinner />) || (
           <Content
             style={{
               padding: "0 50px",

@@ -63,7 +63,7 @@ class FeaturedHop extends Component {
         {hopPresent && (
           <Card
             key={hop.id}
-            title={<Link to={`/hops/${hop.id}`}>{hop.name}</Link>}
+            title={<Link to={`/hops/${hop.id}`} className="hop-link">{hop.name}</Link>}
             bordered
             style={{ width: "65%", marginBottom: "16px" }}
           >

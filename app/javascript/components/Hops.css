@@ -25,7 +25,20 @@
 .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after {
   border-bottom: 2px solid #73d13d !important;
 }
+
+.ant-menu-horizontal > #search-item.ant-menu-item-selected::after,
+.ant-menu-horizontal > #search-item:hover::after {
+  border-bottom: 2px solid #fff !important;
+}
 /* ========================================================= */
+
+a.hop-link {
+  color: #73d13d;
+}
+
+a.hop-link:hover {
+  color: #237804;
+}
 
 section.layout {
   height: 100%;
