@@ -96,4 +96,49 @@ RSpec.describe Beer, type: :model do
       expect(Beer.calculate_rating(citra)).to be_nil
     end
   end
+
+  describe 'self#create_ipa' do
+    context 'create' do
+      let(:citra) { create(:citra) }
+      let(:mosaic) { create(:mosaic) }
+      let(:brewery) { create(:brewery) }
+
+      before do
+        hops = [citra, mosaic]
+        brewery_id = brewery.id
+        attrs = { name: 'Some Beer', rating: 5.0, num_ratings: 1_000, beer_id: 123 }
+        Beer.create_ipa(attrs, brewery_id, hops)
+      end
+
+      it 'creates a new ipa' do
+        beer = Beer.last
+        expect(beer.name).to eq('Some Beer')
+        expect(beer.external_id).to eq(123)
+        expect(beer.rating).to eq(5.0)
+        expect(beer.checkins).to eq(1_000)
+      end
+    end
+
+    context 'update' do
+      let(:beer) { create(:beer, name: 'Some Beer', rating: 5.0, checkins: 1_000, external_id: 123) }
+      let(:citra) { create(:citra) }
+      let(:mosaic) { create(:mosaic) }
+      let(:simcoe) { create(:simcoe) }
+      let(:brewery) { create(:brewery) }
+
+      before do
+        beer.hops = [citra, mosaic]
+
+        brewery_id = brewery.id
+        attrs = { name: 'Some Beer', rating: 4.0, num_ratings: 1_055, beer_id: 123 }
+        Beer.create_ipa(attrs, brewery_id, [simcoe])
+      end
+
+      it 'updates an existing ipa' do
+        beer = Beer.find_by_name 'Some Beer'
+        expect(beer.rating).to eq(4.0)
+        expect(beer.checkins).to eq(1_055)
+      end
+    end
+  end
 end

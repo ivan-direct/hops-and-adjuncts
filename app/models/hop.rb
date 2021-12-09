@@ -50,7 +50,7 @@ class Hop < ApplicationRecord
     rankings.each_index do |index|
       ranking = rankings[index]
       hop = Hop.find(ranking.hop_id)
-      hop.update(ranking: index + 1)
+      hop.update(ranking: index + 1, previous_ranking: hop.ranking)
     end
   end
 

@@ -149,10 +149,10 @@ RSpec.describe Hop, type: :model do
 
   describe 'self#refresh_stats' do
     before do
-      @vic_secret = create(:vic_secret)
-      @nelson_sauvin = create(:nelson_sauvin)
+      @vic_secret = create(:vic_secret, ranking: 2)
+      @nelson_sauvin = create(:nelson_sauvin, ranking: 1)
       failed_hop = create(:hop, name: 'Failed Hop', rating: nil)
-      @mosaic = create(:mosaic)
+      @mosaic = create(:mosaic, ranking: 44)
 
       @steezy = create(:steezy)
       @perpetual_embrace = create(:perpetual_embrace)
@@ -165,14 +165,17 @@ RSpec.describe Hop, type: :model do
       Hop.refresh_stats
       @vic_secret.reload
       expect(@vic_secret.rating).to eq(4.38)
+      expect(@vic_secret.previous_ranking).to eq(2)
       expect(@vic_secret.ranking).to eq(1)
 
       @nelson_sauvin.reload
       expect(@nelson_sauvin.rating).to eq(4.32)
+      expect(@nelson_sauvin.previous_ranking).to eq(1)
       expect(@nelson_sauvin.ranking).to eq(2)
 
       @mosaic.reload
       expect(@mosaic.rating).to eq(4.26)
+      expect(@mosaic.previous_ranking).to eq(44)
       expect(@mosaic.ranking).to eq(3)
     end
   end

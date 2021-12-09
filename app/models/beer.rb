@@ -20,12 +20,19 @@ class Beer < ApplicationRecord
     hop.update_rating(rating)
   end
 
+  # update or create a new ipa style beer
   def self.create_ipa(beer_attrs, brewery_id, hops)
     beer_name = beer_attrs[:name]
-    return if exists?(name: beer_name)
+    checkins = beer_attrs[:num_ratings]
+    rating = beer_attrs[:rating]
 
-    beer = create!(name: beer_name, checkins: beer_attrs[:num_ratings], external_id: beer_attrs[:beer_id],
-                   brewery_id: brewery_id, style: 'ipa', rating: beer_attrs[:rating])
+    if exists?(name: beer_name)
+      beer = Beer.find_by_name(beer_name)
+      beer.update(checkins: checkins, rating: rating)
+    else
+      beer = create!(name: beer_name, checkins: checkins, external_id: beer_attrs[:beer_id],
+                    brewery_id: brewery_id, style: 'ipa', rating: rating)
+    end
     beer.hops |= hops
   end
 end
