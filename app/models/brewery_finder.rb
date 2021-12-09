@@ -26,7 +26,7 @@ module BreweryFinder
 
       # extract external_code from title link
       raw_brewery_code = link_element[0].attributes['href'].value
-      raw_brewery_code.gsub('/', '') if raw_brewery_code.present?
+      raw_brewery_code = raw_brewery_code[1..-1] if raw_brewery_code.present? && raw_brewery_code[0] == '/'
     end
 
     # only select queries with a single result

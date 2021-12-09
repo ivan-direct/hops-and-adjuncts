@@ -84,7 +84,7 @@ RSpec.describe Brewery, type: :model do
       it 'updates external_code' do
         brewery.populate_external_code
         brewery.reload
-        expect(brewery.external_code).to eq('TestBrewCo')
+        expect(brewery.external_code).to eq('TestBrewCo/555')
       end
     end
 
