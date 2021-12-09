@@ -125,6 +125,20 @@ RSpec.describe Hop, type: :model do
     end
   end
 
+  describe '#beers_by_rating' do
+    before do
+      @b1 = create(:beer, rating: 5.0)
+      @b2 = create(:beer, rating: 4.9)
+      @b3 = create(:beer, rating: 3.0)
+      @b4 = create(:beer, rating: 0.22)
+      hop.beers = [@b2, @b4, @b1, @b3] # this order shouldn't matter
+    end
+
+    it 'returns beers ordered by rating' do
+      expect(hop.beers_by_rating).to eq([@b1, @b2, @b3, @b4])
+    end
+  end
+
   describe 'self#popular' do
     it 'handles null attributes' do
       expect(Hop.popular).to eq([])

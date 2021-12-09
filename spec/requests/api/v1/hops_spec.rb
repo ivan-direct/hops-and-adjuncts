@@ -64,6 +64,7 @@ RSpec.describe 'Api::V1::Hops', type: :request do
     context 'hop located' do
       before do
         hop = create(:hop, id: 2, name: 'Citra', rating: '4.25', ranking: '1')
+        hop.beers << create(:fresh_palette, rating: 4.5)
         hop.beers << create(:juicy_bits, rating: 4.2)
       end
 
@@ -71,7 +72,7 @@ RSpec.describe 'Api::V1::Hops', type: :request do
         get '/api/v1/hops/2', params: {}
 
         citra_hop = JSON.parse(response.body).fetch('hop')
-        beer = citra_hop.fetch('beers').last
+        beer = citra_hop.fetch('beers').last # test sorting order
         expect(citra_hop.fetch('name')).to eq('Citra')
         expect(citra_hop.fetch('delta')).to eq(0)
         expect(beer.fetch('name')).to eq('Juicy Bits')

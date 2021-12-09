@@ -39,6 +39,10 @@ class Hop < ApplicationRecord
     0
   end
 
+  def beers_by_rating
+    beers.order(rating: :desc)
+  end
+
   def update_rating(rating)
     update(rating: rating)
     OpenStruct.new(hop_id: id, rating: rating)
