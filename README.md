@@ -17,7 +17,7 @@
   <h3 align="center">Hops-and-Adjuncts</h3>
 
   <p align="center">
-    A web application that can be used to learn more about hop and adjunct (non-traditional ingredients) trends in the Craft Beer Scene.
+    A web application that can be used to learn more about hop and adjunct (non-traditional ingredients) trends.
   </p>
   <br/>
 </div>
