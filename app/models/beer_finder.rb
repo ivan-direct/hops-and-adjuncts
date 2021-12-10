@@ -15,7 +15,8 @@ module BeerFinder
 
       doc.css('div.beer-item').each do |beer_el|
         hops = match_hops(beer_el)
-        create_beer(beer_el, brewery_id, hops) if hops.present?
+        adjuncts = match_adjuncts(beer_el)
+        create_beer(beer_el, brewery_id, [hops, adjuncts]) if hops.present? || adjuncts.present?
       end
     rescue StandardError => e
       handle_error(e, brewery_id)
@@ -24,6 +25,11 @@ module BeerFinder
     def match_hops(beer_el)
       description = beer_el.css('p.desc')[0].text
       hops = Hop.find_match(description)
+    end
+
+    def match_adjuncts(beer_el)
+      description = beer_el.css('p.desc')[0].text
+      adjuncts = Adjunct.find_match(description)
     end
 
     # use nokogiri selectors to extract relevant beer attributes from document
@@ -38,13 +44,18 @@ module BeerFinder
 
     # num checkins with a rating. might want to replace with checkins _see above_
     def parse_ratings(beer_el)
-      beer_el.css('div.raters')[0].text.gsub("\n", '').gsub(' Ratings ', '').to_i rescue 0
+      beer_el.css('div.raters')[0].text.gsub("\n", '').gsub(' Ratings ', '').to_i
+    rescue StandardError
+      0
     end
 
-    def create_beer(beer_el, brewery_id, hops)
+    def create_beer(beer_el, brewery_id, ingredients)
+      hops = ingredients.first
+      adjuncts = ingredients.last
       beer_attrs = extract_attributes(beer_el)
-      # TODO: add logic driven by TYPE_ID and create_stout, create_other methods
-      Beer.create_ipa(beer_attrs, brewery_id, hops)
+
+      Beer.create_ipa(beer_attrs, brewery_id, hops) if hops.present?
+      Beer.create_stout(beer_attrs, brewery_id, adjuncts) if adjuncts.present?
     end
 
     def handle_error(e, brewery_id)

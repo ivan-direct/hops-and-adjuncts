@@ -31,6 +31,15 @@ class Beer < ApplicationRecord
 
   # update or create a new ipa style beer
   def self.create_ipa(beer_attrs, brewery_id, hops)
+    Beer.create_beer(beer_attrs, brewery_id, hops, 'ipa')
+  end
+
+  # update or create a new stout style beer
+  def self.create_stout(beer_attrs, brewery_id, adjuncts)
+    Beer.create_beer(beer_attrs, brewery_id, adjuncts, 'stout')
+  end
+
+  def self.create_beer(beer_attrs, brewery_id, hops, type)
     beer_name = beer_attrs[:name]
     checkins = beer_attrs[:num_ratings]
     rating = beer_attrs[:rating]
@@ -40,7 +49,7 @@ class Beer < ApplicationRecord
       beer.update(checkins: checkins, rating: rating)
     else
       beer = create!(name: beer_name, checkins: checkins, external_id: beer_attrs[:beer_id],
-                    brewery_id: brewery_id, style: 'ipa', rating: rating)
+                     brewery_id: brewery_id, style: type, rating: rating)
     end
     beer.hops |= hops
   end

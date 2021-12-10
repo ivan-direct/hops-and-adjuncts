@@ -124,7 +124,10 @@ RSpec.describe Brewery, type: :model do
   end
 
   describe '#find_beers' do
-    let(:type_ids) { [128, 61, 115, 296, 315, 227, 112, 284, 305, 280, 334, 252, 311, 248, 308, 99, 9, 294] }
+    let(:type_ids) do
+      [128, 61, 115, 296, 315, 227, 112, 284, 305, 280, 334, 252, 311, 248, 308, 99, 9, 294, 163, 292, 250, 327, 34, 47,
+       310, 41]
+    end
     let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
 
     context 'success' do
@@ -149,6 +152,51 @@ RSpec.describe Brewery, type: :model do
           expect(beer.style).to eq('ipa')
           expect(beer.rating).to eq(4.15)
           expect(beer.checkins).to eq(885)
+          expect(beer.brewery_id).to eq(brewery.id)
+          expect(beer.external_id).to eq(5555)
+        end
+      end
+
+      context 'one IPA with no rating' do
+        let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beer_with_no_rating.html") }
+
+        before do
+          create(:citra)
+          uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
+
+          type_ids.each do |type_id|
+            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+          end
+        end
+
+        it 'creates beer' do
+          brewery.find_beers
+          beer = Beer.last
+          expect(beer.checkins).to eq(0)
+        end
+      end
+
+      context 'one Stout with coffee mentioned' do
+        let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beers_with_adjuncts.html") }
+
+        before do
+          create(:coffee)
+          uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
+
+          type_ids.each do |type_id|
+            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+          end
+        end
+
+        it 'creates beer' do
+          brewery.find_beers
+          beer = Beer.last
+          expect(beer.name).to eq('Mostra Park')
+          expect(beer.style).to eq('stout')
+          expect(beer.rating).to eq(4.57)
+          expect(beer.checkins).to eq(1_200)
           expect(beer.brewery_id).to eq(brewery.id)
           expect(beer.external_id).to eq(5555)
         end
