@@ -75,6 +75,7 @@ RSpec.describe 'Api::V1::Hops', type: :request do
         beer = citra_hop.fetch('beers').last # test sorting order
         expect(citra_hop.fetch('name')).to eq('Citra')
         expect(citra_hop.fetch('delta')).to eq(0)
+        expect(citra_hop.fetch('description')).to eq('No description available for this hop.')
         expect(beer.fetch('name')).to eq('Juicy Bits')
         expect(beer.fetch('rating')).to eq(4.2)
       end

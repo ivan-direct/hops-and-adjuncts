@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_08_231553) do
+ActiveRecord::Schema.define(version: 2021_12_10_030038) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2021_12_08_231553) do
     t.integer "ranking"
     t.boolean "featured", default: false
     t.integer "previous_ranking"
+    t.text "description"
     t.index ["name"], name: "index_hops_on_name", unique: true
   end
 

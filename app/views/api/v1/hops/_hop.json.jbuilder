@@ -10,4 +10,5 @@ json.hop do
   end
   json.common_pairings hop.common_pairings
   json.delta hop.delta
+  json.description hop.description
 end

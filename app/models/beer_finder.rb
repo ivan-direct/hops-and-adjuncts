@@ -38,7 +38,7 @@ module BeerFinder
 
     # num checkins with a rating. might want to replace with checkins _see above_
     def parse_ratings(beer_el)
-      beer_el.css('div.raters')[0].text.gsub("\n", '').gsub(' Ratings ', '').to_i rescue nil
+      beer_el.css('div.raters')[0].text.gsub("\n", '').gsub(' Ratings ', '').to_i rescue 0
     end
 
     def create_beer(beer_el, brewery_id, hops)

@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :hop do
     sequence(:name) { |n| "Saaz#{n}" }
+    description { 'No description available for this hop.' }
 
     factory :citra do
       name { 'Citra' }

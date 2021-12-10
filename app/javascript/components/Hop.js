@@ -32,13 +32,11 @@ class Hop extends Component {
         ],
         common_pairings: [],
         delta: null,
+        description: null,
       },
     };
     this.params = props.params;
     this.url = `/api/v1/hops/${this.params.id}`;
-    // TODO replace me!
-    this.description =
-      "American floral hop released in 1998. A cross between Saaz and Mount Hood in character but easier to grow.";
   }
 
   componentDidMount() {
@@ -59,6 +57,7 @@ class Hop extends Component {
         beers: hop.beers,
         common_pairings: hop.common_pairings,
         delta: hop.delta,
+        description: hop.description,
       };
       this.setState({ hop: newEl });
       document.title = newEl.name;
@@ -133,7 +132,7 @@ class Hop extends Component {
                         header={<h1>About</h1>}
                         bordered
                         dataSource={[
-                          `Description: ${this.description}`,
+                          `${hop.description}`,
                           `Rating: ${hop.rating}`,
                           `Ranking: ${hop.ranking}`,
                           this.ratingChange(hop.delta),
