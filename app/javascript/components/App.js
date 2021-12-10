@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import Hop from "./Hop";
 import Hops from "./Hops";
+import Adjuncts from "./Adjuncts";
 
 const HopRouteWrapper = function hopWrapper() {
   const params = useParams();
@@ -23,6 +24,7 @@ class App extends PureComponent {
           <Route path="/" element={<Hops />} />
           <Route path="/hops" element={<Hops />} />
           <Route path="/hops/:id" element={<HopRouteWrapper />} />
+          <Route path="/adjuncts" element={<Adjuncts />} />
         </Routes>
       </Router>
     );

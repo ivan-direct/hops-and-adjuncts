@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import hopsImage from "../images/hops.png";
+import AdjunctCard from "./AdjunctCard";
 import FeaturedHop from "./FeaturedHop";
 import HopCard from "./HopCard";
 import HotHops from "./HotHops";
@@ -14,19 +15,19 @@ import Spinner from "./Spinner";
 
 const { Header, Content } = Layout;
 
-class Hops extends Component {
+class Adjuncts extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.state = {
-      hops: [],
-      hopName: "",
+      adjuncts: [],
+      adjunctName: "",
       loadComplete: false,
     };
     this.defaultHopListTitle = "🥇 Top Rated Hops";
-    this.hopListTitle = props.hopListTitle
-      ? props.hopListTitle
+    this.adjunctListTitle = props.adjunctListTitle
+      ? props.adjunctListTitle
       : this.defaultHopListTitle;
   }
 
@@ -36,38 +37,38 @@ class Hops extends Component {
   }
 
   handleChange(e) {
-    this.setState({ hopName: e.target.value });
+    this.setState({ adjunctName: e.target.value });
   }
 
   handleSearch() {
-    this.setState({ hops: [] });
+    this.setState({ adjuncts: [] });
     // eslint-disable-next-line react/destructuring-assignment
-    this.loadHops(this.state.hopName);
+    this.loadHops(this.state.adjunctName);
     // eslint-disable-next-line react/destructuring-assignment
-    if (!this.state.hopName) {
-      this.hopListTitle = this.defaultHopListTitle;
+    if (!this.state.adjunctName) {
+      this.adjunctListTitle = this.defaultHopListTitle;
     } else {
       // eslint-disable-next-line react/destructuring-assignment
-      this.hopListTitle = `🔎 Search Result - ${this.state.hopName}`;
+      this.adjunctListTitle = `🔎 Search Result - ${this.state.adjunctName}`;
       this.setState({ loadComplete: true });
     }
   }
 
   loadHops = (q) => {
-    const url = `api/v1/hops?query=${q}`;
+    const url = `api/v1/adjuncts?query=${q}`;
     getRequest(url).then((response) => {
       const { data } = response;
       data.forEach((el) => {
         const newEl = {
-          key: el.hop.id,
-          id: el.hop.id,
-          name: el.hop.name,
-          rating: el.hop.rating,
-          ranking: el.hop.ranking,
-          beers: el.hop.beers,
+          key: el.adjunct.id,
+          id: el.adjunct.id,
+          name: el.adjunct.name,
+          rating: el.adjunct.rating,
+          ranking: el.adjunct.ranking,
+          beers: el.adjunct.beers,
         };
         this.setState((prevState) => ({
-          hops: [...prevState.hops, newEl],
+          adjuncts: [...prevState.adjuncts, newEl],
         }));
       });
       this.setState({ loadComplete: true });
@@ -75,8 +76,8 @@ class Hops extends Component {
   };
 
   render() {
-    const { hopName } = this.state;
-    const { hops } = this.state;
+    const { adjunctName } = this.state;
+    const { adjuncts } = this.state;
     const { loadComplete } = this.state;
 
     return (
@@ -90,18 +91,6 @@ class Hops extends Component {
                   alt="H/A Logo"
                   style={{
                     paddingBottom: "4px",
-                    marginRight: "8px",
-                    width: "31px",
-                    height: "31px",
-                  }}
-                />
-              </Link>
-              <Link style={{ fontSize: "21px", fontWeight: "bolder" }} to="/adjuncts">
-                <img
-                  src={hopsImage}
-                  alt="H/A Logo"
-                  style={{
-                    paddingBottom: "4px",
                     width: "31px",
                     height: "31px",
                   }}
@@ -110,7 +99,7 @@ class Hops extends Component {
             </Menu.Item>
             <Menu.Item key="1" id="search-item">
               <Search
-                value={hopName}
+                value={adjunctName}
                 onChange={this.handleChange}
                 onSearch={this.handleSearch}
                 style={{ width: 200, marginTop: "16px" }}
@@ -132,10 +121,10 @@ class Hops extends Component {
             <div className="site-layout-content">
               <Row align="top">
                 <Col flex={3}>
-                  <h1>{this.hopListTitle}</h1>
+                  <h1>{this.adjunctListTitle}</h1>
                   <div>
-                    {hops.map((hop) => (
-                      <HopCard hop={hop} key={hop.id} />
+                    {adjuncts.map((adjunct) => (
+                      <AdjunctCard adjunct={adjunct} key={adjunct.id} />
                     ))}
                   </div>
                 </Col>
@@ -163,12 +152,12 @@ class Hops extends Component {
   }
 }
 
-Hops.propTypes = {
-  hopListTitle: PropTypes.string,
+Adjuncts.propTypes = {
+  adjunctListTitle: PropTypes.string,
 };
 
-Hops.defaultProps = {
-  hopListTitle: "🥇 Top Rated Hops",
+Adjuncts.defaultProps = {
+  adjunctListTitle: "🥇 Top Rated Hops",
 };
 
-export default Hops;
+export default Adjuncts;
