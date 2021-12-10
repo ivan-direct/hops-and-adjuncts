@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Adjunct, type: :model do
   let(:adjunct) { create(:coffee) }
   let(:nightmare_fuel) { create(:nightmare_fuel) }
-  let(:cinnamon_vanilla_rub_ba_sandman) { create(:cinnamon_vanilla_rum_ba_sandman) }
+  let(:cinnamon_vanilla_rum_ba_sandman) { create(:cinnamon_vanilla_rum_ba_sandman) }
 
   describe '#create' do
     it 'creates a new adjunct' do
@@ -29,17 +29,17 @@ RSpec.describe Adjunct, type: :model do
 
   describe '#beers' do
     it 'adds beer associations to a adjunct' do
-      adjunct.beers << [nightmare_fuel, cinnamon_vanilla_rub_ba_sandman]
+      adjunct.beers << [nightmare_fuel, cinnamon_vanilla_rum_ba_sandman]
       expect(adjunct.beers.size).to eq(2)
     end
   end
 
   describe '#total_checkins' do
-    let(:expected_checkins) { nightmare_fuel.checkins + cinnamon_vanilla_rub_ba_sandman.checkins }
+    let(:expected_checkins) { nightmare_fuel.checkins + cinnamon_vanilla_rum_ba_sandman.checkins }
 
     it 'returns the sum of all beer checkins' do
       expect(adjunct.total_checkins).to eq(0)
-      adjunct.beers << [nightmare_fuel, cinnamon_vanilla_rub_ba_sandman]
+      adjunct.beers << [nightmare_fuel, cinnamon_vanilla_rum_ba_sandman]
       expect(adjunct.total_checkins).to eq(expected_checkins)
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe Adjunct, type: :model do
   describe '#common_pairings' do
     context '2 common pairings' do
       before do
-        beers = [nightmare_fuel, cinnamon_vanilla_rub_ba_sandman]
+        beers = [nightmare_fuel, cinnamon_vanilla_rum_ba_sandman]
         adjunct.beers << beers
         coconut = create(:coconut)
         coconut.beers << beers
@@ -153,7 +153,7 @@ RSpec.describe Adjunct, type: :model do
 
     it 'populates adjunct#rating and adjunct#ranking' do
       nightmare_fuel.adjuncts = [@hazelnut, @cinnamon]
-      cinnamon_vanilla_rub_ba_sandman.adjuncts = [@cinnamon, @banana]
+      cinnamon_vanilla_rum_ba_sandman.adjuncts = [@cinnamon, @banana]
 
       Adjunct.refresh_stats
       @banana.reload
