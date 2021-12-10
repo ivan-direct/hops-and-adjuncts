@@ -17,7 +17,7 @@ class AdjunctCard extends Component {
   constructor(props) {
     super(props);
     this.adjunct = props.adjunct;
-    // this.adjunct_path = `/adjuncts/${this.adjunct.id}`;
+    this.adjunct_path = `/adjuncts/${this.adjunct.id}`;
   }
 
   render() {
@@ -26,7 +26,7 @@ class AdjunctCard extends Component {
     return (
       <Card
         key={this.adjunct.id}
-        title={this.adjunct.name}
+        title={<Link to={this.adjunct_path} className="hop-link">{this.adjunct.name}</Link>}
         bordered
         style={{ width: "65%", marginBottom: "16px" }}
       >

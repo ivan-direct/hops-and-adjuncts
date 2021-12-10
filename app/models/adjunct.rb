@@ -40,7 +40,7 @@ class Adjunct < ApplicationRecord
     return [] if description.blank?
 
     adjunct_names = all.pluck(:name)
-    matched_names = adjunct_names.select { |name| description.include?(name) }
+    matched_names = adjunct_names.select { |name| description.downcase.include?(name) }
     where(name: matched_names)
   end
 end

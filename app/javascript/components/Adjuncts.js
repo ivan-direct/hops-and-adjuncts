@@ -6,9 +6,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import hopsImage from "../images/hops.png";
 import AdjunctCard from "./AdjunctCard";
-import FeaturedHop from "./FeaturedHop";
-import HopCard from "./HopCard";
-import HotHops from "./HotHops";
+import HotAdjuncts from "./HotAdjuncts";
 import MainFooter from "./MainFooter";
 import { getRequest } from "./NetworkHelper";
 import Spinner from "./Spinner";
@@ -25,7 +23,7 @@ class Adjuncts extends Component {
       adjunctName: "",
       loadComplete: false,
     };
-    this.defaultHopListTitle = "🥇 Top Rated Hops";
+    this.defaultHopListTitle = "🥇 Top Rated Adjuncts";
     this.adjunctListTitle = props.adjunctListTitle
       ? props.adjunctListTitle
       : this.defaultHopListTitle;
@@ -33,7 +31,7 @@ class Adjuncts extends Component {
 
   componentDidMount() {
     this.loadHops("");
-    document.title = "Hops";
+    document.title = "Adjuncts";
   }
 
   handleChange(e) {
@@ -97,7 +95,24 @@ class Adjuncts extends Component {
                 />
               </Link>
             </Menu.Item>
-            <Menu.Item key="1" id="search-item">
+            <Menu.Item key="1">
+              <Link
+                style={{ fontSize: "21px", fontWeight: "bolder" }}
+                to="/adjuncts"
+              >
+                <img
+                  src={hopsImage}
+                  alt="H/A Logo"
+                  style={{
+                    paddingBottom: "4px",
+                    marginRight: "4px",
+                    width: "31px",
+                    height: "31px",
+                  }}
+                />
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="2" id="search-item">
               <Search
                 value={adjunctName}
                 onChange={this.handleChange}
@@ -129,16 +144,10 @@ class Adjuncts extends Component {
                   </div>
                 </Col>
                 <Col flex={2}>
-                  <Row>
-                    <Col span={24}>
-                      <h1>⭐ Featured</h1>
-                      <FeaturedHop />
-                    </Col>
-                  </Row>
                   <Row style={{ paddingTop: "16px" }}>
                     <Col span={24}>
-                      <h1>🔥 Hot Hops</h1>
-                      <HotHops />
+                      <h1>🔥 Hot Adjuncts</h1>
+                      <HotAdjuncts />
                     </Col>
                   </Row>
                 </Col>
@@ -157,7 +166,7 @@ Adjuncts.propTypes = {
 };
 
 Adjuncts.defaultProps = {
-  adjunctListTitle: "🥇 Top Rated Hops",
+  adjunctListTitle: "🥇 Top Rated Adjuncts",
 };
 
 export default Adjuncts;

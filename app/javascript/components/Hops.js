@@ -90,25 +90,30 @@ class Hops extends Component {
                   alt="H/A Logo"
                   style={{
                     paddingBottom: "4px",
-                    marginRight: "8px",
-                    width: "31px",
-                    height: "31px",
-                  }}
-                />
-              </Link>
-              <Link style={{ fontSize: "21px", fontWeight: "bolder" }} to="/adjuncts">
-                <img
-                  src={hopsImage}
-                  alt="H/A Logo"
-                  style={{
-                    paddingBottom: "4px",
                     width: "31px",
                     height: "31px",
                   }}
                 />
               </Link>
             </Menu.Item>
-            <Menu.Item key="1" id="search-item">
+            <Menu.Item key="1">
+              <Link
+                style={{ fontSize: "21px", fontWeight: "bolder" }}
+                to="/adjuncts"
+              >
+                <img
+                  src={hopsImage}
+                  alt="H/A Logo"
+                  style={{
+                    paddingBottom: "4px",
+                    marginRight: "4px",
+                    width: "31px",
+                    height: "31px",
+                  }}
+                />
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="2" id="search-item">
               <Search
                 value={hopName}
                 onChange={this.handleChange}

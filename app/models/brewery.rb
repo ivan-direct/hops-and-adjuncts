@@ -39,7 +39,7 @@ class Brewery < ApplicationRecord
   # Find the 25 most recent beers for stouts and ipas (other type maybe) # #
   # and create a beer record if a hop name is found in the description # # #
   def find_beers
-    type_ids = BeerFinder::IPA_TYPE_IDS+BeerFinder::STOUT_TYPE_IDS
+    type_ids =  BeerFinder::IPA_TYPE_IDS+BeerFinder::STOUT_TYPE_IDS
     type_ids.each do |type_id|
       url = "https://untappd.com/#{external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
       BeerFinder.build(url, id)
