@@ -3,6 +3,7 @@
 # the origin of hop data using Untappd (or other) data feed as the source for all hop stats.
 class Beer < ApplicationRecord
   has_and_belongs_to_many :hops
+  has_and_belongs_to_many :adjuncts
   belongs_to :brewery, optional: true
 
   validates :name, presence: true
@@ -12,12 +13,20 @@ class Beer < ApplicationRecord
   validates :style, inclusion: { in: %w[ipa stout other] }
 
   # @return struct(hop_id: id, rating: rating) or nil
-  def self.calculate_rating(hop)
+  def self.calculate_hop_rating(hop)
     beers = select { |beer| beer.hops.include? hop }
     return if beers.blank?
 
     rating = beers.map(&:rating).sum / beers.size
     hop.update_rating(rating)
+  end
+
+  def self.calculate_adjunct_rating(adjunct)
+    beers = select { |beer| beer.adjuncts.include? adjunct }
+    return if beers.blank?
+
+    rating = beers.map(&:rating).sum / beers.size
+    adjunct.update_rating(rating)
   end
 
   # update or create a new ipa style beer

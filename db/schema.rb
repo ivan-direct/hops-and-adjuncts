@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_10_030038) do
+ActiveRecord::Schema.define(version: 2021_12_10_153244) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "adjuncts", force: :cascade do |t|
+    t.string "name"
+    t.float "rating"
+    t.integer "ranking"
+    t.integer "previous_ranking"
+    t.boolean "featured"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_adjuncts_on_name", unique: true
+  end
+
+  create_table "adjuncts_beers", id: false, force: :cascade do |t|
+    t.bigint "adjunct_id", null: false
+    t.bigint "beer_id", null: false
+    t.index ["adjunct_id", "beer_id"], name: "index_adjuncts_beers_on_adjunct_id_and_beer_id"
+    t.index ["beer_id", "adjunct_id"], name: "index_adjuncts_beers_on_beer_id_and_adjunct_id"
+  end
 
   create_table "beers", force: :cascade do |t|
     t.string "name"
