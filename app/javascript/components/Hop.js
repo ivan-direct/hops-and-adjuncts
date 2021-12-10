@@ -46,7 +46,6 @@ class Hop extends Component {
   loadHop = () => {
     getRequest(this.url).then((response) => {
       const { data } = response;
-      // TODO how to handle error response for full page???
       const { hop } = data;
       const newEl = {
         key: hop.id,
