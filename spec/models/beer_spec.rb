@@ -78,7 +78,7 @@ RSpec.describe Beer, type: :model do
     end
   end
 
-  describe 'self#calculate_rating' do
+  describe 'self#calculate_hop_rating' do
     let(:fresh_palette) { create(:fresh_palette) }
     let(:cosmic_torero) { create(:cosmic_torero) }
     let(:citra) { create(:citra) }
@@ -87,13 +87,13 @@ RSpec.describe Beer, type: :model do
     it 'adds hop associations to a beer' do
       fresh_palette.hops << [mosaic]
       cosmic_torero.hops << [citra]
-      return_hash = Beer.calculate_rating(citra)
+      return_hash = Beer.calculate_hop_rating(citra)
       citra.reload
       expect(citra.rating).to eq(cosmic_torero.rating)
     end
 
     it 'handles hops without beers' do
-      expect(Beer.calculate_rating(citra)).to be_nil
+      expect(Beer.calculate_hop_rating(citra)).to be_nil
     end
   end
 

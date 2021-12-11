@@ -3,6 +3,7 @@
 # the origin of hop data using Untappd (or other) data feed as the source for all hop stats.
 class Beer < ApplicationRecord
   has_and_belongs_to_many :hops
+  has_and_belongs_to_many :adjuncts
   belongs_to :brewery, optional: true
 
   validates :name, presence: true
@@ -12,7 +13,7 @@ class Beer < ApplicationRecord
   validates :style, inclusion: { in: %w[ipa stout other] }
 
   # @return struct(hop_id: id, rating: rating) or nil
-  def self.calculate_rating(hop)
+  def self.calculate_hop_rating(hop)
     beers = select { |beer| beer.hops.include? hop }
     return if beers.blank?
 
@@ -20,8 +21,27 @@ class Beer < ApplicationRecord
     hop.update_rating(rating)
   end
 
+  def self.calculate_adjunct_rating(adjunct)
+    beers = select { |beer| beer.adjuncts.include? adjunct }
+    return if beers.blank?
+
+    rating = beers.map(&:rating).sum / beers.size
+    adjunct.update_rating(rating)
+  end
+
   # update or create a new ipa style beer
   def self.create_ipa(beer_attrs, brewery_id, hops)
+    beer = Beer.create_beer(beer_attrs, brewery_id, hops, 'ipa')
+    beer.hops |= hops
+  end
+
+  # update or create a new stout style beer
+  def self.create_stout(beer_attrs, brewery_id, adjuncts)
+    beer = Beer.create_beer(beer_attrs, brewery_id, adjuncts, 'stout')
+    beer.adjuncts |= adjuncts
+  end
+
+  def self.create_beer(beer_attrs, brewery_id, _hops, type)
     beer_name = beer_attrs[:name]
     checkins = beer_attrs[:num_ratings]
     rating = beer_attrs[:rating]
@@ -31,8 +51,8 @@ class Beer < ApplicationRecord
       beer.update(checkins: checkins, rating: rating)
     else
       beer = create!(name: beer_name, checkins: checkins, external_id: beer_attrs[:beer_id],
-                    brewery_id: brewery_id, style: 'ipa', rating: rating)
+                     brewery_id: brewery_id, style: type, rating: rating)
     end
-    beer.hops |= hops
+    beer
   end
 end

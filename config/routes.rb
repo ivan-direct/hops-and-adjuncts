@@ -11,6 +11,13 @@ Rails.application.routes.draw do
           get :popular
         end
       end
+
+      resources :adjuncts do
+        collection do
+          get :featured
+          get :popular
+        end
+      end
     end
   end
 

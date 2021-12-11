@@ -1,20 +1,23 @@
 import { green, red } from "@ant-design/colors";
 import { DownCircleFilled, UpCircleFilled } from "@ant-design/icons";
-import { Breadcrumb, Col, Layout, List, Row } from "antd";
+import { Breadcrumb, Col, Layout, List, Menu, Row } from "antd";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import hopsImage from "../images/hops.png";
+import adjunctImage from "../images/coconut.png";
 import BeerCard from "./BeerCard";
 import MainFooter from "./MainFooter";
 import { getRequest } from "./NetworkHelper";
 import MainHeader from "./MainHeader";
 
-const { Content } = Layout;
+const { Header, Content } = Layout;
 
-class Hop extends Component {
+class Adjunct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hop: {
+      adjunct: {
         key: null,
         id: null,
         name: null,
@@ -35,29 +38,28 @@ class Hop extends Component {
       },
     };
     this.params = props.params;
-    this.url = `/api/v1/hops/${this.params.id}`;
+    this.url = `/api/v1/adjuncts/${this.params.id}`;
   }
 
   componentDidMount() {
-    this.loadHop();
+    this.loadAdjunct();
   }
 
-  loadHop = () => {
+  loadAdjunct = () => {
     getRequest(this.url).then((response) => {
       const { data } = response;
-      const { hop } = data;
+      const { adjunct } = data;
       const newEl = {
-        key: hop.id,
-        id: hop.id,
-        name: hop.name,
-        rating: hop.rating,
-        ranking: hop.ranking,
-        beers: hop.beers,
-        common_pairings: hop.common_pairings,
-        delta: hop.delta,
-        description: hop.description,
+        key: adjunct.id,
+        id: adjunct.id,
+        name: adjunct.name,
+        rating: adjunct.rating,
+        ranking: adjunct.ranking,
+        beers: adjunct.beers,
+        common_pairings: adjunct.common_pairings,
+        delta: adjunct.delta,
       };
-      this.setState({ hop: newEl });
+      this.setState({ adjunct: newEl });
       document.title = newEl.name;
     });
   };
@@ -86,13 +88,13 @@ class Hop extends Component {
   }
 
   render() {
-    const { hop } = this.state;
-    const hopPresent = hop.id !== null;
+    const { adjunct } = this.state;
+    const adjunctPresent = adjunct.id !== null;
 
     return (
       <Layout className="layout">
         <MainHeader />
-        {hopPresent && (
+        {adjunctPresent && (
           <Content
             style={{
               padding: "0 50px",
@@ -114,10 +116,9 @@ class Hop extends Component {
                         header={<h1>About</h1>}
                         bordered
                         dataSource={[
-                          `${hop.description}`,
-                          `Rating: ${hop.rating}`,
-                          `Ranking: ${hop.ranking}`,
-                          this.ratingChange(hop.delta),
+                          `Rating: ${adjunct.rating}`,
+                          `Ranking: ${adjunct.ranking}`,
+                          this.ratingChange(adjunct.delta),
                         ]}
                         renderItem={(item) => <List.Item>{item}</List.Item>}
                       />
@@ -128,38 +129,27 @@ class Hop extends Component {
                       <List
                         size="small"
                         style={{ width: "85%" }}
-                        header={<h1>Common Hop Pairings</h1>}
+                        header={<h1>Common Adjunct Pairings</h1>}
                         bordered
-                        dataSource={hop.common_pairings}
+                        dataSource={adjunct.common_pairings}
                         renderItem={(item) => <List.Item>{item}</List.Item>}
                       />
                     </Col>
                   </Row>
                 </Col>
                 <Col flex={2}>
-                  {/* <Row>
-                  <Col span={24}>
-                    <h1>Bells & Whistles Widget</h1>
-                    <div>Graph</div>
-                    <div>Map</div>
-                    <div>External Links to buy</div>
-                    <div>
-                      External Links to Wikipedia other sources of information
-                    </div>
-                  </Col>
-                </Row> */}
                   <Row>
                     <Col span={24}>
                       <List
                         size="medium"
                         header={
                           <h1>
-                            {hop.name}
+                            {adjunct.name}
                             {" Beers"}
                           </h1>
                         }
                         bordered
-                        dataSource={hop.beers}
+                        dataSource={adjunct.beers}
                         renderItem={(item) => (
                           <List.Item>
                             <BeerCard beer={item} key={item.id} />
@@ -179,10 +169,10 @@ class Hop extends Component {
   }
 }
 
-Hop.propTypes = {
+Adjunct.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }).isRequired,
 };
 
-export default Hop;
+export default Adjunct;

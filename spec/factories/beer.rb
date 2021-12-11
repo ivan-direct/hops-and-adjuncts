@@ -55,5 +55,19 @@ FactoryBot.define do
       rating { 4.37 }
       style { 'ipa' }
     end
+
+    factory :nightmare_fuel do
+      name { 'Nightmare Fuel' }
+      checkins { 2_100 }
+      rating { 4.09 }
+      style { 'stout' }
+    end
+
+    factory :cinnamon_vanilla_rum_ba_sandman do
+      name { 'Cinnamon Vanilla Rum Barrel Aged Mr. Sandman (2021)' }
+      checkins { 42 }
+      rating { 3.98 }
+      style { 'stout' }
+    end
   end
 end
