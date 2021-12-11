@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import hopsImage from "../images/hops.png";
+import adjunctImage from "../images/coconut.png";
 import FeaturedHop from "./FeaturedHop";
 import HopCard from "./HopCard";
 import HotHops from "./HotHops";
@@ -84,7 +85,15 @@ class Hops extends Component {
         <Header style={{ background: green[2] }}>
           <Menu theme="light" mode="horizontal">
             <Menu.Item key="0">
-              <Link style={{ fontSize: "21px", fontWeight: "bolder" }} to="/">
+              <Link
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "bolder",
+                  color: green[8],
+                }}
+                to="/"
+              >
+                <span>Hops </span>
                 <img
                   src={hopsImage}
                   alt="H/A Logo"
@@ -98,11 +107,16 @@ class Hops extends Component {
             </Menu.Item>
             <Menu.Item key="1">
               <Link
-                style={{ fontSize: "21px", fontWeight: "bolder" }}
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "bolder",
+                  color: green[8],
+                }}
                 to="/adjuncts"
               >
+                <span>Adjuncts </span>
                 <img
-                  src={hopsImage}
+                  src={adjunctImage}
                   alt="H/A Logo"
                   style={{
                     paddingBottom: "4px",

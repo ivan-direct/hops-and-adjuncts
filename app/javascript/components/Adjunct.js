@@ -5,9 +5,11 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import hopsImage from "../images/hops.png";
+import adjunctImage from "../images/coconut.png";
 import BeerCard from "./BeerCard";
 import MainFooter from "./MainFooter";
 import { getRequest } from "./NetworkHelper";
+import MainHeader from "./MainHeader";
 
 const { Header, Content } = Layout;
 
@@ -91,23 +93,7 @@ class Adjunct extends Component {
 
     return (
       <Layout className="layout">
-        <Header style={{ background: green[2] }}>
-          <Menu theme="light" mode="horizontal">
-            <Menu.Item key="0">
-              <Link style={{ fontSize: "21px", fontWeight: "bolder" }} to="/">
-                <img
-                  src={hopsImage}
-                  alt="H/A Logo"
-                  style={{
-                    paddingBottom: "4px",
-                    width: "31px",
-                    height: "31px",
-                  }}
-                />
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Header>
+        <MainHeader />
         {adjunctPresent && (
           <Content
             style={{
