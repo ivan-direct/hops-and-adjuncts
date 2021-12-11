@@ -10,8 +10,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/ivan-direct/hops-and-adjuncts">
-    Repository
-    <!-- <img src="images/put_logo_here.png" alt="Logo" width="80" height="80"> -->
+    <img src="display_images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Hops-and-Adjuncts</h3>
