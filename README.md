@@ -8,9 +8,10 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  [![Logo][logo]](https://github.com/ivan-direct/hops-and-adjuncts)
 
+[![Logo][logo]](https://github.com/ivan-direct/hops-and-adjuncts)
+
+<div align="center">
   <h3 align="center">Hops-and-Adjuncts</h3>
 
   <p align="center">
