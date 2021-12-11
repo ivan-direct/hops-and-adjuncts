@@ -66,7 +66,7 @@ RSpec.describe Brewery, type: :model do
     end
 
     it 'calls populate_external_code on one brewery record' do
-      Brewery.build_beer_list
+      Brewery.build_beer_list('ipa')
     end
   end
 
@@ -124,118 +124,165 @@ RSpec.describe Brewery, type: :model do
   end
 
   describe '#find_beers' do
-    let(:type_ids) do
-      [128, 61, 115, 296, 315, 227, 112, 284, 305, 280, 334, 252, 311, 248, 308, 99, 9, 294, 163, 292, 250, 327, 34, 47,
-       310, 41]
-    end
-    let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
+    context 'find ipas' do
+      let(:type_ids) do
+        [128, 61, 115, 296, 315, 227, 112, 284, 305, 280, 334, 252, 311, 248, 308, 99, 9, 294]
+      end
+      let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
 
-    context 'success' do
-      context 'one IPA with Citra mentioned' do
-        let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beers.html") }
+      context 'success' do
+        context 'one IPA with Citra mentioned' do
+          let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beers.html") }
 
-        before do
-          create(:citra)
-          uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
+          before do
+            create(:citra)
+            uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
 
-          type_ids.each do |type_id|
-            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
-            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+            type_ids.each do |type_id|
+              url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+              allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+            end
+          end
+
+          it 'creates beer' do
+            brewery.find_beers('ipa')
+            beer = Beer.last
+
+            expect(beer.name).to eq('Jazzy')
+            expect(beer.style).to eq('ipa')
+            expect(beer.rating).to eq(4.15)
+            expect(beer.checkins).to eq(885)
+            expect(beer.brewery_id).to eq(brewery.id)
+            expect(beer.external_id).to eq(5555)
           end
         end
 
-        it 'creates beer' do
-          brewery.find_beers
-          beer = Beer.last
+        context 'one IPA with no rating' do
+          let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beer_with_no_rating.html") }
 
-          expect(beer.name).to eq('Jazzy')
-          expect(beer.style).to eq('ipa')
-          expect(beer.rating).to eq(4.15)
-          expect(beer.checkins).to eq(885)
-          expect(beer.brewery_id).to eq(brewery.id)
-          expect(beer.external_id).to eq(5555)
-        end
-      end
+          before do
+            create(:citra)
+            uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
 
-      context 'one IPA with no rating' do
-        let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beer_with_no_rating.html") }
+            type_ids.each do |type_id|
+              url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+              allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+            end
+          end
 
-        before do
-          create(:citra)
-          uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
-
-          type_ids.each do |type_id|
-            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
-            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+          it 'creates beer' do
+            brewery.find_beers('ipa')
+            beer = Beer.last
+            expect(beer.checkins).to eq(0)
           end
         end
 
-        it 'creates beer' do
-          brewery.find_beers
-          beer = Beer.last
-          expect(beer.checkins).to eq(0)
-        end
-      end
+        context 'no hops are mentioned' do
+          let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/no_match_beers.html") }
 
-      context 'one Stout with coffee mentioned' do
-        let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beers_with_adjuncts.html") }
+          before do
+            create(:citra)
+            uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
 
-        before do
-          create(:coffee)
-          uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
+            type_ids.each do |type_id|
+              url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+              allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+            end
+          end
 
-          type_ids.each do |type_id|
-            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
-            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+          it 'does not create a beer record' do
+            brewery.find_beers('ipa')
+            expect(Beer.count).to eq(0)
           end
         end
-
-        it 'creates beer' do
-          brewery.find_beers
-          beer = Beer.last
-          expect(beer.name).to eq('Mostra Park')
-          expect(beer.style).to eq('stout')
-          expect(beer.rating).to eq(4.57)
-          expect(beer.checkins).to eq(1_200)
-          expect(beer.brewery_id).to eq(brewery.id)
-          expect(beer.external_id).to eq(5555)
-        end
       end
 
-      context 'no hops are mentioned' do
-        let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/no_match_beers.html") }
+      context 'error' do
+        let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
 
         before do
-          create(:citra)
-          uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
-
           type_ids.each do |type_id|
             url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
-            allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+            allow(URI).to receive(:parse).and_raise(StandardError.new('404 Not Found'))
           end
         end
 
         it 'does not create a beer record' do
-          brewery.find_beers
-          expect(Beer.count).to eq(0)
+          brewery.find_beers('ipa')
+          brewery.reload
+          expect(brewery.code_invalid).to be_truthy
         end
       end
     end
 
-    context 'error' do
+    context 'find stouts' do
+      let(:type_ids) do
+        [163, 292, 250, 327, 34, 47, 310, 41]
+      end
       let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
 
-      before do
-        type_ids.each do |type_id|
-          url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
-          allow(URI).to receive(:parse).and_raise(StandardError.new('404 Not Found'))
+      context 'success' do
+        context 'one Stout with coffee mentioned' do
+          let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beers_with_adjuncts.html") }
+
+          before do
+            create(:coffee)
+            uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
+
+            type_ids.each do |type_id|
+              url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+              allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+            end
+          end
+
+          it 'creates beer' do
+            brewery.find_beers('stout')
+            beer = Beer.last
+            expect(beer.name).to eq('Mostra Park')
+            expect(beer.style).to eq('stout')
+            expect(beer.rating).to eq(4.57)
+            expect(beer.checkins).to eq(1_200)
+            expect(beer.brewery_id).to eq(brewery.id)
+            expect(beer.external_id).to eq(5555)
+          end
+        end
+
+        context 'one stout with no rating' do
+          let(:test_file) { File.new("#{Rails.root}/spec/test_html_files/find_beer_with_no_rating.html") }
+
+          before do
+            create(:citra)
+            uri_mock = instance_double(URI::HTTPS, path: '/beer', open: test_file)
+
+            type_ids.each do |type_id|
+              url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+              allow(URI).to receive(:parse).with(url).and_return(uri_mock)
+            end
+          end
+
+          it 'creates beer' do
+            brewery.find_beers('stout')
+            beer = Beer.last
+            expect(beer.checkins).to eq(0)
+          end
         end
       end
 
-      it 'does not create a beer record' do
-        brewery.find_beers
-        brewery.reload
-        expect(brewery.code_invalid).to be_truthy
+      context 'error' do
+        let(:brewery) { create(:brewery, name: 'Test Brewing Co', external_code: 'TestBrewCo') }
+
+        before do
+          type_ids.each do |type_id|
+            url = "https://untappd.com/#{brewery.external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
+            allow(URI).to receive(:parse).and_raise(StandardError.new('404 Not Found'))
+          end
+        end
+
+        it 'does not create a beer record' do
+          brewery.find_beers('stout')
+          brewery.reload
+          expect(brewery.code_invalid).to be_truthy
+        end
       end
     end
   end
