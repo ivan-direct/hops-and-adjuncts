@@ -1,5 +1,5 @@
-import "antd/dist/antd.css";
-import "./Hops.css";
+import "antd/dist/antd.less";
+import "./Hops.less";
 import React, { PureComponent } from "react";
 import {
   BrowserRouter as Router,
