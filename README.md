@@ -8,10 +8,11 @@
 
 <!-- PROJECT LOGO -->
 <br />
-
-[![Logo][logo]](https://github.com/ivan-direct/hops-and-adjuncts)
-
 <div align="center">
+  <a href="https://github.com/ivan-direct/hops-and-adjuncts">
+    <img src="display_images/logo.png" alt="Logo">
+  </a>
+
   <h3 align="center">Hops-and-Adjuncts</h3>
 
   <p align="center">
@@ -109,4 +110,3 @@ Distributed under the MIT License. See `LICENSE` for more information.
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/nate-dipiazza-00644b66/
 [product-screenshot]: display_images/hops_and_adjucts_ss.png
-[logo]: display_images/logo.png
