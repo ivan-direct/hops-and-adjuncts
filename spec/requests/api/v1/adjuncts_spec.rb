@@ -18,9 +18,9 @@ RSpec.describe 'Api::V1::Adjuncts', type: :request do
           coffee = body.first.fetch('adjunct')
           coconut = body.last.fetch('adjunct')
 
-          expect(coffee.fetch('name')).to eq('coffee')
+          expect(coffee.fetch('name')).to eq('Coffee')
           expect(coffee.fetch('common_pairings')).to eq([])
-          expect(coconut.fetch('name')).to eq('coconut')
+          expect(coconut.fetch('name')).to eq('Coconut')
           expect(coconut.fetch('rating')).to eq(4.0)
         end
       end
@@ -39,7 +39,7 @@ RSpec.describe 'Api::V1::Adjuncts', type: :request do
           expect(body.size).to eq(1)
           pb = body.first.fetch('adjunct')
 
-          expect(pb.fetch('name')).to eq('peanut butter')
+          expect(pb.fetch('name')).to eq('Peanut Butter')
         end
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe 'Api::V1::Adjuncts', type: :request do
 
         adjunct = JSON.parse(response.body).fetch('adjunct')
         beer = adjunct.fetch('beers').last # test sorting order
-        expect(adjunct.fetch('name')).to eq('coffee')
+        expect(adjunct.fetch('name')).to eq('Coffee')
         expect(adjunct.fetch('delta')).to eq(0)
         expect(beer.fetch('name')).to eq('Nightmare Fuel')
         expect(beer.fetch('rating')).to eq(4.2)
@@ -104,7 +104,7 @@ RSpec.describe 'Api::V1::Adjuncts', type: :request do
         body = JSON.parse(response.body)
 
         adjunct = body.fetch('adjunct')
-        expect(adjunct.fetch('name')).to eq('coffee')
+        expect(adjunct.fetch('name')).to eq('Coffee')
       end
     end
 

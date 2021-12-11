@@ -2,7 +2,7 @@
 
 json.adjunct do
   json.id adjunct.id
-  json.name adjunct.name
+  json.name adjunct.name.titleize
   json.rating adjunct.formatted_rating
   json.ranking adjunct.ranking
   json.beers do
