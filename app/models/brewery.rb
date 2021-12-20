@@ -22,7 +22,7 @@ class Brewery < ApplicationRecord
 
     where.not(external_code: nil).find_each do |brewery|
       brewery.find_beers(style)
-      sleep 5 unless Rails.env.test? # to avoid hammering their server
+      sleep 10 unless Rails.env.test? # to avoid hammering their server
     end
   end
 
@@ -45,7 +45,7 @@ class Brewery < ApplicationRecord
     type_ids.each do |type_id|
       url = "https://untappd.com/#{external_code}/beer?type_id=#{type_id}&sort=created_at_desc"
       BeerFinder.build(url, id)
-      sleep 10 unless Rails.env.test? 
+      sleep 3 unless Rails.env.test? 
     end
   end
 end
