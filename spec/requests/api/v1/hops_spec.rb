@@ -33,10 +33,10 @@ RSpec.describe 'Api::V1::Hops', type: :request do
         end
 
         it 'returns an array hop hashes ordered by rank' do
-          get '/api/v1/hops', params: { query: 'Citra' }
+          get '/api/v1/hops', params: { query: 'citra' } # case insenstive
 
           body = JSON.parse(response.body)
-          expect(body.size).to eq(1)
+          expect(body.size).to eq(2) # should match both hops with query in name
           citra_hop = body.first.fetch('hop')
 
           expect(citra_hop.fetch('name')).to eq('Citra')

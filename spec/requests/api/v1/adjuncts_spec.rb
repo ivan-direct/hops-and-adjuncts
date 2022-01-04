@@ -42,6 +42,24 @@ RSpec.describe 'Api::V1::Adjuncts', type: :request do
           expect(pb.fetch('name')).to eq('Peanut Butter')
         end
       end
+
+      context 'case insenstive partial match query' do
+        before do
+          create(:peanut_butter, id: 2, rating: '4.25', ranking: '1')
+          create(:marshmallow, id: 1, rating: '4.000001', ranking: '2')
+          create(:adjunct, id: 5, name: 'peanut flour', rating: '3.4', ranking: '66')
+        end
+
+        it 'returns an array adjunct hashes ordered by rank' do
+          get '/api/v1/adjuncts', params: { query: 'PEANUT' }
+
+          body = JSON.parse(response.body)
+          expect(body.size).to eq(2)
+          pb = body.first.fetch('adjunct')
+
+          expect(pb.fetch('name')).to eq('Peanut Butter')
+        end
+      end
     end
 
     context 'error' do

@@ -33,7 +33,7 @@ module Ingredient
   module ClassMethods
     def search(query)
       if query.present?
-        where('rating > ? and name = ?', 0, query).order(rating: :desc)
+        where('rating > ? and LOWER(name) like ?', 0, '%'+query.downcase+'%').order(rating: :desc)
       else
         where('rating > ?', 0).order(rating: :desc)
       end
