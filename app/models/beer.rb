@@ -14,7 +14,8 @@ class Beer < ApplicationRecord
 
   # @return struct(hop_id: id, rating: rating) or nil
   def self.calculate_hop_rating(hop)
-    beers = select { |beer| beer.hops.include? hop }
+    # exclude new beers that do not having a rating
+    beers = where("checkins > ? or rating > ?", 0, 0.0).select { |beer| beer.hops.include? hop }
     return if beers.blank?
 
     rating = beers.map(&:rating).sum / beers.size
@@ -22,7 +23,8 @@ class Beer < ApplicationRecord
   end
 
   def self.calculate_adjunct_rating(adjunct)
-    beers = select { |beer| beer.adjuncts.include? adjunct }
+    # exclude new beers that do not having a rating
+    beers = where("checkins > ? and rating > ?", 0, 0.0).select { |beer| beer.adjuncts.include? adjunct }
     return if beers.blank?
 
     rating = beers.map(&:rating).sum / beers.size

@@ -170,11 +170,14 @@ RSpec.describe Hop, type: :model do
 
       @steezy = create(:steezy)
       @perpetual_embrace = create(:perpetual_embrace)
+      @cosmic_torero = create(:cosmic_torero, checkins: 0, rating: 0.0)
     end
 
     it 'populates hop#rating and hop#ranking' do
       @steezy.hops = [@mosaic, @nelson_sauvin]
       @perpetual_embrace.hops = [@nelson_sauvin, @vic_secret]
+      # should not change hop rankings, ratings since there are no checkins
+      @cosmic_torero.hops = [@mosaic, @nelson_sauvin, @vic_secret]
 
       Hop.refresh_stats
       @vic_secret.reload

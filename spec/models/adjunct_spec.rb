@@ -6,6 +6,7 @@ RSpec.describe Adjunct, type: :model do
   let(:adjunct) { create(:coffee) }
   let(:nightmare_fuel) { create(:nightmare_fuel) }
   let(:cinnamon_vanilla_rum_ba_sandman) { create(:cinnamon_vanilla_rum_ba_sandman) }
+  let(:cosmic_torero) { create(:cosmic_torero, checkins: 0)}
 
   describe '#create' do
     it 'creates a new adjunct' do
@@ -154,6 +155,8 @@ RSpec.describe Adjunct, type: :model do
     it 'populates adjunct#rating and adjunct#ranking' do
       nightmare_fuel.adjuncts = [@hazelnut, @cinnamon]
       cinnamon_vanilla_rum_ba_sandman.adjuncts = [@cinnamon, @banana]
+      # should not change adjunct ranking, rating since there are no checkins
+      cosmic_torero.adjuncts = [@hazelnut, @cinnamon, @banana]
 
       Adjunct.refresh_stats
       @banana.reload
