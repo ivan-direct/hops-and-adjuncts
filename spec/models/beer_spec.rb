@@ -89,7 +89,7 @@ RSpec.describe Beer, type: :model do
       cosmic_torero.hops << [citra]
       return_hash = Beer.calculate_hop_rating(citra)
       citra.reload
-      expect(citra.rating).to eq(cosmic_torero.rating)
+      expect(citra.rating).to eq(3.1799999999999997)
     end
 
     it 'handles hops without beers' do

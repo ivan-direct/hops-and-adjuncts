@@ -160,17 +160,17 @@ RSpec.describe Adjunct, type: :model do
 
       Adjunct.refresh_stats
       @banana.reload
-      expect(@banana.rating).to eq(3.98)
+      expect(@banana.rating).to eq(2.98)
       expect(@banana.previous_ranking).to eq(2)
       expect(@banana.ranking).to eq(3)
 
       @cinnamon.reload
-      expect(@cinnamon.rating).to eq(4.035)
+      expect(@cinnamon.rating).to eq(3.035)
       expect(@cinnamon.previous_ranking).to eq(1)
       expect(@cinnamon.ranking).to eq(2)
 
       @hazelnut.reload
-      expect(@hazelnut.rating).to eq(4.09)
+      expect(@hazelnut.rating).to eq(3.09)
       expect(@hazelnut.previous_ranking).to eq(44)
       expect(@hazelnut.ranking).to eq(1)
     end

@@ -15,20 +15,41 @@ class Beer < ApplicationRecord
   # @return struct(hop_id: id, rating: rating) or nil
   def self.calculate_hop_rating(hop)
     # exclude new beers that do not having a rating
-    beers = where("checkins > ? or rating > ?", 0, 0.0).select { |beer| beer.hops.include? hop }
+    beers = where('checkins > ? or rating > ?', 0, 0.0).select { |beer| beer.hops.include? hop }
     return if beers.blank?
 
-    rating = beers.map(&:rating).sum / beers.size
-    hop.update_rating(rating)
+    rating = Beer.calc_rating(beers)
+    hop.update_rating(rating) if rating > 0 # skip if weighting would make rating negative
   end
 
   def self.calculate_adjunct_rating(adjunct)
     # exclude new beers that do not having a rating
-    beers = where("checkins > ? and rating > ?", 0, 0.0).select { |beer| beer.adjuncts.include? adjunct }
+    beers = where('checkins > ? and rating > ?', 0, 0.0).select { |beer| beer.adjuncts.include? adjunct }
     return if beers.blank?
 
+    rating = Beer.calc_rating(beers)
+    adjunct.update_rating(rating) if rating > 0 # skip if weighting would make rating negative
+  end
+
+  def self.weighted_rating(beers)
+    case beers.size
+    when 0..3
+      1.0
+    when 4..10
+      0.5
+    when 11..23
+      0.25
+    when 24..48
+      0.1
+    else
+      0.0
+    end
+  end
+
+  def self.calc_rating(beers)
     rating = beers.map(&:rating).sum / beers.size
-    adjunct.update_rating(rating)
+    # penalize adjuncts with few beers to avoid elevating fringe adjuncts
+    rating -= Beer.weighted_rating(beers)
   end
 
   # update or create a new ipa style beer
