@@ -30,8 +30,8 @@ class HopCard extends Component {
         bordered
         style={{ width: "65%", marginBottom: "16px" }}
       >
-        <p>{`Rating: ${this.hop.rating}`}</p>
-        <p>{`Ranking: ${this.hop.ranking}`}</p>
+        <p>{`Hop Rating: ${this.hop.rating}`}</p>
+        <p>{`Hop Ranking: ${this.hop.ranking}`}</p>
         <p style={{ maxWidth: "450px" }}>{this.hop.beers && `Beers: ${beerNames}${ellipsis}`}</p>
       </Card>
     );
