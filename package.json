@@ -2,6 +2,7 @@
   "name": "hops-and-adjuncts",
   "private": true,
   "dependencies": {
+    "minimist": "^1.2.6",
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
     "@babel/plugin-syntax-jsx": "^7.16.0",
