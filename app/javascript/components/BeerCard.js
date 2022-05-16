@@ -19,7 +19,7 @@ class BeerCard extends Component {
         style={{ width: "100%", margin: "8px" }}
       >
         <p>
-          Rating:
+          Brewery Rating:
           {` ${this.beer.rating}`}
         </p>
         <p>
